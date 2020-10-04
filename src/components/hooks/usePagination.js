@@ -9,9 +9,10 @@ const chunk = (arr, size = 1) => {
 };
 
 export default function usePagination(value) {
+	const [size, setSize] = useState(5);
+
 	const [pagination, setPagination] = useState({
 		current: 1,
-		size: 5,
 		count: 0,
 		allItems: [],
 		itemsOnPage: [],
@@ -29,7 +30,7 @@ export default function usePagination(value) {
 	const setupPagination = (pageAllItems) => {
 		setPagination({
 			...pagination,
-			allItems: chunk(pageAllItems, pagination.size),
+			allItems: chunk(pageAllItems, size),
 			count: pagination.allItems.length,
 		});
 		pageChangeHandler(pagination.current);
@@ -43,5 +44,6 @@ export default function usePagination(value) {
 		itemsOnPage: [],
 		pageChangeHandler,
 		setupPagination,
+		setSize,
 	};
 }
