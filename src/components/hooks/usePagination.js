@@ -8,11 +8,10 @@ const chunk = (arr, size = 1) => {
 		.map((e, inx) => a.slice(inx * size, inx * size + size));
 };
 
-export default function usePagination(value) {
-	const [size, setSize] = useState(5);
-
+export default function usePagination(size) {
 	const [pagination, setPagination] = useState({
 		current: 1,
+		size,
 		count: 0,
 		allItems: [],
 		itemsOnPage: [],
@@ -30,20 +29,15 @@ export default function usePagination(value) {
 	const setupPagination = (pageAllItems) => {
 		setPagination({
 			...pagination,
-			allItems: chunk(pageAllItems, size),
+			allItems: chunk(pageAllItems, pagination.size),
 			count: pagination.allItems.length,
 		});
 		pageChangeHandler(pagination.current);
 	};
 
 	return {
-		current: 1,
-		size: 5,
-		count: 0,
-		allItems: [],
-		itemsOnPage: [],
+		...pagination,
 		pageChangeHandler,
 		setupPagination,
-		setSize,
 	};
 }
