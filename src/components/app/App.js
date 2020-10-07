@@ -36,7 +36,12 @@ function App() {
 	]);
 
 	const added = () => {
-		setList([...list, { name: "111" }]);
+		/* list.splice(4, 1, {
+			...list[4],
+			name: "test",
+		});
+		setList([...list]); */
+		setList([...list, { name: "test" }]);
 	};
 
 	return (
@@ -48,11 +53,17 @@ function App() {
 					id: {
 						titleHead: "№",
 						width: "50px",
-						order: true,
+						order: {
+							type: "number",
+							direction: 'asc',
+						},
 					},
 					text: {
 						titleHead: "текст",
-						order: true,
+						order: {
+							type: "string",
+							direction: 'desc',
+						},
 					},
 					name: {
 						titleHead: "имя",
