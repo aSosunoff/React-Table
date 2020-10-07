@@ -1,54 +1,7 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import styles from "./Header.module.css";
 
-const getDirectionByOrderObject = (entriesHeader) => {
-	const firstHeaderByDirection = entriesHeader.find(
-		([prop, { order: { direction = null } = {} } = {}]) => prop && direction
-	);
-
-	return firstHeaderByDirection
-		? {
-				prop: firstHeaderByDirection[0],
-				order: firstHeaderByDirection[1].order.direction,
-		  }
-		: null;
-};
-
-const getDirectionByOrderBoolean = (entriesHeader) => {
-	const firstByOrder = entriesHeader.find(([, { order = null } = {}]) => order);
-
-	return firstByOrder
-		? {
-				prop: firstByOrder[0],
-				order: "asc",
-		  }
-		: null;
-};
-
-const getStartOrderProp = (header) => {
-	const entriesHeader = Object.entries(header);
-
-	const listHeaderByDirection = getDirectionByOrderObject(entriesHeader);
-
-	if (listHeaderByDirection) {
-		return listHeaderByDirection;
-	}
-
-	const listHeaderByOrder = getDirectionByOrderBoolean(entriesHeader);
-
-	if (listHeaderByOrder) {
-		return listHeaderByOrder;
-	}
-
-	return {
-		prop: null,
-		order: "",
-	};
-};
-
-const Header = ({ header = {}, onOrder = () => {} }) => {
-	const [headOrder, setHeadOrder] = useState(getStartOrderProp(header));
-
+const Header = ({ header = {}, order = {}, onOrder = () => {} }) => {
 	const headers = useMemo(
 		() =>
 			Object.entries(header).map(([key, obj]) => ({
@@ -62,7 +15,7 @@ const Header = ({ header = {}, onOrder = () => {} }) => {
 	);
 
 	const getDirectionOrder = ({ prop }) =>
-		headOrder.prop === prop ? headOrder.order : "";
+		order.prop === prop ? order.order : "";
 
 	const canSortable = (cell) => Boolean(cell.value.order);
 
@@ -71,22 +24,7 @@ const Header = ({ header = {}, onOrder = () => {} }) => {
 			return;
 		}
 
-		if (headOrder.prop === cell.prop) {
-			setHeadOrder({
-				...headOrder,
-				order: headOrder.order === "desc" || !headOrder.order ? "asc" : "desc",
-			});
-		} else {
-			setHeadOrder({
-				prop: cell.prop,
-				order: "asc",
-			});
-		}
-
-		onOrder({
-			prop: cell.prop,
-			order: getDirectionOrder(cell),
-		});
+		onOrder(cell.prop);
 	};
 
 	return (

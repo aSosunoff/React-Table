@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import styles from "./TableContainer.module.css";
 
-const TableContainer = ({ header, btnsLength, children }) => {
+const TableContainer = ({ header, btnsLength = 0, children }) => {
 	const memoizedWidthColumn = useMemo(() => {
 		const FILTER_BTN_COUNT = 1;
 
