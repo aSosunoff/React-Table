@@ -1,0 +1,118 @@
+.paging,
+.paging-disable {
+	display: flex;
+	align-items: center;
+}
+
+.paging > *,
+.paging-disable > * {
+	margin-left: 5px;
+}
+
+.paging .box-command,
+.paging-disable .box-command {
+	display: flex;
+	margin-left: 0px;
+}
+
+.paging .box-command > *,
+.paging-disable .box-command > * {
+	margin-left: 5px;
+}
+
+.paging .box-command input,
+.paging-disable .box-command input {
+	background-color: #fff;
+	box-shadow: var(--box-shadow);
+	margin: 0 0 0 5px;
+	width: 50px;
+	text-align: center;
+	font-size: 10px;
+	outline: none;
+	border: none;
+}
+
+.paging .first-page,
+.paging-disable .first-page {
+	margin-left: 0px;
+}
+
+.paging .prev,
+.paging .next,
+.paging .first-page,
+.paging .last-page,
+.paging-disable .prev,
+.paging-disable .next,
+.paging-disable .first-page,
+.paging-disable .last-page {
+	background-color: #fff;
+	box-shadow: var(--box-shadow);
+	padding: 7px 10px;
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: background-color 0.2s linear;
+}
+
+.paging .prev::before,
+.paging .next::before,
+.paging-disable .prev::before,
+.paging-disable .next::before {
+	content: "";
+	border-top: 5px solid transparent;
+	border-bottom: 5px solid transparent;
+}
+
+.paging .paging__page,
+.paging-disable .paging__page {
+	padding: 5px 15px;
+	font-size: 15px;
+	line-height: 20px;
+	display: flex;
+	align-items: center;
+	border-right: 1px solid var(--color-3);
+	transition: box-shadow, background-color 0.2s linear;
+}
+
+.paging .first-page:hover,
+.paging .last-page:hover {
+	/* text-decoration: underline; */
+	background-color: var(--color-title);
+	cursor: pointer;
+	color: #fff;
+}
+
+.paging .prev:hover,
+.paging .next:hover {
+	background-color: var(--color-title);
+	cursor: pointer;
+}
+
+.paging .next::before {
+	border-left: 4px solid #323c47;
+}
+
+.paging .next:hover::before {
+	border-left: 4px solid #fff;
+}
+
+.paging .prev::before {
+	border-right: 4px solid #323c47;
+}
+
+.paging .prev:hover::before {
+	border-right: 4px solid #fff;
+}
+
+.paging-disable * {
+	color: var(--color-disabled);
+}
+
+.paging-disable .next::before {
+	border-left: 4px solid var(--color-disabled);
+}
+
+.paging-disable .prev::before {
+	border-right: 4px solid var(--color-disabled);
+}
