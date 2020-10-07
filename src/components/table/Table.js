@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import Body from "./body/Body";
 import Header from "./header/Header";
 import styles from "./Table.module.css";
@@ -7,6 +7,7 @@ import sorting from "../../utils/sorting";
 import usePagination from "../hooks/usePagination";
 import TableContainer from "./tableContainer";
 import cloneDeep from "lodash/cloneDeep";
+import Paging from "./paging/Paging";
 
 const getStartOrderProp = (header) => {
 	const firstHeaderByDirection = Object.entries(header).find(
@@ -56,10 +57,12 @@ const Table = ({
 		[headOrder.order, headOrder.prop, list, sortingType]
 	);
 
-	const { itemsOnPage, pageChangeHandler } = usePagination(
-		pageSize,
-		listLocalSorted
-	);
+	const {
+		itemsOnPage,
+		currentPage,
+		pageCount,
+		pageChangeHandler,
+	} = usePagination(pageSize, listLocalSorted);
 
 	const onSortHandler = (prop) => {
 		setHeadOrder({
@@ -74,25 +77,23 @@ const Table = ({
 	};
 
 	return (
-		<TableContainer header={header} /* btnsLength={btns.length} */>
-			<Title title={title} />
-			<Header header={header} order={headOrder} onOrder={onSortHandler} />
-			<Body list={itemsOnPage} header={header} />
-			<button
-				onClick={() => {
-					pageChangeHandler(1);
-				}}
-			>
-				1
-			</button>
-			<button
-				onClick={() => {
-					pageChangeHandler(2);
-				}}
-			>
-				2
-			</button>
-		</TableContainer>
+		<>
+			<TableContainer header={header} /* btnsLength={btns.length} */>
+				<Title title={title} />
+				<Header header={header} order={headOrder} onOrder={onSortHandler} />
+				<Body list={itemsOnPage} header={header} />
+			</TableContainer>
+
+			<div className={styles.controll}>
+				<Paging
+					pageCount={pageCount}
+					pageCurrent={currentPage}
+					setPageHandler={pageChangeHandler}
+				/>
+
+				{/* <ControlPanel :controlPanel="controlPanel" /> */}
+			</div>
+		</>
 	);
 };
 

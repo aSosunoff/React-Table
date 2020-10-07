@@ -1,0 +1,6 @@
+.controll {
+	display: flex;
+	justify-content: space-between;
+	margin-top: 5px;
+	font-size: 10px;
+}
