@@ -26,9 +26,6 @@ const getStartOrderProp = (header) => {
 	};
 };
 
-const fillCleanItem = (size, countItems) =>
-	countItems < size ? Array(size - countItems).fill("") : [];
-
 const Table = ({
 	list,
 	header = {},
@@ -38,24 +35,21 @@ const Table = ({
 	pageSize,
 	/* onOrderCustom = () => {}, */
 }) => {
-	const [page, setCurrentPage] = useState(1);
 	// headOrder = { prop: id, order: 'asc' }
 	const [headOrder, setHeadOrder] = useState(() => getStartOrderProp(header));
 
 	const listLocalSorted = useMemo(() => {
+		console.log(1);
 		const { order: { type = null } = {} } = header[headOrder.prop] || {};
 		return cloneDeep(list).sort((a, b) =>
 			sorting(type, headOrder.order, a[headOrder.prop], b[headOrder.prop])
 		);
 	}, [headOrder.order, headOrder.prop, header, list]);
 
-	const itemsOnPage = useMemo(() => {
-		const itemsOnPage = listLocalSorted.slice(
-			pageSize * (page - 1),
-			pageSize * page
-		);
-		return [...itemsOnPage, ...fillCleanItem(pageSize, itemsOnPage.length)];
-	}, [listLocalSorted, page, pageSize]);
+	const { itemsOnPage, pageChangeHandler } = usePagination(
+		pageSize,
+		listLocalSorted
+	);
 
 	const onSortHandler = (prop) => {
 		setHeadOrder({
@@ -68,62 +62,6 @@ const Table = ({
 					: "desc",
 		});
 	};
-	/* const memoizedList = useMemo(() => {
-		console.log(1);
-		return cloneDeep(list);
-	}, [list]); */
-
-	// const { itemsOnPage, setupPagination, pageChangeHandler } = usePagination(
-	// 	pageSize
-	// );
-
-	// const [order, setOrder] = useState({ prop: null, order: null });
-	// const [filter, setFilter] = useState({});
-
-	// useEffect(() => {
-	// 	if (!custom) {
-	// 		setupPagination(getFilterList(getSortList(list)));
-	// 	}
-	// 	// eslint-disable-next-line react-hooks/exhaustive-deps
-	// }, [list]);
-
-	// const getSortList = useCallback(
-	// 	(list, order = {}) => {
-	// 		const { order: { type = null } = {} } = header[order.prop] || {};
-	// 		const localList = cloneDeep(list);
-	// 		return localList.sort((a, b) =>
-	// 			sorting(type, order.order, a[order.prop], b[order.prop])
-	// 		);
-	// 	},
-	// 	[header]
-	// );
-
-	// const getFilterList = useCallback(
-	// 	(list) => {
-	// 		return list.filter((item) =>
-	// 			Object.entries(filter).reduce(
-	// 				(res, [prop, { value }]) =>
-	// 					res && !!String(item[prop]).match(new RegExp(`^${value}`, "i")),
-	// 				true
-	// 			)
-	// 		);
-	// 	},
-	// 	[filter]
-	// );
-
-	// const onOrderHandler = useCallback(
-	// 	({ prop, order }) => {
-	// 		if (custom) {
-	// 			onOrderCustom({ prop, order });
-	// 		} else {
-	// 			/* setOrder({ prop, order }); */
-	// 			/* console.log(getSortList(list)); */
-	// 			console.log({ prop, order });
-	// 			setupPagination(getFilterList(getSortList(list, { prop, order })));
-	// 		}
-	// 	},
-	// 	[getFilterList, getSortList, onOrderCustom, setupPagination, custom, list]
-	// );
 
 	return (
 		<TableContainer header={header} /* btnsLength={btns.length} */>
@@ -132,7 +70,14 @@ const Table = ({
 			<Body list={itemsOnPage} header={header} />
 			<button
 				onClick={() => {
-					setCurrentPage(2);
+					pageChangeHandler(1);
+				}}
+			>
+				1
+			</button>
+			<button
+				onClick={() => {
+					pageChangeHandler(2);
 				}}
 			>
 				2

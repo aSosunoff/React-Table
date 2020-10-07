@@ -35,6 +35,27 @@ function App() {
 		}, */
 	]);
 
+	const header = {
+		id: {
+			titleHead: "№",
+			width: "50px",
+			order: {
+				type: "number",
+				direction: "asc",
+			},
+		},
+		text: {
+			titleHead: "текст",
+			order: {
+				type: "string",
+				direction: "desc",
+			},
+		},
+		name: {
+			titleHead: "имя",
+		},
+	};
+
 	const added = () => {
 		/* list.splice(4, 1, {
 			...list[4],
@@ -49,26 +70,7 @@ function App() {
 			<Table
 				title="Таблица"
 				list={list}
-				header={{
-					id: {
-						titleHead: "№",
-						width: "50px",
-						order: {
-							type: "number",
-							direction: 'asc',
-						},
-					},
-					text: {
-						titleHead: "текст",
-						order: {
-							type: "string",
-							direction: 'desc',
-						},
-					},
-					name: {
-						titleHead: "имя",
-					},
-				}}
+				header={header}
 				pageSize={3}
 				/* btns={} */
 			></Table>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 const chunk = (arr, size = 1) => {
 	const a = arr || [];
@@ -11,59 +11,23 @@ const chunk = (arr, size = 1) => {
 const fillCleanItem = (size, countItems) =>
 	countItems < size ? Array(size - countItems).fill("") : [];
 
-export default function usePagination(size = 5) {
-	const [pagination, setPagination] = useState({
-		size,
-		current: 1,
-		itemsOnPage: [],
-		count: 0,
-		allItems: [],
-	});
+const getItemsOnPage = (currentPage, chunkList) =>
+	chunkList[currentPage - 1] || chunkList[0] || [];
 
-	/* const [currentPageSetting, setCurrentPage] = useState({
-		current: 1,
-		itemsOnPage: [],
-	});
+export default function usePagination(size = 5, list) {
+	const [currentPage, setCurrentPage] = useState(1);
 
-	const [allItemsSetting, setAllItems] = useState({
-		allItems: [],
-		count: 0,
-	}); */
+	const chunkList = useMemo(() => {
+		return chunk(list, size);
+	}, [list, size]);
 
-	const pageChangeHandler = (page) => {
-		setPagination((pagination) => {
-			const { allItems, size } = pagination;
-			const itemsOnPage = allItems[page - 1] || allItems[0] || [];
-			return {
-				...pagination,
-				current: page,
-				itemsOnPage: [
-					...itemsOnPage,
-					...fillCleanItem(size, itemsOnPage.length),
-				],
-			};
-		});
-	};
-
-	const setupPagination = (list) => {
-		setPagination((pagination) => {
-			const { size } = pagination;
-			const allItems = chunk(list, size);
-
-			return {
-				...pagination,
-				allItems,
-				count: allItems.length,
-			};
-		});
-
-		const { current } = pagination;
-		pageChangeHandler(current);
-	};
+	const itemsOnPage = useMemo(() => {
+		const itemsOnPage = getItemsOnPage(currentPage, chunkList);
+		return [...itemsOnPage, ...fillCleanItem(size, itemsOnPage.length)];
+	}, [size, currentPage, chunkList]);
 
 	return {
-		itemsOnPage: pagination.itemsOnPage,
-		pageChangeHandler,
-		setupPagination,
+		itemsOnPage,
+		pageChangeHandler: setCurrentPage,
 	};
 }
