@@ -38,12 +38,23 @@ const Table = ({
 	// headOrder = { prop: id, order: 'asc' }
 	const [headOrder, setHeadOrder] = useState(() => getStartOrderProp(header));
 
-	const listLocalSorted = useMemo(() => {
+	const sortingType = useMemo(() => {
 		const { order: { type = null } = {} } = header[headOrder.prop] || {};
-		return cloneDeep(list).sort((a, b) =>
-			sorting(type, headOrder.order, a[headOrder.prop], b[headOrder.prop])
-		);
-	}, [headOrder.order, headOrder.prop, header, list]);
+		return type;
+	}, [headOrder.prop, header]);
+
+	const listLocalSorted = useMemo(
+		() =>
+			cloneDeep(list).sort((a, b) =>
+				sorting(
+					sortingType,
+					headOrder.order,
+					a[headOrder.prop],
+					b[headOrder.prop]
+				)
+			),
+		[headOrder.order, headOrder.prop, list, sortingType]
+	);
 
 	const { itemsOnPage, pageChangeHandler } = usePagination(
 		pageSize,
