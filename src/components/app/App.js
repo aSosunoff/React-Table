@@ -74,7 +74,7 @@ function App() {
 				pageSize={3}
 				/* btns={} */
 			></Table>
-			<button onClick={added}>111</button>
+			<button onClick={added}>+</button>
 		</>
 	);
 }
