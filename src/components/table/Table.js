@@ -39,7 +39,6 @@ const Table = ({
 	const [headOrder, setHeadOrder] = useState(() => getStartOrderProp(header));
 
 	const listLocalSorted = useMemo(() => {
-		console.log(1);
 		const { order: { type = null } = {} } = header[headOrder.prop] || {};
 		return cloneDeep(list).sort((a, b) =>
 			sorting(type, headOrder.order, a[headOrder.prop], b[headOrder.prop])
