@@ -6,12 +6,14 @@ import Cell from "./Cell";
 import styles from "./Row.module.css";
 
 const Row = ({ row, rowsBtn, indexRecord, record }) => {
-	const localRowsBtn = useMemo(() => {
-		return cloneDeep(rowsBtn).map((record) => ({
-			uuid: v4(),
-			...record,
-		}));
-	}, [rowsBtn]);
+	const localRowsBtn = useMemo(
+		() =>
+			cloneDeep(rowsBtn).map((record) => ({
+				uuid: v4(),
+				...record,
+			})),
+		[rowsBtn]
+	);
 
 	return (
 		<div className={styles.table__row}>
