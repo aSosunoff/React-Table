@@ -8,6 +8,7 @@ import usePagination from "../hooks/usePagination";
 import TableContainer from "./tableContainer";
 import cloneDeep from "lodash/cloneDeep";
 import Paging from "./paging/Paging";
+import ControlPanel from "./controlPanel";
 
 const getStartOrderProp = (header) => {
 	const firstHeaderByDirection = Object.entries(header).find(
@@ -35,6 +36,7 @@ const Table = ({
 	/* custom = false, */
 	pageSize,
 	/* onOrderCustom = () => {}, */
+	controlPanel = [],
 }) => {
 	// headOrder = { prop: id, order: 'asc' }
 	const [headOrder, setHeadOrder] = useState(() => getStartOrderProp(header));
@@ -94,7 +96,7 @@ const Table = ({
 					setPageHandler={pageChangeHandler}
 				/>
 
-				{/* <ControlPanel :controlPanel="controlPanel" /> */}
+				<ControlPanel controlPanel={controlPanel} />
 			</div>
 		</>
 	);
