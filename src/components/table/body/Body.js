@@ -1,37 +1,29 @@
 import React, { useMemo } from "react";
 import styles from "./Body.module.css";
 import { v4 } from "uuid";
+import { cloneDeep } from "lodash";
+import Row from "./Row";
 
-const Body = ({ list = [], header }) => {
+const Body = ({ list = [], header, rowsBtn = [] }) => {
 	const localList = useMemo(() => {
-		return list.map((record) => ({
+		return cloneDeep(list).map((record) => ({
 			uuid: v4(),
 			...record,
 		}));
 	}, [list]);
 
-	const isRecortFill = ({ uuid, ...record }) => {
-		return Object.keys(record).length;
-	};
+	const row = (record) => Object.keys(header).map((key) => [key, record[key]]);
 
 	return (
 		<div className={styles.table__body}>
-			{localList.map((record) => (
-				<div key={record.uuid} className={styles.table__row}>
-					{isRecortFill(record) ? (
-						Object.keys(header).map((key) => (
-							<div className={styles.table__cell} key={key}>
-								<div className={styles.table__cell_field}>
-									<div className={styles["table__cell_field-nowrap"]}>
-										{record[key]}
-									</div>
-								</div>
-							</div>
-						))
-					) : (
-						<div className={styles.table__cell}></div>
-					)}
-				</div>
+			{localList.map(({ uuid, ...record }, indexRecord) => (
+				<Row
+					key={uuid}
+					row={row(record)}
+					rowsBtn={rowsBtn}
+					indexRecord={indexRecord}
+					record={record}
+				/>
 			))}
 		</div>
 	);
