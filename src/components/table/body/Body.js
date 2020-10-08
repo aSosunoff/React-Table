@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useMemo } from "react";
 import styles from "./Body.module.css";
 import { v4 } from "uuid";
 
 const Body = ({ list = [], header }) => {
-	const localList = list.map((record) => ({
-		uuid: v4(),
-		...record,
-	}));
+	const localList = useMemo(() => {
+		return list.map((record) => ({
+			uuid: v4(),
+			...record,
+		}));
+	}, [list]);
 
 	const isRecortFill = ({ uuid, ...record }) => {
 		return Object.keys(record).length;
