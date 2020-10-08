@@ -14,13 +14,9 @@ const getItemsOnPage = (currentPage, chunkList) =>
 export default function usePagination(size = 5, list) {
 	const [currentPage, setCurrentPage] = useState(1);
 
-	const chunkList = useMemo(() => {
-		return chunk(list, size);
-	}, [list, size]);
+	const chunkList = useMemo(() => chunk(list, size), [list, size]);
 
-	const pageCount = useMemo(() => {
-		return chunkList.length;
-	}, [chunkList]);
+	const pageCount = useMemo(() => chunkList.length, [chunkList]);
 
 	const itemsOnPage = useMemo(() => getItemsOnPage(currentPage, chunkList), [
 		currentPage,
