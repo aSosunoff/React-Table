@@ -5,12 +5,14 @@ import { cloneDeep } from "lodash";
 import Row from "./Row";
 
 const Body = ({ list = [], header, rowsBtn = [] }) => {
-	const localList = useMemo(() => {
-		return cloneDeep(list).map((record) => ({
-			uuid: v4(),
-			...record,
-		}));
-	}, [list]);
+	const localList = useMemo(
+		() =>
+			cloneDeep(list).map((record) => ({
+				uuid: v4(),
+				...record,
+			})),
+		[list]
+	);
 
 	const row = (record) => Object.keys(header).map((key) => [key, record[key]]);
 
