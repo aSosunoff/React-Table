@@ -5,7 +5,7 @@ import cn from "classnames";
 const Paging = ({ pageCount, pageCurrent, setPageHandler }) => {
 	const [pageCurrentLocal, setPageLocal] = useState(pageCurrent);
 
-	const isDisable = !Boolean(pageCount);
+	const isDisable = !Boolean(pageCount) || pageCount === 1;
 	const isFirstPage = pageCurrentLocal === 1;
 	const isLastPage = pageCount === pageCurrentLocal;
 	const isPrevPageDisabled = pageCurrentLocal - 1 === 0;
@@ -107,7 +107,7 @@ const Paging = ({ pageCount, pageCurrent, setPageHandler }) => {
 					type="number"
 					onChange={onCurrentPage}
 					value={pageCurrentLocal}
-					disabled={!Boolean(pageCount) ? true : null}
+					disabled={isDisable}
 				/>
 
 				<div className={className.next} onClick={onNextPage}></div>
