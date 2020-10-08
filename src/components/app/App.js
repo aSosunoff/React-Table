@@ -71,10 +71,15 @@ function App() {
 				title="Таблица"
 				list={list}
 				header={header}
-				pageSize={3}
+				pageSize={10}
 				/* btns={} */
+				controlPanel={[
+					{
+						title: "Добавить запись",
+						handler: added,
+					},
+				]}
 			></Table>
-			<button onClick={added}>+</button>
 		</>
 	);
 }
