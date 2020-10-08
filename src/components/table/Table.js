@@ -31,7 +31,7 @@ const getStartOrderProp = (header) => {
 const Table = ({
 	list,
 	header = {},
-	/* btns = [], */
+	rowsBtn = [],
 	title,
 	/* custom = false, */
 	pageSize,
@@ -83,10 +83,10 @@ const Table = ({
 
 	return (
 		<>
-			<TableContainer header={header} /* btnsLength={btns.length} */>
+			<TableContainer header={header} rowsBtnLength={rowsBtn.length}>
 				<Title title={title} />
 				<Header header={header} order={headOrder} onOrder={onSortHandler} />
-				<Body list={itemsOnPage} header={header} />
+				<Body list={itemsOnPage} header={header} rowsBtn={rowsBtn} />
 			</TableContainer>
 
 			<div className={styles.controll}>

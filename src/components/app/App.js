@@ -72,7 +72,15 @@ function App() {
 				list={list}
 				header={header}
 				pageSize={10}
-				/* btns={} */
+				rowsBtn={[
+					{
+						/* title: "Добавить запись", */
+						title: ({ id }) => id,
+						handler: added,
+						icon: "create",
+						/* disabled: true, */
+					},
+				]}
 				controlPanel={[
 					{
 						title: "Добавить запись",
