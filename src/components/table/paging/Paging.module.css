@@ -27,6 +27,16 @@
 	border: none;
 }
 
+.paging .box-command input::-webkit-outer-spin-button,
+.paging .box-command input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+.paging .box-command input[type="number"] {
+	-moz-appearance: textfield;
+}
+
 .paging .first-page {
 	margin-left: 0px;
 }
@@ -62,44 +72,48 @@
 	transition: box-shadow, background-color 0.2s linear;
 }
 
-.paging:not(.disable) .first-page:hover,
-.paging:not(.disable) .last-page:hover {
-	/* text-decoration: underline; */
+.paging .first-page:not(.disable):hover,
+.paging .last-page:not(.disable):hover {
 	background-color: var(--color-title);
 	cursor: pointer;
 	color: #fff;
 }
 
-.paging:not(.disable) .prev:hover,
-.paging:not(.disable) .next:hover {
+.paging .prev:not(.disable):hover,
+.paging .next:not(.disable):hover {
 	background-color: var(--color-title);
 	cursor: pointer;
 }
 
-.paging:not(.disable) .next::before {
+.paging .next:not(.disable)::before {
 	border-left: 4px solid #323c47;
 }
 
-.paging:not(.disable) .next:hover::before {
+.paging .next:not(.disable):hover::before {
 	border-left: 4px solid #fff;
 }
 
-.paging:not(.disable) .prev::before {
+.paging .prev:not(.disable)::before {
 	border-right: 4px solid #323c47;
 }
 
-.paging:not(.disable) .prev:hover::before {
+.paging .prev:not(.disable):hover::before {
 	border-right: 4px solid #fff;
 }
 
-.paging.disable * {
-	color: var(--color-disabled);
-}
-
-.paging.disable .next::before {
+.paging .next.disable::before {
 	border-left: 4px solid var(--color-disabled);
 }
 
-.paging.disable .prev::before {
+.paging .prev.disable::before {
 	border-right: 4px solid var(--color-disabled);
+}
+
+.paging .first-page.disable,
+.paging .last-page.disable {
+	color: var(--color-disabled);
+}
+
+.paging .box-command input.disable {
+	color: var(--color-disabled);
 }

@@ -6,13 +6,17 @@ const Paging = ({ pageCount, pageCurrent, setPageHandler }) => {
 	const [pageCurrentLocal, setPageLocal] = useState(pageCurrent);
 
 	const isDisable = !Boolean(pageCount);
+	const isFirstPage = pageCurrentLocal === 1;
+	const isLastPage = pageCount === pageCurrentLocal;
+	const isPrevPageDisabled = pageCurrentLocal - 1 === 0;
+	const isNextPageDisabled = pageCurrentLocal + 1 > pageCount;
 
 	useEffect(() => {
 		setPageLocal(pageCurrent);
 	}, [pageCurrent]);
 
 	const onFirstPage = () => {
-		if (isDisable) {
+		if (isDisable || isFirstPage) {
 			return;
 		}
 		setPageHandler(1);
@@ -22,10 +26,10 @@ const Paging = ({ pageCount, pageCurrent, setPageHandler }) => {
 		if (isDisable) {
 			return;
 		}
-		if (pageCurrent - 1 === 0) {
+		if (isPrevPageDisabled) {
 			return;
 		}
-		setPageHandler(pageCurrent - 1);
+		setPageHandler(pageCurrentLocal - 1);
 	};
 
 	const onCurrentPage = ({ target }) => {
@@ -45,47 +49,72 @@ const Paging = ({ pageCount, pageCurrent, setPageHandler }) => {
 		if (isDisable) {
 			return;
 		}
-		if (pageCurrent + 1 > pageCount) {
+		if (isNextPageDisabled) {
 			return;
 		}
-		setPageHandler(pageCurrent + 1);
+		setPageHandler(pageCurrentLocal + 1);
 	};
 
 	const onLastPage = () => {
-		if (isDisable) {
+		if (isDisable || isLastPage) {
 			return;
 		}
 		setPageHandler(pageCount);
 	};
 
+	const className = {
+		firstPage: cn([
+			styles["first-page"],
+			{
+				[styles["disable"]]: isDisable || isFirstPage,
+			},
+		]),
+		boxCommand: styles["box-command"],
+		prev: cn([
+			styles.prev,
+			{
+				[styles["disable"]]: isDisable || isPrevPageDisabled,
+			},
+		]),
+		input: cn({
+			[styles["disable"]]: isDisable,
+		}),
+		next: cn([
+			styles.next,
+			{
+				[styles["disable"]]: isDisable || isNextPageDisabled,
+			},
+		]),
+		lastPage: cn([
+			styles["last-page"],
+			{
+				[styles["disable"]]: isDisable || isLastPage,
+			},
+		]),
+	};
+
 	return (
-		<div
-			className={cn([
-				styles.paging,
-				{
-					[styles["disable"]]: !Boolean(pageCount),
-				},
-			])}
-		>
-			<div className={styles["first-page"]} onClick={onFirstPage}>
-				первая
+		<div className={styles.paging}>
+			<div className={className.firstPage} onClick={onFirstPage}>
+				1...
 			</div>
 
-			<div className={styles["box-command"]}>
-				<div className={styles.prev} onClick={onPrevPage}></div>
+			<div className={className.boxCommand}>
+				<div className={className.prev} onClick={onPrevPage}></div>
 
 				<input
-					type="text"
+					className={className.input}
+					type="number"
 					onChange={onCurrentPage}
 					value={pageCurrentLocal}
-					disabled={Boolean(pageCount) ? "" : null}
+					disabled={!Boolean(pageCount) ? true : null}
 				/>
 
-				<div className={styles.next} onClick={onNextPage}></div>
+				<div className={className.next} onClick={onNextPage}></div>
 			</div>
 
-			<div className={styles["last-page"]} onClick={onLastPage}>
-				последняя
+			<div className={className.lastPage} onClick={onLastPage}>
+				...{pageCount}
 			</div>
 		</div>
 	);
