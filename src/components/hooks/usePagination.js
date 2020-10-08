@@ -8,9 +8,6 @@ const chunk = (arr, size = 1) => {
 		.map((_, inx) => a.slice(inx * size, inx * size + size));
 };
 
-const fillCleanItem = (size, countItems) =>
-	countItems < size ? Array(size - countItems).fill("") : [];
-
 const getItemsOnPage = (currentPage, chunkList) =>
 	chunkList[currentPage - 1] || chunkList[0] || [];
 
@@ -25,10 +22,10 @@ export default function usePagination(size = 5, list) {
 		return chunkList.length;
 	}, [chunkList]);
 
-	const itemsOnPage = useMemo(() => {
-		const itemsOnPage = getItemsOnPage(currentPage, chunkList);
-		return [...itemsOnPage, ...fillCleanItem(size, itemsOnPage.length)];
-	}, [size, currentPage, chunkList]);
+	const itemsOnPage = useMemo(() => getItemsOnPage(currentPage, chunkList), [
+		currentPage,
+		chunkList,
+	]);
 
 	return {
 		itemsOnPage,
