@@ -2,14 +2,13 @@ import React, { useCallback, useMemo, useState } from "react";
 import { v4 } from "uuid";
 import Body from "./body/Body";
 import Header from "./header/Header";
-import styles from "./Table.module.css";
+/* import styles from "./Table.module.css"; */
 import Title from "./title/Title";
 import sorting from "../../utils/sorting";
 import usePagination from "../hooks/usePagination";
 import TableContainer from "./tableContainer";
 import cloneDeep from "lodash/cloneDeep";
-import Paging from "./paging/Paging";
-import ControlPanel from "./controlPanel";
+import BottomBar from "./bottomBar/BottomBar";
 
 const getStartOrderProp = (header) => {
 	const firstHeaderByDirection = Object.entries(header).find(
@@ -58,11 +57,10 @@ const Table = ({
 
 		const sortingType = header[prop]?.order.type;
 
-		return localList.sort((a, b) =>
+		return cloneDeep(localList).sort((a, b) =>
 			sorting(sortingType, order, a[prop], b[prop])
 		);
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [headOrder.order, headOrder.prop, header]);
+	}, [headOrder, header, localList]);
 
 	const {
 		itemsOnPage,
@@ -104,15 +102,12 @@ const Table = ({
 				<Body list={itemsOnPageWithClanRow} header={header} rowsBtn={rowsBtn} />
 			</TableContainer>
 
-			<div className={styles.controll}>
-				<Paging
-					pageCount={pageCount}
-					pageCurrent={currentPage}
-					setPageHandler={pageChangeHandler}
-				/>
-
-				<ControlPanel controlPanel={controlPanel} />
-			</div>
+			<BottomBar
+				pageCount={pageCount}
+				pageCurrent={currentPage}
+				setPageHandler={pageChangeHandler}
+				controlPanel={controlPanel}
+			/>
 		</>
 	);
 };
