@@ -60,10 +60,12 @@ const Paging = ({ pageCount, pageCurrent, setPageHandler }) => {
 
 	return (
 		<div
-			className={cn({
-				[styles.paging]: Boolean(pageCount),
-				[styles["paging-disable"]]: !Boolean(pageCount),
-			})}
+			className={cn([
+				styles.paging,
+				{
+					[styles["disable"]]: !Boolean(pageCount),
+				},
+			])}
 		>
 			<div className={styles["first-page"]} onClick={onFirstPage}>
 				первая
