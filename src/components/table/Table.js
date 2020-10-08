@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import Body from "./body/Body";
 import Header from "./header/Header";
 import styles from "./Table.module.css";
@@ -39,10 +39,10 @@ const Table = ({
 	// headOrder = { prop: id, order: 'asc' }
 	const [headOrder, setHeadOrder] = useState(() => getStartOrderProp(header));
 
-	const sortingType = useMemo(() => {
-		const { order: { type = null } = {} } = header[headOrder.prop] || {};
-		return type;
-	}, [headOrder.prop, header]);
+	const sortingType = useMemo(() => header[headOrder.prop]?.order.type, [
+		headOrder.prop,
+		header,
+	]);
 
 	const listLocalSorted = useMemo(
 		() =>
@@ -64,17 +64,20 @@ const Table = ({
 		pageChangeHandler,
 	} = usePagination(pageSize, listLocalSorted);
 
-	const onSortHandler = (prop) => {
-		setHeadOrder({
-			prop,
-			order:
-				headOrder.prop !== prop ||
-				headOrder.order === "desc" ||
-				!headOrder.order
-					? "asc"
-					: "desc",
-		});
-	};
+	const onSortHandler = useCallback(
+		(prop) => {
+			setHeadOrder({
+				prop,
+				order:
+					headOrder.prop !== prop ||
+					headOrder.order === "desc" ||
+					!headOrder.order
+						? "asc"
+						: "desc",
+			});
+		},
+		[headOrder.order, headOrder.prop]
+	);
 
 	return (
 		<>
