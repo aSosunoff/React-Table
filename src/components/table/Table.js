@@ -29,7 +29,7 @@ const getStartOrderProp = (header) => {
 };
 
 const Table = ({
-	list,
+	list = [],
 	header = {},
 	rowsBtn = [],
 	title,
@@ -41,23 +41,16 @@ const Table = ({
 	// headOrder = { prop: id, order: 'asc' }
 	const [headOrder, setHeadOrder] = useState(() => getStartOrderProp(header));
 
-	const sortingType = useMemo(() => header[headOrder.prop]?.order.type, [
-		headOrder.prop,
-		header,
-	]);
+	const listLocalSorted = useMemo(() => {
+		const { prop, order } = headOrder;
 
-	const listLocalSorted = useMemo(
-		() =>
-			cloneDeep(list).sort((a, b) =>
-				sorting(
-					sortingType,
-					headOrder.order,
-					a[headOrder.prop],
-					b[headOrder.prop]
-				)
-			),
-		[headOrder.order, headOrder.prop, list, sortingType]
-	);
+		const sortingType = header[prop]?.order.type;
+
+		return cloneDeep(list).sort((a, b) =>
+			sorting(sortingType, order, a[prop], b[prop])
+		);
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [headOrder.order, headOrder.prop, list, header]);
 
 	const {
 		itemsOnPage,
