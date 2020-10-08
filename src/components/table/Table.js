@@ -1,4 +1,5 @@
 import React, { useCallback, useMemo, useState } from "react";
+import { v4 } from "uuid";
 import Body from "./body/Body";
 import Header from "./header/Header";
 import styles from "./Table.module.css";
@@ -28,6 +29,9 @@ const getStartOrderProp = (header) => {
 	};
 };
 
+const fillCleanItem = (size, countItems) =>
+	countItems < size ? Array(size - countItems).fill("") : [];
+
 const Table = ({
 	list = [],
 	header = {},
@@ -38,6 +42,14 @@ const Table = ({
 	/* onOrderCustom = () => {}, */
 	controlPanel = [],
 }) => {
+	const localList = useMemo(
+		() =>
+			cloneDeep(list).map((record) => ({
+				uuid: v4(),
+				...record,
+			})),
+		[list]
+	);
 	// headOrder = { prop: id, order: 'asc' }
 	const [headOrder, setHeadOrder] = useState(() => getStartOrderProp(header));
 
@@ -46,11 +58,11 @@ const Table = ({
 
 		const sortingType = header[prop]?.order.type;
 
-		return cloneDeep(list).sort((a, b) =>
+		return localList.sort((a, b) =>
 			sorting(sortingType, order, a[prop], b[prop])
 		);
-	// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [headOrder.order, headOrder.prop, list, header]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [headOrder.order, headOrder.prop, header]);
 
 	const {
 		itemsOnPage,
@@ -58,6 +70,16 @@ const Table = ({
 		pageCount,
 		pageChangeHandler,
 	} = usePagination(pageSize, listLocalSorted);
+
+	const itemsOnPageWithClanRow = useMemo(() => {
+		return [
+			...itemsOnPage,
+			...fillCleanItem(pageSize, itemsOnPage.length).map((record) => ({
+				uuid: v4(),
+				...record,
+			})),
+		];
+	}, [pageSize, itemsOnPage]);
 
 	const onSortHandler = useCallback(
 		(prop) => {
@@ -79,7 +101,7 @@ const Table = ({
 			<TableContainer header={header} rowsBtnLength={rowsBtn.length}>
 				<Title title={title} />
 				<Header header={header} order={headOrder} onOrder={onSortHandler} />
-				<Body list={itemsOnPage} header={header} rowsBtn={rowsBtn} />
+				<Body list={itemsOnPageWithClanRow} header={header} rowsBtn={rowsBtn} />
 			</TableContainer>
 
 			<div className={styles.controll}>
