@@ -1,5 +1,7 @@
+import { cloneDeep } from "lodash";
 import React, { useState } from "react";
 import Table from "../table/Table";
+import { v4 } from "uuid";
 
 function App() {
 	const [list, setList] = useState([
@@ -57,12 +59,13 @@ function App() {
 	};
 
 	const added = () => {
-		/* list.splice(4, 1, {
-			...list[4],
-			name: "test",
-		});
-		setList([...list]); */
-		setList([...list, { name: "test" }]);
+		const value = v4();
+		setList([...list, { id: value, text: value, name: "test" }]);
+	};
+
+	const deleteRow = (record) => {
+		const listLocal = cloneDeep(list);
+		setList([...listLocal.filter(({ id }) => id !== record.id)]);
 	};
 
 	return (
@@ -76,8 +79,8 @@ function App() {
 					{
 						/* title: "Добавить запись", */
 						title: ({ id }) => id,
-						handler: added,
-						icon: "create",
+						handler: deleteRow,
+						icon: "delete",
 						/* disabled: true, */
 					},
 				]}
