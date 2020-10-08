@@ -12,7 +12,7 @@ const getItemsOnPage = (currentPage, chunkList) =>
 	chunkList[currentPage - 1] || chunkList[0] || [];
 
 export default function usePagination(size = 5, list) {
-	const [currentPage, setCurrentPage] = useState(1);
+	const [currentPage, setPageHandler] = useState(1);
 
 	const chunkList = useMemo(() => chunk(list, size), [list, size]);
 
@@ -27,6 +27,6 @@ export default function usePagination(size = 5, list) {
 		itemsOnPage,
 		currentPage,
 		pageCount,
-		pageChangeHandler: setCurrentPage,
+		setPageHandler,
 	};
 }

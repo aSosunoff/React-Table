@@ -66,7 +66,7 @@ const Table = ({
 		itemsOnPage,
 		currentPage,
 		pageCount,
-		pageChangeHandler,
+		setPageHandler,
 	} = usePagination(pageSize, listLocalSorted);
 
 	const itemsOnPageWithClanRow = useMemo(() => {
@@ -105,7 +105,7 @@ const Table = ({
 			<BottomBar
 				pageCount={pageCount}
 				pageCurrent={currentPage}
-				setPageHandler={pageChangeHandler}
+				setPageHandler={setPageHandler}
 				controlPanel={controlPanel}
 			/>
 		</>
