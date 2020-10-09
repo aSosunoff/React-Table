@@ -34,6 +34,42 @@ const fillCleanItem = (size, countItems) =>
 const Table = ({
 	list = [],
 	header = {},
+	/* NAME_PROPERTY: {
+			titleHead: String,
+			titleCell: Boolean | Function(value, record) : String,
+			order: Object, // { type: 'string|number|date', direction: 'asc|desc'} | true
+			width: Number,
+			format: Function(value, record) : String,
+			formatHTML: Function(value, record) : String,
+			filter: {
+				{
+					type: 'list',
+					items: Array, // [{id, text}],
+					detail: Object, // custom
+				}
+				OR
+				{
+					type: 'text',
+					detail: Object, // custom
+				}
+				OR
+				{
+					type: 'button',
+					icon: String,
+					handler: Function(callback(value), elementHTML),
+					detail: Object, // custom
+				}
+			}
+			cssClass: Function(value, record) : String,
+			clickHandler: Function(value, record),
+			btns: [{
+				handler: Function(record, elementHTML),
+				icon: String,
+				disabled: Boolean | Function(record) : Boolean,
+				title: String,
+			} OR , Function(record) : Object]
+		}
+	*/
 	rowsBtn = [],
 	title,
 	/* custom = false, */

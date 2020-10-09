@@ -1,9 +1,26 @@
-import React from "react";
+import { cloneDeep } from "lodash";
+import React, { useCallback } from "react";
+import { v4 } from "uuid";
 import styles from "./Body.module.css";
 import Row from "./row";
 
 const Body = ({ list = [], header, rowsBtn = [] }) => {
-	const row = (record) => Object.keys(header).map((key) => [key, record[key]]);
+	const row = useCallback(
+		(record) =>
+			Object.keys(header).map((key) => {
+				const btns = cloneDeep(header[key].btns || []);
+
+				return [
+					key,
+					record[key],
+					btns.map((btn) => ({
+						uuid: v4(),
+						btn,
+					})),
+				];
+			}),
+		[header]
+	);
 
 	return (
 		<div className={styles.table__body}>

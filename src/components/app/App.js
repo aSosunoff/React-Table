@@ -37,6 +37,16 @@ function App() {
 		}, */
 	]);
 
+	const added = () => {
+		const value = v4();
+		setList([...list, { id: value, text: value, name: "test" }]);
+	};
+
+	const deleteRow = (record) => {
+		const listLocal = cloneDeep(list);
+		setList([...listLocal.filter(({ id }) => id !== record.id)]);
+	};
+
 	const header = {
 		id: {
 			titleHead: "№",
@@ -52,20 +62,20 @@ function App() {
 				type: "string",
 				direction: "desc",
 			},
+			btns: [
+				(record) =>
+					record.id === 3 && {
+						/* title: "Добавить запись", */
+						title: ({ id }) => id,
+						handler: deleteRow,
+						icon: "delete",
+						/* disabled: true, */
+					},
+			],
 		},
 		name: {
 			titleHead: "имя",
 		},
-	};
-
-	const added = () => {
-		const value = v4();
-		setList([...list, { id: value, text: value, name: "test" }]);
-	};
-
-	const deleteRow = (record) => {
-		const listLocal = cloneDeep(list);
-		setList([...listLocal.filter(({ id }) => id !== record.id)]);
 	};
 
 	return (

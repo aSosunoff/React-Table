@@ -17,8 +17,14 @@ const Row = ({ row, rowsBtn, indexRecord, record }) => {
 
 	return (
 		<div className={styles.table__row}>
-			{row.map(([key, value]) => (
-				<Cell key={key} value={value} />
+			{row.map(([key, value, btns]) => (
+				<Cell
+					key={key}
+					value={value}
+					btns={btns}
+					record={record}
+					indexRecord={indexRecord}
+				/>
 			))}
 
 			{localRowsBtn.map(({ uuid, ...btn }) => (
