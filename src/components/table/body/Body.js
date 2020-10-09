@@ -9,10 +9,10 @@ const Body = ({ list = [], header, rowsBtn = [] }) => {
 		(record) =>
 			Object.keys(header).map((key) => {
 				const btns = cloneDeep(header[key].btns || []);
-
+				const { format = () => record[key] } = header[key];
 				return [
 					key,
-					record[key],
+					format(record[key], record),
 					btns.map((btn) => ({
 						uuid: v4(),
 						btn,

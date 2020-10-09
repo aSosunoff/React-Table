@@ -11,6 +11,11 @@ const Cell = ({ value, btns = [], record, indexRecord }) => {
 		};
 	}, [btns.length]);
 
+	const formating = (key, record) => {
+		const { format = () => record[key] } = this.header[key];
+		return format(record[key], record);
+	};
+
 	return (
 		<div className={styles.table__cell} style={memoizedWidthCell}>
 			{value ? (
