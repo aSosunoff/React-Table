@@ -4,32 +4,13 @@ import Body from "./body/Body";
 import Header from "./header/Header";
 /* import styles from "./Table.module.css"; */
 import Title from "./title/Title";
-import usePagination from "../hooks/usePagination";
 import TableContainer from "./tableContainer";
 import cloneDeep from "lodash/cloneDeep";
 import BottomBar from "./bottomBar/BottomBar";
-import useSortable from "../hooks/useSortable";
-
-const getStartOrderProp = (header) => {
-	const firstHeaderByDirection = Object.entries(header).find(
-		([, { order = null } = {}]) => order
-	) || [null, { order: { direction: "asc" } }];
-
-	const [
-		prop,
-		{
-			order: { direction },
-		},
-	] = firstHeaderByDirection;
-
-	return {
-		prop,
-		order: direction,
-	};
-};
-
-const fillCleanItem = (size, countItems) =>
-	countItems < size ? Array(size - countItems).fill("") : [];
+import { usePagination } from "../hooks/usePagination";
+import { useSortable } from "../hooks/useSortable";
+import { useCleanRecord } from "../hooks/useCleanRecord";
+import { useOrder } from "../hooks/useOrder";
 
 const Table = ({
 	list = [],
@@ -91,10 +72,7 @@ const Table = ({
 
 	const localHeader = useMemo(() => cloneDeep(header), [header]);
 
-	// headOrder = { prop: id, order: 'asc' }
-	const [headOrder, setHeadOrder] = useState(() =>
-		getStartOrderProp(localHeader)
-	);
+	const { headOrder, sortHandler } = useOrder(localHeader);
 
 	const [selectedRowId, setSelectedRowId] = useState(0);
 
@@ -110,30 +88,7 @@ const Table = ({
 		listLocalSorted
 	);
 
-	const itemsOnPageWithClanRow = useMemo(() => {
-		return [
-			...itemsOnPage,
-			...fillCleanItem(pageSize, itemsOnPage.length).map((record) => ({
-				uuid: v4(),
-				...record,
-			})),
-		];
-	}, [pageSize, itemsOnPage]);
-
-	const onSortHandler = useCallback(
-		(prop) => {
-			setHeadOrder({
-				prop,
-				order:
-					headOrder.prop !== prop ||
-					headOrder.order === "desc" ||
-					!headOrder.order
-						? "asc"
-						: "desc",
-			});
-		},
-		[headOrder.order, headOrder.prop]
-	);
+	const itemsOnPageWithClanRow = useCleanRecord(itemsOnPage, pageSize);
 
 	const rowClickHandler = useCallback(
 		(indexRecord, record) => {
@@ -151,11 +106,7 @@ const Table = ({
 		<>
 			<TableContainer header={localHeader} rowsBtnLength={rowsBtn.length}>
 				<Title title={title} />
-				<Header
-					header={localHeader}
-					order={headOrder}
-					onOrder={onSortHandler}
-				/>
+				<Header header={localHeader} order={headOrder} onOrder={sortHandler} />
 				<Body
 					list={itemsOnPageWithClanRow}
 					header={localHeader}
