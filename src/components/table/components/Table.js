@@ -4,11 +4,11 @@ import Body from "./body/Body";
 import Header from "./header/Header";
 /* import styles from "./Table.module.css"; */
 import Title from "./title/Title";
-import sorting from "../utils/sorting";
 import usePagination from "../hooks/usePagination";
 import TableContainer from "./tableContainer";
 import cloneDeep from "lodash/cloneDeep";
 import BottomBar from "./bottomBar/BottomBar";
+import useSortable from "../hooks/useSortable";
 
 const getStartOrderProp = (header) => {
 	const firstHeaderByDirection = Object.entries(header).find(
@@ -98,15 +98,12 @@ const Table = ({
 
 	const [selectedRowId, setSelectedRowId] = useState(0);
 
-	const listLocalSorted = useMemo(() => {
-		const { prop, order } = headOrder;
-
-		const sortingType = localHeader[prop]?.order.type;
-
-		return cloneDeep(localList).sort((a, b) =>
-			sorting(sortingType, order, a[prop], b[prop])
-		);
-	}, [headOrder, localHeader, localList]);
+	const listLocalSorted = useSortable(
+		localList,
+		headOrder.prop,
+		headOrder.order,
+		localHeader[headOrder.prop]?.order.type
+	);
 
 	const { itemsOnPage, currentPage, pageCount, setPageHandler } = usePagination(
 		pageSize,
