@@ -1,7 +1,7 @@
 import { cloneDeep } from "lodash";
 import React, { useCallback } from "react";
 import { v4 } from "uuid";
-import isEmptyObject from "../utils/isEmptyObject";
+import isEmptyObject from "../../utils/isEmptyObject";
 import styles from "./Body.module.css";
 import Row from "./row";
 

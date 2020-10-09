@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import styles from "./Btn.module.css";
 import { cloneDeep } from "lodash";
 import cn from "classnames";
-import isEmptyObject from "../../utils/isEmptyObject";
+import isEmptyObject from "../../../utils/isEmptyObject";
 
 const Btn = ({ btn, record = {}, indexRecord }) => {
 	const isBtn = useMemo(() => {

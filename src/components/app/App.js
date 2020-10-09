@@ -1,6 +1,6 @@
 import { cloneDeep } from "lodash";
 import React, { useState } from "react";
-import Table from "../table/Table";
+import Table from "../table/components/Table";
 import { v4 } from "uuid";
 
 function App() {

@@ -4,7 +4,7 @@ import Body from "./body/Body";
 import Header from "./header/Header";
 /* import styles from "./Table.module.css"; */
 import Title from "./title/Title";
-import sorting from "../../utils/sorting";
+import sorting from "../../../utils/sorting";
 import usePagination from "../hooks/usePagination";
 import TableContainer from "./tableContainer";
 import cloneDeep from "lodash/cloneDeep";
