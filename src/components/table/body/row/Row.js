@@ -1,8 +1,8 @@
 import { cloneDeep } from "lodash";
 import React, { useMemo } from "react";
 import { v4 } from "uuid";
-import Btn from "./Btn";
-import Cell from "./Cell";
+import Btn from "../btn";
+import Cell from "../cell";
 import styles from "./Row.module.css";
 
 const Row = ({ row, rowsBtn, indexRecord, record }) => {
