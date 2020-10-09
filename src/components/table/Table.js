@@ -76,6 +76,8 @@ const Table = ({
 	pageSize,
 	/* onOrderCustom = () => {}, */
 	controlPanel = [],
+	onRowClick = () => {},
+	onUnselectRecord = () => {},
 }) => {
 	// НУЖНО ЛИ ВСЁ МЕМОИЗИРОВАТЬ
 	const localList = useMemo(
@@ -93,6 +95,8 @@ const Table = ({
 	const [headOrder, setHeadOrder] = useState(() =>
 		getStartOrderProp(localHeader)
 	);
+
+	const [selectedRowId, setSelectedRowId] = useState(0);
 
 	const listLocalSorted = useMemo(() => {
 		const { prop, order } = headOrder;
@@ -134,6 +138,18 @@ const Table = ({
 		[headOrder.order, headOrder.prop]
 	);
 
+	const rowClickHandler = useCallback(
+		(indexRecord, record) => {
+			if (selectedRowId !== indexRecord && indexRecord !== null) {
+				onRowClick(record);
+			} else if (selectedRowId === null) {
+				onUnselectRecord();
+			}
+			setSelectedRowId(indexRecord);
+		},
+		[onRowClick, onUnselectRecord, selectedRowId]
+	);
+
 	return (
 		<>
 			<TableContainer header={localHeader} rowsBtnLength={rowsBtn.length}>
@@ -147,6 +163,7 @@ const Table = ({
 					list={itemsOnPageWithClanRow}
 					header={localHeader}
 					rowsBtn={rowsBtn}
+					onRowClick={rowClickHandler}
 				/>
 			</TableContainer>
 

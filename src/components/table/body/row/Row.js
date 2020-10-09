@@ -5,7 +5,7 @@ import Btn from "../btn";
 import Cell from "../cell";
 import styles from "./Row.module.css";
 
-const Row = ({ row, rowsBtn, indexRecord, record }) => {
+const Row = ({ row, rowsBtn, indexRecord, record, onRowClick }) => {
 	const localRowsBtn = useMemo(
 		() =>
 			cloneDeep(rowsBtn).map((record) => ({
@@ -16,7 +16,7 @@ const Row = ({ row, rowsBtn, indexRecord, record }) => {
 	);
 
 	return (
-		<div className={styles.table__row}>
+		<div className={styles.table__row} onClick={onRowClick}>
 			{row.map(([key, value, btns]) => (
 				<Cell
 					key={key}

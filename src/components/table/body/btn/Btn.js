@@ -2,10 +2,7 @@ import React, { useCallback, useMemo } from "react";
 import styles from "./Btn.module.css";
 import { cloneDeep } from "lodash";
 import cn from "classnames";
-
-const isRecortFill = (record) => {
-	return Object.keys(record).length;
-};
+import isEmptyObject from "../../utils/isEmptyObject";
 
 const Btn = ({ btn, record = {}, indexRecord }) => {
 	const getBtn = useMemo(() => {
@@ -13,7 +10,7 @@ const Btn = ({ btn, record = {}, indexRecord }) => {
 	}, [btn, record]);
 
 	const isBtn = useMemo(() => {
-		if (!isRecortFill(record)) {
+		if (isEmptyObject(record)) {
 			return false;
 		}
 

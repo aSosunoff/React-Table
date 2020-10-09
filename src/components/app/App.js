@@ -50,12 +50,12 @@ function App() {
 	const header = {
 		id: {
 			titleHead: "№",
-			width: "50px",
+			width: "70px",
 			order: {
 				type: "number",
 				direction: "asc",
 			},
-			format: (_, record) => record.text + '122',
+			format: (_, record) => record.text,
 		},
 		text: {
 			titleHead: "текст",
@@ -101,6 +101,9 @@ function App() {
 						handler: added,
 					},
 				]}
+				onRowClick={(record) => {
+					console.log(record);
+				}}
 			></Table>
 		</>
 	);
