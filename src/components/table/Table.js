@@ -41,6 +41,7 @@ const Table = ({
 	/* onOrderCustom = () => {}, */
 	controlPanel = [],
 }) => {
+	// НУЖНО ЛИ ВСЁ МЕМОИЗИРОВАТЬ
 	const localList = useMemo(
 		() =>
 			cloneDeep(list).map((record) => ({
@@ -49,25 +50,28 @@ const Table = ({
 			})),
 		[list]
 	);
+
+	const localHeader = useMemo(() => cloneDeep(header), [header]);
+
 	// headOrder = { prop: id, order: 'asc' }
-	const [headOrder, setHeadOrder] = useState(() => getStartOrderProp(header));
+	const [headOrder, setHeadOrder] = useState(() =>
+		getStartOrderProp(localHeader)
+	);
 
 	const listLocalSorted = useMemo(() => {
 		const { prop, order } = headOrder;
 
-		const sortingType = header[prop]?.order.type;
+		const sortingType = localHeader[prop]?.order.type;
 
 		return cloneDeep(localList).sort((a, b) =>
 			sorting(sortingType, order, a[prop], b[prop])
 		);
-	}, [headOrder, header, localList]);
+	}, [headOrder, localHeader, localList]);
 
-	const {
-		itemsOnPage,
-		currentPage,
-		pageCount,
-		setPageHandler,
-	} = usePagination(pageSize, listLocalSorted);
+	const { itemsOnPage, currentPage, pageCount, setPageHandler } = usePagination(
+		pageSize,
+		listLocalSorted
+	);
 
 	const itemsOnPageWithClanRow = useMemo(() => {
 		return [
@@ -96,10 +100,18 @@ const Table = ({
 
 	return (
 		<>
-			<TableContainer header={header} rowsBtnLength={rowsBtn.length}>
+			<TableContainer header={localHeader} rowsBtnLength={rowsBtn.length}>
 				<Title title={title} />
-				<Header header={header} order={headOrder} onOrder={onSortHandler} />
-				<Body list={itemsOnPageWithClanRow} header={header} rowsBtn={rowsBtn} />
+				<Header
+					header={localHeader}
+					order={headOrder}
+					onOrder={onSortHandler}
+				/>
+				<Body
+					list={itemsOnPageWithClanRow}
+					header={localHeader}
+					rowsBtn={rowsBtn}
+				/>
 			</TableContainer>
 
 			<BottomBar
