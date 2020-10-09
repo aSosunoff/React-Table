@@ -11,14 +11,14 @@ const Body = ({ list = [], header, rowsBtn = [], onRowClick }) => {
 			Object.keys(header).map((key) => {
 				const btns = cloneDeep(header[key].btns || []);
 				const { format = () => record[key] } = header[key];
-				return [
+				return {
 					key,
-					format(record[key], record),
-					btns.map((btn) => ({
+					value: format(record[key], record),
+					btns: btns.map((btn) => ({
 						uuid: v4(),
-						btn,
+						btn: typeof btn === "function" ? btn(record) : btn,
 					})),
-				];
+				};
 			}),
 		[header]
 	);

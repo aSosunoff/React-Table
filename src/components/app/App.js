@@ -101,9 +101,9 @@ function App() {
 						handler: added,
 					},
 				]}
-				onRowClick={(record) => {
+				/* onRowClick={(record) => {
 					console.log(record);
-				}}
+				}} */
 			></Table>
 		</>
 	);
