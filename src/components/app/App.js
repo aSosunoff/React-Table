@@ -55,7 +55,6 @@ function App() {
 				type: "number",
 				direction: "asc",
 			},
-			format: (_, record) => record.text,
 		},
 		text: {
 			titleHead: "текст",
@@ -76,6 +75,7 @@ function App() {
 		},
 		name: {
 			titleHead: "имя",
+			format: (_, record) => record.text,
 		},
 	};
 
