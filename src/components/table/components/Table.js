@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { v4 } from "uuid";
 import Body from "./body/Body";
 import Header from "./header/Header";
@@ -69,12 +69,18 @@ const Table = ({
 		}
 	*/
 	rowsBtn = [],
-	/* custom = false, */
+	/* [{ handler: Function(record, elementHTML),
+			icon: String,
+			disabled: Boolean | Function(record) : Boolean,
+			title: String | Function(record) : String,
+		} OR , Function(record) : Object]
+	*/
 	pageSize,
-	/* onOrderCustom = () => {}, */
 	controlPanel = [],
 	onRowClick = () => {},
 	onUnselectRecord = () => {},
+	/* custom = false, */
+	/* onOrderCustom = () => {}, */
 }) => {
 	const [selectedRowId, setSelectedRowId] = useState(null);
 

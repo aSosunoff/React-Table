@@ -5,43 +5,45 @@ import cn from "classnames";
 import isEmptyObject from "../../../utils/isEmptyObject";
 
 const Btn = ({ btn, record = {}, indexRecord }) => {
+	const localBtn = typeof btn === "function" ? btn(record) : btn;
+
 	const isBtn = useMemo(() => {
 		if (isEmptyObject(record)) {
 			return false;
 		}
 
-		return typeof btn === "object" && btn !== null
-			? Boolean(Object.keys(btn).length)
-			: Boolean(btn);
-	}, [btn, record]);
+		return typeof localBtn === "object" && localBtn !== null
+			? Boolean(Object.keys(localBtn).length)
+			: Boolean(localBtn);
+	}, [localBtn, record]);
 
 	const canDissabled = useMemo(() => {
-		if (typeof btn !== "object" || btn === null) {
+		if (typeof localBtn !== "object" || localBtn === null) {
 			return true;
 		}
 
-		if (!("disabled" in btn)) {
+		if (!("disabled" in localBtn)) {
 			return false;
 		}
-		if (typeof btn.disabled === "boolean") {
-			return btn.disabled;
+		if (typeof localBtn.disabled === "boolean") {
+			return localBtn.disabled;
 		}
-		if (typeof btn.disabled === "function") {
-			return btn.disabled(record);
+		if (typeof localBtn.disabled === "function") {
+			return localBtn.disabled(record);
 		}
 		return false;
-	}, [btn, record]);
+	}, [localBtn, record]);
 
 	const getTitle = useMemo(() => {
-		if (typeof btn.title === "function") {
-			return btn.title(record);
+		if (typeof localBtn.title === "function") {
+			return localBtn.title(record);
 		}
-		return btn.title;
-	}, [btn, record]);
+		return localBtn.title;
+	}, [localBtn, record]);
 
 	const clickHandler = (event) => {
 		if (!canDissabled) {
-			btn.handler(
+			localBtn.handler(
 				cloneDeep(record),
 				event.target.closest(`.${styles.table__cell_btn}`),
 				indexRecord
@@ -62,7 +64,7 @@ const Btn = ({ btn, record = {}, indexRecord }) => {
 					onClick={clickHandler.bind(this)}
 					title={getTitle}
 				>
-					<i className="material-icons">{btn.icon}</i>
+					<i className="material-icons">{localBtn.icon}</i>
 				</div>
 			) : (
 				<div></div>

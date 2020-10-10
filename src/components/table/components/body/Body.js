@@ -23,7 +23,7 @@ const Body = ({
 					value: format(record[key], record),
 					btns: btns.map((btn) => ({
 						uuid: v4(),
-						btn: typeof btn === "function" ? btn(record) : btn,
+						btn,
 					})),
 				};
 			}),

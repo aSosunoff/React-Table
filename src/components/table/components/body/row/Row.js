@@ -17,9 +17,9 @@ const Row = ({
 }) => {
 	const localRowsBtn = useMemo(
 		() =>
-			cloneDeep(rowsBtn).map((record) => ({
+			cloneDeep(rowsBtn).map((btn) => ({
 				uuid: v4(),
-				...record,
+				btn,
 			})),
 		[rowsBtn]
 	);
@@ -45,7 +45,7 @@ const Row = ({
 				/>
 			))}
 
-			{localRowsBtn.map(({ uuid, ...btn }) => (
+			{localRowsBtn.map(({ uuid, btn }) => (
 				<Btn key={uuid} btn={btn} record={record} indexRecord={indexRecord} />
 			))}
 		</div>
