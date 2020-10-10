@@ -77,7 +77,7 @@ const Table = ({
 }) => {
 	const [selectedRowId, setSelectedRowId] = useState(0);
 
-	// НУЖНО ЛИ ВСЁ МЕМОИЗИРОВАТЬ
+	// TODO: НУЖНО ЛИ ВСЁ МЕМОИЗИРОВАТЬ
 	const localList = useMemo(
 		() =>
 			cloneDeep(list).map((record) => ({
@@ -87,17 +87,17 @@ const Table = ({
 		[list]
 	);
 
-	const localHeader = useMemo(() => cloneDeep(header), [header]);
+	const memoizedHeader = useMemo(() => cloneDeep(header), [header]);
 
 	const { prop, direction, sortHandler } = useOrder(
-		...getStartOrderProp(localHeader)
+		...getStartOrderProp(memoizedHeader)
 	);
 
 	const listLocalSorted = useSorting(
 		localList,
 		prop,
 		direction,
-		localHeader[prop]?.order.type
+		memoizedHeader[prop]?.order.type
 	);
 
 	const { itemsOnPage, currentPage, pageCount, setPageHandler } = usePagination(
@@ -121,17 +121,19 @@ const Table = ({
 
 	return (
 		<div>
-			<TableContainer header={localHeader} rowsBtnLength={rowsBtn.length}>
+			<TableContainer header={memoizedHeader} rowsBtnLength={rowsBtn.length}>
 				<Title>{title}</Title>
+
 				<Header
-					header={localHeader}
+					header={memoizedHeader}
 					prop={prop}
 					direction={direction}
 					onOrder={sortHandler}
 				/>
+				
 				<Body
 					list={itemsOnPageWithClanRow}
-					header={localHeader}
+					header={memoizedHeader}
 					rowsBtn={rowsBtn}
 					onRowClick={rowClickHandler}
 				/>

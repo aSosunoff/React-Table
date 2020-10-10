@@ -16,7 +16,7 @@
 	color: var(--color-4);
 }
 
-.table__cell_head {
+.table__header .table__cell_head {
 	padding: 0px 15px;
 	height: 30px;
 	font-size: 12px;
@@ -27,13 +27,13 @@
 	position: relative;
 }
 
-.table__cell_head[data-sortable] {
+.table__header .table__cell_head[data-sortable] {
 	cursor: pointer;
 	min-height: 30px;
 	height: auto;
 }
 
-.table__cell_head[data-order="asc"] .sort-arrow {
+.table__header .table__cell_head[data-order="asc"] .sort-arrow {
 	width: 0;
 	height: 0;
 	border-left: 4px solid transparent;
@@ -41,7 +41,7 @@
 	border-bottom: 4px solid var(--color-4);
 }
 
-.table__cell_head[data-order="desc"] .sort-arrow {
+.table__header .table__cell_head[data-order="desc"] .sort-arrow {
 	width: 0;
 	height: 0;
 	border-left: 4px solid transparent;
@@ -49,7 +49,7 @@
 	border-top: 4px solid var(--color-4);
 }
 
-.table__cell_head .table__sort-arrow {
+.table__header .table__cell_head .table__sort-arrow {
 	display: inline-flex;
 	cursor: pointer;
 	position: absolute;
