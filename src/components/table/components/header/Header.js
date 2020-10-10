@@ -14,7 +14,8 @@ const Header = ({ header = {}, prop, direction, onOrder = () => {} }) => {
 		[header]
 	);
 
-	const getDirectionOrder = (propCell) => (prop === propCell ? direction : "");
+	const getDirectionOrder = (propCell) =>
+		prop === propCell ? direction : null;
 
 	const canSortable = (cell) => Boolean(cell.value.order);
 
@@ -32,7 +33,7 @@ const Header = ({ header = {}, prop, direction, onOrder = () => {} }) => {
 				<div
 					className={styles.table__cell_head}
 					key={cell.prop}
-					data-order={getDirectionOrder(cell.prop) || null}
+					data-order={getDirectionOrder(cell.prop)}
 					data-sortable={canSortable(cell) ? "" : null}
 					onClick={() => onSortHandler(cell)}
 				>
