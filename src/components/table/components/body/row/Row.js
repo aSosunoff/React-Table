@@ -35,11 +35,12 @@ const Row = ({
 			])}
 			onClick={onRowClick}
 		>
-			{row.map(({ key, value, btns }) => (
+			{row.map(({ key, value, btns, cssClass }) => (
 				<Cell
 					key={key}
 					value={value}
 					btns={btns}
+					cssClass={cssClass}
 					record={record}
 					indexRecord={indexRecord}
 				/>

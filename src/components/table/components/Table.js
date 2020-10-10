@@ -58,7 +58,7 @@ const Table = ({
 					detail: Object, // custom
 				}
 			}
-			cssClass: Function(value, record) : String,
+			cssClass: Function(value, key, record) : String,
 			clickHandler: Function(value, record),
 			btns: [{
 				handler: Function(record, elementHTML),

@@ -1,8 +1,9 @@
 import React, { useMemo } from "react";
+import cn from "classnames";
 import Btn from "../btn";
 import styles from "./Cell.module.css";
 
-const Cell = ({ value, btns = [], record, indexRecord }) => {
+const Cell = ({ value, btns = [], record, indexRecord, cssClass }) => {
 	const memoizedWidthCell = useMemo(
 		() => ({
 			"--width-cell": ["1fr"].concat(Array(btns.length).fill("50px")).join(" "),
@@ -11,7 +12,10 @@ const Cell = ({ value, btns = [], record, indexRecord }) => {
 	);
 
 	return (
-		<div className={styles.table__cell} style={memoizedWidthCell}>
+		<div
+			className={cn([styles.table__cell, cssClass])}
+			style={memoizedWidthCell}
+		>
 			{value ? (
 				<>
 					<div className={styles.table__cell_field}>

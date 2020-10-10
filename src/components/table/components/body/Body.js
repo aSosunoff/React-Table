@@ -17,7 +17,9 @@ const Body = ({
 		(record) =>
 			Object.keys(header).map((key) => {
 				const btns = cloneDeep(header[key].btns || []);
-				const { format = () => record[key] } = header[key];
+				const { format = () => record[key], cssClass = () => null } = header[
+					key
+				];
 				return {
 					key,
 					value: format(record[key], record),
@@ -25,6 +27,7 @@ const Body = ({
 						uuid: v4(),
 						btn,
 					})),
+					cssClass: cssClass(record[key], key, record),
 				};
 			}),
 		[header]
