@@ -6,12 +6,14 @@ import cn from "classnames";
 const ControlPanel = ({ controlPanel = [] } = {}) => {
 	const isControlPanel = Boolean(controlPanel.length);
 
-	const controlPanelLocal = useMemo(() => {
-		return controlPanel.map((record) => ({
-			uuid: v4(),
-			...record,
-		}));
-	}, [controlPanel]);
+	const controlPanelLocal = useMemo(
+		() =>
+			controlPanel.map((record) => ({
+				uuid: v4(),
+				...record,
+			})),
+		[controlPanel]
+	);
 
 	const buttonHandler = (btn, event) => {
 		if (!btn.disabled) {
@@ -23,10 +25,10 @@ const ControlPanel = ({ controlPanel = [] } = {}) => {
 		<>
 			{isControlPanel && (
 				<div className={styles["button-control"]}>
-					{controlPanelLocal.map((btn) => (
+					{controlPanelLocal.map(({ uuid, ...btn }) => (
 						<div
 							className={cn([styles.button, { dissabled: btn.disabled }])}
-							key={btn.uuid}
+							key={uuid}
 							onClick={buttonHandler.bind(this, btn)}
 						>
 							{btn.title}
