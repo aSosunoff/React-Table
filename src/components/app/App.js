@@ -83,6 +83,7 @@ function App() {
 		<>
 			<Table
 				title="Таблица"
+				/* rowCssClass={(record) => (record.id === 3 ? "qweqwe" : "")} */
 				list={list}
 				header={header}
 				pageSize={10}

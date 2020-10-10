@@ -6,6 +6,7 @@ import styles from "./Body.module.css";
 import Row from "./row";
 
 const Body = ({
+	rowCssClass,
 	list = [],
 	header,
 	rowsBtn = [],
@@ -45,6 +46,7 @@ const Body = ({
 					rowsBtn={rowsBtn}
 					indexRecord={indexRecord}
 					isSelected={selectedRowId === indexRecord}
+					rowCssClass={rowCssClass}
 					record={record}
 					onRowClick={() => rowHandler(indexRecord, record)}
 				/>

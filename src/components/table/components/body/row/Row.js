@@ -6,7 +6,15 @@ import Btn from "../btn";
 import Cell from "../cell";
 import styles from "./Row.module.css";
 
-const Row = ({ row, rowsBtn, indexRecord, isSelected, record, onRowClick }) => {
+const Row = ({
+	row,
+	rowsBtn,
+	rowCssClass = () => null,
+	indexRecord,
+	isSelected,
+	record,
+	onRowClick,
+}) => {
 	const localRowsBtn = useMemo(
 		() =>
 			cloneDeep(rowsBtn).map((record) => ({
@@ -20,6 +28,7 @@ const Row = ({ row, rowsBtn, indexRecord, isSelected, record, onRowClick }) => {
 		<div
 			className={cn([
 				styles.table__row,
+				rowCssClass(record),
 				{
 					[styles["selected-row"]]: isSelected,
 				},

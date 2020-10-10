@@ -29,6 +29,7 @@ const getStartOrderProp = (header) => {
 
 const Table = ({
 	title, // String
+	rowCssClass, // Function(record) : String,
 	list = [],
 	header = {},
 	/* NAME_PROPERTY: {
@@ -143,6 +144,7 @@ const Table = ({
 					list={itemsOnPageWithClanRow}
 					header={header}
 					rowsBtn={rowsBtn}
+					rowCssClass={rowCssClass}
 					selectedRowId={selectedRowId}
 					onRowClick={rowClickHandler}
 				/>
