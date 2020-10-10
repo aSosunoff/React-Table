@@ -23,7 +23,7 @@ const ControlPanel = ({ controlPanel = [] } = {}) => {
 
 	return (
 		<>
-			{isControlPanel && (
+			{isControlPanel ? (
 				<div className={styles["button-control"]}>
 					{controlPanelLocal.map(({ uuid, ...btn }) => (
 						<div
@@ -35,7 +35,7 @@ const ControlPanel = ({ controlPanel = [] } = {}) => {
 						</div>
 					))}
 				</div>
-			)}
+			) : null}
 		</>
 	);
 };
