@@ -3,14 +3,13 @@ import Btn from "../btn";
 import styles from "./Cell.module.css";
 
 const Cell = ({ value, btns = [], record, indexRecord }) => {
-	const memoizedWidthCell = useMemo(() => {
-		let styleColumn = "1fr";
-		styleColumn += " 50px".repeat(btns.length);
-		return {
-			"--width-cell": styleColumn,
-		};
-	}, [btns.length]);
-	
+	const memoizedWidthCell = useMemo(
+		() => ({
+			"--width-cell": ["1fr"].concat(Array(btns.length).fill("50px")).join(" "),
+		}),
+		[btns.length]
+	);
+
 	return (
 		<div className={styles.table__cell} style={memoizedWidthCell}>
 			{value ? (
