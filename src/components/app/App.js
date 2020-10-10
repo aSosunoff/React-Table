@@ -101,9 +101,12 @@ function App() {
 						handler: added,
 					},
 				]}
-				/* onRowClick={(record) => {
-					console.log(record);
-				}} */
+				onRowClick={(record) => {
+					console.log("onRowClick", record);
+				}}
+				onUnselectRecord={() => {
+					console.log("onUnselectRecord");
+				}}
 			></Table>
 		</>
 	);
