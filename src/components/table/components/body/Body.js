@@ -21,6 +21,7 @@ const Body = ({
 					format = () => record[key],
 					cssClass = () => null,
 					titleCell = null,
+					clickHandler = () => null,
 				} = header[key];
 
 				let attributes = {};
@@ -40,6 +41,7 @@ const Body = ({
 					})),
 					cssClass: cssClass(record[key], key, record),
 					attributes,
+					clickHandler: () => clickHandler(record[key], record),
 				};
 			}),
 		[header]

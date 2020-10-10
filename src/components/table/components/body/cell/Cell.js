@@ -9,6 +9,7 @@ const Cell = ({
 	record,
 	indexRecord,
 	attributes,
+	clickHandler,
 	cssClass,
 }) => {
 	const memoizedWidthCell = useMemo(
@@ -26,7 +27,7 @@ const Cell = ({
 		>
 			{value ? (
 				<>
-					<div className={styles.table__cell_field}>
+					<div className={styles.table__cell_field} onClick={clickHandler}>
 						<div className={styles["table__cell_field-nowrap"]}>{value}</div>
 					</div>
 
