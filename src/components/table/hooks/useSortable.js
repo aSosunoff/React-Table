@@ -2,7 +2,7 @@ import { cloneDeep } from "lodash";
 import { useMemo } from "react";
 import sorting from "../utils/sorting";
 
-export const useSortable = (list, prop, order, sortingType) =>
+export const useSorting = (list, prop, order, sortingType) =>
 	useMemo(
 		() =>
 			cloneDeep(list).sort((a, b) =>
