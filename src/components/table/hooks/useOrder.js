@@ -14,31 +14,31 @@ const getStartOrderProp = (header) => {
 
 	return {
 		prop,
-		order: direction,
+		direction,
 	};
 };
 
 export const useOrder = (header) => {
-	// headOrder = { prop: id, order: 'asc' }
+	// headOrder = { prop: id, direction: 'asc' }
 	const [headOrder, setHeadOrder] = useState(() => getStartOrderProp(header));
 
 	const sortHandler = useCallback(
 		(prop) => {
 			setHeadOrder({
 				prop,
-				order:
+				direction:
 					headOrder.prop !== prop ||
-					headOrder.order === "desc" ||
-					!headOrder.order
+					headOrder.direction === "desc" ||
+					!headOrder.direction
 						? "asc"
 						: "desc",
 			});
 		},
-		[headOrder.order, headOrder.prop, setHeadOrder]
+		[headOrder.direction, headOrder.prop, setHeadOrder]
 	);
 
 	return {
-		headOrder,
+		...headOrder,
 		sortHandler,
 	};
 };
