@@ -35,16 +35,8 @@ const Row = ({
 			])}
 			onClick={onRowClick}
 		>
-			{row.map(({ key, value, btns, cssClass, attributes }) => (
-				<Cell
-					key={key}
-					value={value}
-					btns={btns}
-					cssClass={cssClass}
-					record={record}
-					attributes={attributes}
-					indexRecord={indexRecord}
-				/>
+			{row.map(({ key, ...cell }) => (
+				<Cell key={key} {...cell} record={record} indexRecord={indexRecord} />
 			))}
 
 			{localRowsBtn.map(({ uuid, btn }) => (
