@@ -28,6 +28,7 @@ const getStartOrderProp = (header) => {
 };
 
 const Table = ({
+	title, // String
 	list = [],
 	header = {},
 	/* NAME_PROPERTY: {
@@ -67,7 +68,6 @@ const Table = ({
 		}
 	*/
 	rowsBtn = [],
-	title,
 	/* custom = false, */
 	pageSize,
 	/* onOrderCustom = () => {}, */
@@ -122,7 +122,7 @@ const Table = ({
 	return (
 		<>
 			<TableContainer header={localHeader} rowsBtnLength={rowsBtn.length}>
-				<Title title={title} />
+				<Title>{title}</Title>
 				<Header
 					header={localHeader}
 					prop={prop}
