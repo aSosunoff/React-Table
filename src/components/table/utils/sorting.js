@@ -17,12 +17,12 @@ const sortStrategy = {
 		direction * (getDateTimeStamp(a) - getDateTimeStamp(b)),
 };
 
-export default (type, order, a, b) => {
-	const direction = order === "asc" || !order ? 1 : -1;
+export default (type, direction, a, b) => {
+	const directionTransform = direction === "asc" || !direction ? 1 : -1;
 
 	if (type in sortStrategy) {
-		return sortStrategy[type](direction, a, b);
+		return sortStrategy[type](directionTransform, a, b);
 	}
 
-	return sortStrategy[Object.keys(sortStrategy)[0]](direction, a, b);
+	return sortStrategy.number(directionTransform, a, b);
 };
