@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import styles from "./Header.module.css";
 
-const Header = ({ header = {}, order = {}, onOrder = () => {} }) => {
+const Header = ({ header = {}, prop, direction, onOrder = () => {} }) => {
 	const headers = useMemo(
 		() =>
 			Object.entries(header).map(([key, obj]) => ({
@@ -14,8 +14,7 @@ const Header = ({ header = {}, order = {}, onOrder = () => {} }) => {
 		[header]
 	);
 
-	const getDirectionOrder = ({ prop }) =>
-		order.prop === prop ? order.order : "";
+	const getDirectionOrder = (propCell) => (prop === propCell ? direction : "");
 
 	const canSortable = (cell) => Boolean(cell.value.order);
 
@@ -33,7 +32,7 @@ const Header = ({ header = {}, order = {}, onOrder = () => {} }) => {
 				<div
 					className={styles.table__cell_head}
 					key={cell.prop}
-					data-order={getDirectionOrder(cell) || null}
+					data-order={getDirectionOrder(cell.prop) || null}
 					data-sortable={canSortable(cell) ? "" : null}
 					onClick={() => onSortHandler(cell)}
 				>

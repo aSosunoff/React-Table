@@ -8,7 +8,7 @@ import TableContainer from "./tableContainer";
 import cloneDeep from "lodash/cloneDeep";
 import BottomBar from "./bottomBar/BottomBar";
 import { usePagination } from "../hooks/usePagination";
-import { useSortable } from "../hooks/useSortable";
+import { useSorting } from "../hooks/useSortable";
 import { useCleanRecord } from "../hooks/useCleanRecord";
 import { useOrder } from "../hooks/useOrder";
 
@@ -60,6 +60,8 @@ const Table = ({
 	onRowClick = () => {},
 	onUnselectRecord = () => {},
 }) => {
+	const [selectedRowId, setSelectedRowId] = useState(0);
+
 	// НУЖНО ЛИ ВСЁ МЕМОИЗИРОВАТЬ
 	const localList = useMemo(
 		() =>
@@ -72,15 +74,13 @@ const Table = ({
 
 	const localHeader = useMemo(() => cloneDeep(header), [header]);
 
-	const { headOrder, sortHandler } = useOrder(localHeader);
+	const { prop, direction, sortHandler } = useOrder(localHeader);
 
-	const [selectedRowId, setSelectedRowId] = useState(0);
-
-	const listLocalSorted = useSortable(
+	const listLocalSorted = useSorting(
 		localList,
-		headOrder.prop,
-		headOrder.order,
-		localHeader[headOrder.prop]?.order.type
+		prop,
+		direction,
+		localHeader[prop]?.order.type
 	);
 
 	const { itemsOnPage, currentPage, pageCount, setPageHandler } = usePagination(
@@ -106,7 +106,12 @@ const Table = ({
 		<>
 			<TableContainer header={localHeader} rowsBtnLength={rowsBtn.length}>
 				<Title title={title} />
-				<Header header={localHeader} order={headOrder} onOrder={sortHandler} />
+				<Header
+					header={localHeader}
+					prop={prop}
+					direction={direction}
+					onOrder={sortHandler}
+				/>
 				<Body
 					list={itemsOnPageWithClanRow}
 					header={localHeader}
