@@ -120,7 +120,7 @@ const Table = ({
 	);
 
 	return (
-		<>
+		<div>
 			<TableContainer header={localHeader} rowsBtnLength={rowsBtn.length}>
 				<Title>{title}</Title>
 				<Header
@@ -143,7 +143,7 @@ const Table = ({
 				setPageHandler={setPageHandler}
 				controlPanel={controlPanel}
 			/>
-		</>
+		</div>
 	);
 };
 
