@@ -11,6 +11,11 @@
 	transition: background-color 0.2s linear;
 }
 
+.table__row.selected-row {
+	background-color: var(--color-selected-row);
+	color: #fff;
+}
+
 .table__row:hover {
 	cursor: pointer;
 	background-color: var(--color-row-hover);

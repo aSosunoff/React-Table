@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { v4 } from "uuid";
 import Body from "./body/Body";
 import Header from "./header/Header";
@@ -75,17 +75,16 @@ const Table = ({
 	onRowClick = () => {},
 	onUnselectRecord = () => {},
 }) => {
-	const [selectedRowId, setSelectedRowId] = useState(0);
+	const [selectedRowId, setSelectedRowId] = useState(null);
 
 	// TODO: НУЖНО ЛИ ВСЁ МЕМОИЗИРОВАТЬ
-	const localList = useMemo(
-		() =>
-			cloneDeep(list).map((record) => ({
-				uuid: v4(),
-				...record,
-			})),
-		[list]
-	);
+	const localList = useMemo(() => {
+		setSelectedRowId(null);
+		return cloneDeep(list).map((record) => ({
+			uuid: v4(),
+			...record,
+		}));
+	}, [list]);
 
 	const { prop, direction, sortHandler } = useOrder(
 		...getStartOrderProp(header)
@@ -109,13 +108,24 @@ const Table = ({
 		(indexRecord, record) => {
 			if (selectedRowId !== indexRecord && indexRecord !== null) {
 				onRowClick(record);
-			} else if (selectedRowId === null) {
+				setSelectedRowId(indexRecord);
+			} else if (indexRecord === null) {
 				onUnselectRecord();
+				setSelectedRowId(null);
 			}
-			setSelectedRowId(indexRecord);
 		},
 		[onRowClick, onUnselectRecord, selectedRowId]
 	);
+
+	const wrapperSetPageHandler = (page) => {
+		setSelectedRowId(null);
+		setPageHandler(page);
+	};
+
+	const wrapperSortHandler = (prop) => {
+		setSelectedRowId(null);
+		sortHandler(prop);
+	};
 
 	return (
 		<div>
@@ -126,13 +136,14 @@ const Table = ({
 					header={header}
 					prop={prop}
 					direction={direction}
-					onOrder={sortHandler}
+					onOrder={wrapperSortHandler}
 				/>
-				
+
 				<Body
 					list={itemsOnPageWithClanRow}
 					header={header}
 					rowsBtn={rowsBtn}
+					selectedRowId={selectedRowId}
 					onRowClick={rowClickHandler}
 				/>
 			</TableContainer>
@@ -140,7 +151,7 @@ const Table = ({
 			<BottomBar
 				pageCount={pageCount}
 				pageCurrent={currentPage}
-				setPageHandler={setPageHandler}
+				setPageHandler={wrapperSetPageHandler}
 				controlPanel={controlPanel}
 			/>
 		</div>

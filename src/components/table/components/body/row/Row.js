@@ -1,11 +1,12 @@
 import { cloneDeep } from "lodash";
 import React, { useMemo } from "react";
 import { v4 } from "uuid";
+import cn from "classnames";
 import Btn from "../btn";
 import Cell from "../cell";
 import styles from "./Row.module.css";
 
-const Row = ({ row, rowsBtn, indexRecord, record, onRowClick }) => {
+const Row = ({ row, rowsBtn, indexRecord, isSelected, record, onRowClick }) => {
 	const localRowsBtn = useMemo(
 		() =>
 			cloneDeep(rowsBtn).map((record) => ({
@@ -16,7 +17,15 @@ const Row = ({ row, rowsBtn, indexRecord, record, onRowClick }) => {
 	);
 
 	return (
-		<div className={styles.table__row} onClick={onRowClick}>
+		<div
+			className={cn([
+				styles.table__row,
+				{
+					[styles["selected-row"]]: isSelected,
+				},
+			])}
+			onClick={onRowClick}
+		>
 			{row.map(({ key, value, btns }) => (
 				<Cell
 					key={key}

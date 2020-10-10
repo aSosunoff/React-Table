@@ -5,7 +5,13 @@ import isEmptyObject from "../../utils/isEmptyObject";
 import styles from "./Body.module.css";
 import Row from "./row";
 
-const Body = ({ list = [], header, rowsBtn = [], onRowClick }) => {
+const Body = ({
+	list = [],
+	header,
+	rowsBtn = [],
+	selectedRowId,
+	onRowClick,
+}) => {
 	const row = useCallback(
 		(record) =>
 			Object.keys(header).map((key) => {
@@ -38,6 +44,7 @@ const Body = ({ list = [], header, rowsBtn = [], onRowClick }) => {
 					row={row(record)}
 					rowsBtn={rowsBtn}
 					indexRecord={indexRecord}
+					isSelected={selectedRowId === indexRecord}
 					record={record}
 					onRowClick={() => rowHandler(indexRecord, record)}
 				/>
