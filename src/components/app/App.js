@@ -6,14 +6,14 @@ import { v4 } from "uuid";
 function App() {
 	const [list, setList] = useState([
 		{
-			id: 1,
-			text: "a",
-			name: "b",
-		},
-		{
 			id: 2,
 			text: "aa",
 			name: "bb",
+		},
+		{
+			id: 1,
+			text: "a",
+			name: "b",
 		},
 		{
 			id: 3,

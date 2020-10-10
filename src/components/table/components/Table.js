@@ -12,6 +12,21 @@ import { useSorting } from "../hooks/useSortable";
 import { useCleanRecord } from "../hooks/useCleanRecord";
 import { useOrder } from "../hooks/useOrder";
 
+const getStartOrderProp = (header) => {
+	const firstHeaderByDirection = Object.entries(header).find(
+		([, { order = null } = {}]) => order
+	) || [null, { order: { direction: "asc" } }];
+
+	const [
+		prop,
+		{
+			order: { direction },
+		},
+	] = firstHeaderByDirection;
+
+	return [prop, direction];
+};
+
 const Table = ({
 	list = [],
 	header = {},
@@ -74,7 +89,9 @@ const Table = ({
 
 	const localHeader = useMemo(() => cloneDeep(header), [header]);
 
-	const { prop, direction, sortHandler } = useOrder(localHeader);
+	const { prop, direction, sortHandler } = useOrder(
+		...getStartOrderProp(localHeader)
+	);
 
 	const listLocalSorted = useSorting(
 		localList,

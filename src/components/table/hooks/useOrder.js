@@ -1,44 +1,26 @@
 import { useCallback, useState } from "react";
 
-const getStartOrderProp = (header) => {
-	const firstHeaderByDirection = Object.entries(header).find(
-		([, { order = null } = {}]) => order
-	) || [null, { order: { direction: "asc" } }];
-
-	const [
-		prop,
-		{
-			order: { direction },
-		},
-	] = firstHeaderByDirection;
-
-	return {
+export const useOrder = (prop, direction) => {
+	const [order, setOrder] = useState(() => ({
 		prop,
 		direction,
-	};
-};
-
-export const useOrder = (header) => {
-	// headOrder = { prop: id, direction: 'asc' }
-	const [headOrder, setHeadOrder] = useState(() => getStartOrderProp(header));
+	}));
 
 	const sortHandler = useCallback(
 		(prop) => {
-			setHeadOrder({
+			setOrder({
 				prop,
 				direction:
-					headOrder.prop !== prop ||
-					headOrder.direction === "desc" ||
-					!headOrder.direction
+					order.prop !== prop || order.direction === "desc" || !order.direction
 						? "asc"
 						: "desc",
 			});
 		},
-		[headOrder.direction, headOrder.prop, setHeadOrder]
+		[order.direction, order.prop, setOrder]
 	);
 
 	return {
-		...headOrder,
+		...order,
 		sortHandler,
 	};
 };
