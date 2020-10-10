@@ -64,7 +64,7 @@ const Table = ({
 				handler: Function(record, elementHTML),
 				icon: String,
 				disabled: Boolean | Function(record) : Boolean,
-				title: String,
+				title: String | Function(record) : String,
 			} OR , Function(record) : Object]
 		}
 	*/
