@@ -87,17 +87,15 @@ const Table = ({
 		[list]
 	);
 
-	const memoizedHeader = useMemo(() => cloneDeep(header), [header]);
-
 	const { prop, direction, sortHandler } = useOrder(
-		...getStartOrderProp(memoizedHeader)
+		...getStartOrderProp(header)
 	);
 
 	const listLocalSorted = useSorting(
 		localList,
 		prop,
 		direction,
-		memoizedHeader[prop]?.order.type
+		header[prop]?.order.type
 	);
 
 	const { itemsOnPage, currentPage, pageCount, setPageHandler } = usePagination(
@@ -121,11 +119,11 @@ const Table = ({
 
 	return (
 		<div>
-			<TableContainer header={memoizedHeader} rowsBtnLength={rowsBtn.length}>
+			<TableContainer header={header} rowsBtnLength={rowsBtn.length}>
 				<Title>{title}</Title>
 
 				<Header
-					header={memoizedHeader}
+					header={header}
 					prop={prop}
 					direction={direction}
 					onOrder={sortHandler}
@@ -133,7 +131,7 @@ const Table = ({
 				
 				<Body
 					list={itemsOnPageWithClanRow}
-					header={memoizedHeader}
+					header={header}
 					rowsBtn={rowsBtn}
 					onRowClick={rowClickHandler}
 				/>
