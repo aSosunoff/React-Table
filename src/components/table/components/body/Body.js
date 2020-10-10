@@ -17,9 +17,20 @@ const Body = ({
 		(record) =>
 			Object.keys(header).map((key) => {
 				const btns = cloneDeep(header[key].btns || []);
-				const { format = () => record[key], cssClass = () => null } = header[
-					key
-				];
+				const {
+					format = () => record[key],
+					cssClass = () => null,
+					titleCell = null,
+				} = header[key];
+
+				let attributes = {};
+
+				if (titleCell === true) {
+					attributes = { ...attributes, title: record[key] };
+				} else if (typeof titleCell === "function") {
+					attributes = { ...attributes, title: titleCell(record[key], record) };
+				}
+
 				return {
 					key,
 					value: format(record[key], record),
@@ -28,6 +39,7 @@ const Body = ({
 						btn,
 					})),
 					cssClass: cssClass(record[key], key, record),
+					attributes,
 				};
 			}),
 		[header]
