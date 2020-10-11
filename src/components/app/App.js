@@ -50,10 +50,17 @@ function App() {
 	const header = {
 		id: {
 			titleHead: "№",
-			width: "70px",
+			/* width: "70px", */
 			order: {
 				type: "number",
 				direction: "asc",
+			},
+			filter: {
+				type: "list",
+				items: [
+					{ id: 1, text: 1 },
+					{ id: 2, text: 2 },
+				],
 			},
 		},
 		text: {
