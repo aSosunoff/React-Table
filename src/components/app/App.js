@@ -62,6 +62,13 @@ function App() {
 				type: "string",
 				direction: "desc",
 			},
+			filter: {
+				type: "text",
+				detail: {
+					name: 12,
+					qwe: "qwe",
+				},
+			},
 			btns: [
 				(record) =>
 					record.id === 3 && {
@@ -76,6 +83,13 @@ function App() {
 		name: {
 			titleHead: "имя",
 			format: (_, record) => record.text,
+			filter: {
+				type: "text",
+				detail: {
+					name: 12,
+					qwe: "qwe",
+				},
+			},
 		},
 	};
 
