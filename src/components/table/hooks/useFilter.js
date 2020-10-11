@@ -46,11 +46,12 @@ export const useFilter = (list, header) => {
 		setFilterState(newFilterState);
 	};
 
-	const setFilterHandler = (field, value) => {
+	const setFilterHandler = (field, value, additionalProperties) => {
 		if (value || value === 0 || value === "0") {
 			const { detail } = filterPanel[field];
 			mergeFilter({
 				[field]: {
+					...additionalProperties,
 					value,
 					detail,
 				},
