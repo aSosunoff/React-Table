@@ -11,6 +11,8 @@ import { usePagination } from "../hooks/usePagination";
 import { useSorting } from "../hooks/useSortable";
 import { useCleanRecord } from "../hooks/useCleanRecord";
 import { useOrder } from "../hooks/useOrder";
+import Filter from "./filter/Filter";
+import { useFilter } from "../hooks/useFilter";
 
 const getStartOrderProp = (header) => {
 	const firstHeaderByDirection = Object.entries(header).find(
@@ -97,8 +99,18 @@ const Table = ({
 		...getStartOrderProp(header)
 	);
 
+	const {
+		filteredList,
+		filterState,
+		filterPanel,
+		isFilter,
+		setFilterHandler,
+		deleteFieldByFieldFromFilter,
+		clearFilterHandler,
+	} = useFilter(localList, header);
+
 	const listLocalSorted = useSorting(
-		localList,
+		filteredList,
 		prop,
 		direction,
 		header[prop]?.order.type
@@ -124,6 +136,8 @@ const Table = ({
 		[onRowClick, onUnselectRecord, selectedRowId]
 	);
 
+	/// Handlers
+
 	const wrapperSetPageHandler = (page) => {
 		setSelectedRowId(null);
 		setPageHandler(page);
@@ -139,11 +153,21 @@ const Table = ({
 			<TableContainer header={header} rowsBtnLength={rowsBtn.length}>
 				<Title>{title}</Title>
 
-				<Header
-					header={header}
-					prop={prop}
-					direction={direction}
-					onOrder={wrapperSortHandler}
+				{isFilter ? (
+					<Header
+						header={header}
+						prop={prop}
+						direction={direction}
+						onOrder={wrapperSortHandler}
+					/>
+				) : null}
+
+				<Filter
+					filterState={filterState}
+					filterPanel={filterPanel}
+					onSetFilter={setFilterHandler}
+					onDeleteFromFilterByField={deleteFieldByFieldFromFilter}
+					onClearFilter={clearFilterHandler}
 				/>
 
 				<Body
