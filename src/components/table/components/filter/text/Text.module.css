@@ -1,7 +1,7 @@
 .table__cell_input {
-	display: grid;
+	display: grid !important;
 	grid-template-columns: auto repeat(var(--button-delete), 30px);
-	align-items: unset;
+	align-items: unset !important;
 }
 
 .table__cell_input input {

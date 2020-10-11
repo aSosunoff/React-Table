@@ -45,6 +45,7 @@ const Text = ({
 				onKeyUp={enterHandler}
 				onChange={changeHandler}
 			/>
+			
 			{isValue ? (
 				<i className={cn(["material-icons", clsButton])} onClick={clearHandler}>
 					clear
