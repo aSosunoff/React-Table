@@ -11,9 +11,7 @@ const Paging = ({ pageCount, pageCurrent, setPageHandler }) => {
 	const isPrevPageDisabled = pageCurrentLocal - 1 === 0;
 	const isNextPageDisabled = pageCurrentLocal + 1 > pageCount;
 
-	useEffect(() => {
-		setPageLocal(pageCurrent);
-	}, [pageCurrent]);
+	useEffect(() => setPageLocal(pageCurrent), [pageCurrent]);
 
 	const onFirstPage = () => {
 		if (isDisable || isFirstPage) {
