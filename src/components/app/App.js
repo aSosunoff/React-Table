@@ -89,9 +89,15 @@ function App() {
 		},
 		name: {
 			titleHead: "имя",
-			format: (_, record) => record.text,
+			/* format: (_, record) => record.text, */
 			filter: {
-				type: "text",
+				type: "button",
+				icon: "search",
+				hundler: (cbFilter, element) => {
+					setTimeout(() => {
+						cbFilter('bbb', 'asd');
+					}, 2000)
+				},
 				detail: {
 					name: 12,
 					qwe: "qwe",
