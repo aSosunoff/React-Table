@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import styles from "./Btn.module.css";
+import styles from "./Btn.module.scss";
 import { cloneDeep } from "lodash";
 import cn from "classnames";
 import isEmptyObject from "../../../utils/isEmptyObject";
