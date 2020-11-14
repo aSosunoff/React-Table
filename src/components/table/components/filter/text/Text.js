@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import styles from "./Text.module.css";
+import styles from "./Text.module.scss";
 import cn from "classnames";
 
 const Text = ({
@@ -45,7 +45,7 @@ const Text = ({
 				onKeyUp={enterHandler}
 				onChange={changeHandler}
 			/>
-			
+
 			{isValue ? (
 				<i className={cn(["material-icons", clsButton])} onClick={clearHandler}>
 					clear
