@@ -1,0 +1,18 @@
+.table__cell_select {
+  display: grid !important;
+  grid-template-columns: auto repeat(var(--button-delete), 30px);
+  align-items: unset !important;
+
+  & select {
+    display: block;
+    padding: 5px 15px;
+    border: 0px;
+    height: 30px;
+    outline: none;
+    width: 100%;
+
+    &:hover {
+      background-color: var(--color-4);
+    }
+  }
+}
