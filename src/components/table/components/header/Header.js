@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import styles from "./Header.module.css";
+import styles from "./Header.module.scss";
 
 const Header = ({ header = {}, prop, direction, onOrder = () => {} }) => {
 	const headers = useMemo(
