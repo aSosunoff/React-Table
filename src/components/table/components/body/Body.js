@@ -2,7 +2,7 @@ import { cloneDeep } from "lodash";
 import React, { useCallback } from "react";
 import { v4 } from "uuid";
 import isEmptyObject from "../../utils/isEmptyObject";
-import styles from "./Body.module.css";
+import styles from "./Body.module.scss";
 import Row from "./row";
 
 const Body = ({
