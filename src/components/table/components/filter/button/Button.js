@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./Button.module.css";
+import styles from "./Button.module.scss";
 import cn from "classnames";
 
 const Button = ({
@@ -18,7 +18,7 @@ const Button = ({
 			onSet(value, { title });
 		}, target);
 	};
-	
+
 	return (
 		<div
 			className={cn([clsMain, styles.table__cell_input_button])}
