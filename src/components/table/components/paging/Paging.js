@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import styles from "./Paging.module.css";
+import styles from "./Paging.module.scss";
 import cn from "classnames";
 
 const Paging = ({ pageCount, pageCurrent, setPageHandler }) => {

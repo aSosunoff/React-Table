@@ -1,0 +1,121 @@
+.paging {
+  display: flex;
+  align-items: center;
+
+  & > * {
+    margin-left: 5px;
+  }
+
+  & .box-command {
+    display: flex;
+    margin-left: 0px;
+
+    & > * {
+      margin-left: 5px;
+    }
+
+    & input {
+      background-color: #fff;
+      box-shadow: var(--box-shadow);
+      margin: 0 0 0 5px;
+      width: 50px;
+      text-align: center;
+      font-size: 10px;
+      outline: none;
+      border: none;
+
+      &.disable {
+        color: var(--color-disabled);
+      }
+
+      &[type="number"] {
+        -moz-appearance: textfield;
+      }
+
+      &::-webkit-outer-spin-button,
+      &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+    }
+  }
+
+  & .first-page {
+    margin-left: 0px;
+  }
+
+  & .prev,
+  & .next,
+  & .first-page,
+  & .last-page {
+    background-color: #fff;
+    box-shadow: var(--box-shadow);
+    padding: 7px 10px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s linear;
+  }
+
+  & .prev,
+  & .next {
+    &::before {
+      content: "";
+      border-top: 5px solid transparent;
+      border-bottom: 5px solid transparent;
+    }
+
+    &:not(.disable) {
+      &:hover {
+        background-color: var(--color-title);
+        cursor: pointer;
+      }
+    }
+  }
+
+  & .next:not(.disable)::before {
+    border-left: 4px solid #323c47;
+  }
+  & .prev:not(.disable)::before {
+    border-right: 4px solid #323c47;
+  }
+
+  & .prev:not(.disable):hover::before {
+    border-right: 4px solid #fff;
+  }
+  & .next:not(.disable):hover::before {
+    border-left: 4px solid #fff;
+  }
+
+  & .next.disable::before {
+    border-left: 4px solid var(--color-disabled);
+  }
+
+  & .prev.disable::before {
+    border-right: 4px solid var(--color-disabled);
+  }
+
+  & .first-page,
+  & .last-page {
+    &:not(.disable):hover {
+      background-color: var(--color-title);
+      cursor: pointer;
+      color: #fff;
+    }
+
+    &.disable {
+      color: var(--color-disabled);
+    }
+  }
+
+  & .paging__page {
+    padding: 5px 15px;
+    font-size: 15px;
+    line-height: 20px;
+    display: flex;
+    align-items: center;
+    border-right: 1px solid var(--color-3);
+    transition: box-shadow, background-color 0.2s linear;
+  }
+}
