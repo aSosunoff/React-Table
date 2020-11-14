@@ -1,0 +1,23 @@
+.table__row {
+  display: grid;
+  grid: auto-flow / var(--width-column);
+  text-decoration: none;
+  border-top: 1px solid var(--color-3);
+  color: #323c47;
+  transition: background-color 0.2s linear;
+
+  &:hover {
+    cursor: pointer;
+    background-color: var(--color-row-hover);
+    color: #fff;
+  }
+
+  &:nth-child(odd) {
+    background-color: var(--color-odd);
+  }
+
+  &.selected-row {
+    background-color: var(--color-selected-row);
+    color: #fff;
+  }
+}

@@ -4,7 +4,7 @@ import { v4 } from "uuid";
 import cn from "classnames";
 import Btn from "../btn";
 import Cell from "../cell";
-import styles from "./Row.module.css";
+import styles from "./Row.module.scss";
 
 const Row = ({
 	row,
