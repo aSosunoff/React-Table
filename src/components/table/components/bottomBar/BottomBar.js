@@ -1,7 +1,7 @@
 import React from "react";
 import ControlPanel from "../controlPanel";
 import Paging from "../paging/Paging";
-import styles from "./BottomBar.module.css";
+import styles from "./BottomBar.module.scss";
 
 const BottomBar = ({
 	pageCount,
