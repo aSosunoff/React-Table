@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import styles from "./ControlPanel.module.css";
+import styles from "./ControlPanel.module.scss";
 import { v4 } from "uuid";
 import cn from "classnames";
 

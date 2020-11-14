@@ -1,0 +1,24 @@
+.button-control {
+  display: flex;
+
+  & .button {
+    padding: 6px 10px;
+    background-color: #fff;
+    margin-left: 5px;
+    box-shadow: var(--box-shadow);
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.2s linear;
+
+    &:hover:not(.dissabled) {
+      background-color: var(--color-title);
+      color: #fff;
+      cursor: pointer;
+    }
+  }
+
+  & .button.dissabled {
+    color: var(--color-disabled);
+  }
+}
