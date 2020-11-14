@@ -2,7 +2,7 @@ import React, { useCallback, useMemo, useState } from "react";
 import { v4 } from "uuid";
 import Body from "./body/Body";
 import Header from "./header/Header";
-/* import styles from "./Table.module.css"; */
+/* import styles from "./Table.module.scss"; */
 import Title from "./title/Title";
 import TableContainer from "./tableContainer";
 import cloneDeep from "lodash/cloneDeep";
