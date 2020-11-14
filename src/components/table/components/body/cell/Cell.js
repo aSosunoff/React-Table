@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import cn from "classnames";
 import Btn from "../btn";
-import styles from "./Cell.module.css";
+import styles from "./Cell.module.scss";
 
 const Cell = ({
 	value,
