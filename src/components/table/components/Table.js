@@ -5,7 +5,7 @@ import Header from "./header/Header";
 /* import styles from "./Table.module.scss"; */
 import Title from "./title/Title";
 import TableContainer from "./tableContainer";
-import cloneDeep from "lodash/cloneDeep";
+import { cloneDeep } from "lodash";
 import BottomBar from "./bottomBar/BottomBar";
 import { usePagination } from "../hooks/usePagination";
 import { useSorting } from "../hooks/useSortable";
@@ -88,7 +88,9 @@ const Table = ({
 
 	// TODO: НУЖНО ЛИ ВСЁ МЕМОИЗИРОВАТЬ
 	const localList = useMemo(() => {
-		setSelectedRowId(null);
+    setSelectedRowId(null);
+    console.log(v4);
+    console.log(cloneDeep);
 		return cloneDeep(list).map((record) => ({
 			uuid: v4(),
 			...record,
