@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import styles from "./TableContainer.module.css";
+import styles from "./TableContainer.module.scss";
 
 const TableContainer = ({ header, rowsBtnLength = 0, children }) => {
 	const memoizedWidthColumn = useMemo(() => {
