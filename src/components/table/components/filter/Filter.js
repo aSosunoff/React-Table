@@ -1,5 +1,5 @@
 import React, { useMemo, useRef } from "react";
-import styles from "./Filter.module.css";
+import styles from "./Filter.module.scss";
 import cn from "classnames";
 import Text from "./text/Text";
 import List from "./list/List";
