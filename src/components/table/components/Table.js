@@ -89,8 +89,6 @@ const Table = ({
 	// TODO: НУЖНО ЛИ ВСЁ МЕМОИЗИРОВАТЬ
 	const localList = useMemo(() => {
     setSelectedRowId(null);
-    console.log(v4);
-    console.log(cloneDeep);
 		return cloneDeep(list).map((record) => ({
 			uuid: v4(),
 			...record,
