@@ -6,30 +6,28 @@ describe("Table", () => {
   let wrapper;
 
   beforeEach(() => {
-    try {
-      wrapper = mount(
-        <Table
-          list={{
+    wrapper = mount(
+      <Table
+        list={[
+          {
             id: 2,
             text: "aa",
             name: "bb",
-          }}
-          header={{
-            id: {
-              titleHead: "№",
-            },
-            text: {
-              titleHead: "текст",
-            },
-            name: {
-              titleHead: "имя",
-            },
-          }}
-        />
-      );
-    } catch (e) {
-      console.log(e);
-    }
+          },
+        ]}
+        header={{
+          id: {
+            titleHead: "№",
+          },
+          text: {
+            titleHead: "текст",
+          },
+          name: {
+            titleHead: "имя",
+          },
+        }}
+      />
+    );
   });
 
   it("should render", () => {
