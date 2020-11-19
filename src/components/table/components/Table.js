@@ -81,7 +81,7 @@ const Table = ({
     }));
   }, [list]);
 
-  const { prop, direction, sortHandler } = useOrder(
+  const { prop, direction, setOrderHandler } = useOrder(
     ...getStartOrderProp(header)
   );
 
@@ -130,9 +130,9 @@ const Table = ({
   const wrapperSortHandler = useCallback(
     (prop) => {
       setSelectedRowId(null);
-      sortHandler(prop);
+      setOrderHandler(prop);
     },
-    [sortHandler]
+    [setOrderHandler]
   );
 
   return (

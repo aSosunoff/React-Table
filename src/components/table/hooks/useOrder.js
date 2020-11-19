@@ -6,7 +6,7 @@ export const useOrder = (prop, direction) => {
     direction,
   }));
 
-  const sortHandler = useCallback(
+  const setOrderHandler = useCallback(
     (prop) =>
       setOrder((prev) => ({
         prop,
@@ -20,6 +20,6 @@ export const useOrder = (prop, direction) => {
 
   return {
     ...order,
-    sortHandler,
+    setOrderHandler,
   };
 };
