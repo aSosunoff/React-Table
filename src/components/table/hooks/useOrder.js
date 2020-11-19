@@ -1,26 +1,25 @@
 import { useCallback, useState } from "react";
 
 export const useOrder = (prop, direction) => {
-	const [order, setOrder] = useState(() => ({
-		prop,
-		direction,
-	}));
+  const [order, setOrder] = useState(() => ({
+    prop,
+    direction,
+  }));
 
-	const sortHandler = useCallback(
-		(prop) => {
-			setOrder({
-				prop,
-				direction:
-					order.prop !== prop || order.direction === "desc" || !order.direction
-						? "asc"
-						: "desc",
-			});
-		},
-		[order.direction, order.prop, setOrder]
-	);
+  const sortHandler = useCallback(
+    (prop) =>
+      setOrder((prev) => ({
+        prop,
+        direction:
+          prev.prop !== prop || prev.direction === "desc" || !prev.direction
+            ? "asc"
+            : "desc",
+      })),
+    [setOrder]
+  );
 
-	return {
-		...order,
-		sortHandler,
-	};
+  return {
+    ...order,
+    sortHandler,
+  };
 };
