@@ -27,15 +27,19 @@ const Header = ({ header, prop, direction, onOrder }) => {
       {headers.map(
         ({ prop, order, titleHead, canSortable, sortable, onSortHandler }) => (
           <div
+            data-test-id="header-cell"
             className={styles.table__cell_head}
             key={prop}
             data-order={order}
             data-sortable={sortable}
             onClick={onSortHandler}
           >
-            <span>{titleHead}</span>
+            <span data-test-id="header-name">{titleHead}</span>
             {canSortable ? (
-              <span className={styles["table__sort-arrow"]}>
+              <span
+                className={styles["table__sort-arrow"]}
+                data-test-id="header-sortable"
+              >
                 <span className={styles["sort-arrow"]}></span>
               </span>
             ) : null}
