@@ -11,17 +11,11 @@ const Header = ({ header, prop, direction, onOrder }) => {
 
           return {
             prop: propCell,
-            titleHead,
             order: prop === propCell ? direction : null,
+            titleHead,
             canSortable,
             sortable: canSortable ? "" : null,
-            onSortHandler: () => {
-              if (!canSortable) {
-                return;
-              }
-
-              onOrder(propCell);
-            },
+            onSortHandler: () => canSortable && onOrder(propCell),
           };
         }
       ),
