@@ -13,28 +13,14 @@ import { useCleanRecord } from "../hooks/useCleanRecord";
 import { useOrder } from "../hooks/useOrder";
 import Filter from "./filter/Filter";
 import { useFilter } from "../hooks/useFilter";
-
-const getStartOrderProp = (header) => {
-	const firstHeaderByDirection = Object.entries(header).find(
-		([, { order = null } = {}]) => order
-	) || [null, { order: { direction: "asc" } }];
-
-	const [
-		prop,
-		{
-			order: { direction },
-		},
-	] = firstHeaderByDirection;
-
-	return [prop, direction];
-};
+import { getStartOrderProp } from "../utils/getStartOrderProp";
 
 const Table = ({
-	title, // String
-	rowCssClass, // Function(record) : String,
-	list = [],
-	header = {},
-	/* NAME_PROPERTY: {
+  title, // String
+  rowCssClass, // Function(record) : String,
+  list = [],
+  header = {},
+  /* NAME_PROPERTY: {
 			titleHead: String,
 			titleCell: Boolean | Function(value, record) : String,
 			order: Object, // { type: 'string|number|date', direction: 'asc|desc'} | true
@@ -70,124 +56,125 @@ const Table = ({
 			} OR , Function(record) : Object]
 		}
 	*/
-	rowsBtn = [],
-	/* [{ handler: Function(record, elementHTML),
+  rowsBtn = [],
+  /* [{ handler: Function(record, elementHTML),
 			icon: String,
 			disabled: Boolean | Function(record) : Boolean,
 			title: String | Function(record) : String,
 		} OR , Function(record) : Object]
 	*/
-	pageSize,
-	controlPanel = [],
-	onRowClick = () => {},
-	onUnselectRecord = () => {},
-	/* custom = false, */
-	/* onOrderCustom = () => {}, */
+  pageSize,
+  controlPanel = [],
+  onRowClick = () => {},
+  onUnselectRecord = () => {},
+  /* custom = false, */
+  /* onOrderCustom = () => {}, */
 }) => {
-	const [selectedRowId, setSelectedRowId] = useState(null);
+  const [selectedRowId, setSelectedRowId] = useState(null);
 
-	// TODO: НУЖНО ЛИ ВСЁ МЕМОИЗИРОВАТЬ
-	const localList = useMemo(() => {
+  // TODO: НУЖНО ЛИ ВСЁ МЕМОИЗИРОВАТЬ
+  const localList = useMemo(() => {
     setSelectedRowId(null);
-		return cloneDeep(list).map((record) => ({
-			uuid: v4(),
-			...record,
-		}));
-	}, [list]);
+    return cloneDeep(list).map((record) => ({
+      uuid: v4(),
+      ...record,
+    }));
+  }, [list]);
 
-	const { prop, direction, sortHandler } = useOrder(
-		...getStartOrderProp(header)
-	);
+  const { prop, direction, sortHandler } = useOrder(
+    ...getStartOrderProp(header)
+  );
 
-	const {
-		filteredList,
-		filterState,
-		filterPanel,
-		isFilter,
-		setFilterHandler,
-		deleteFieldByFieldFromFilter,
-		clearFilterHandler,
-	} = useFilter(localList, header);
+  const {
+    filteredList,
+    filterState,
+    filterPanel,
+    isFilter,
+    setFilterHandler,
+    deleteFieldByFieldFromFilter,
+    clearFilterHandler,
+  } = useFilter(localList, header);
 
-	const listLocalSorted = useSorting(
-		filteredList,
-		prop,
-		direction,
-		header[prop]?.order.type
-	);
+  const listLocalSorted = useSorting(
+    filteredList,
+    prop,
+    direction,
+    header[prop]?.order.type
+  );
 
-	const { itemsOnPage, currentPage, pageCount, setPageHandler } = usePagination(
-		pageSize,
-		listLocalSorted
-	);
+  const { itemsOnPage, currentPage, pageCount, setPageHandler } = usePagination(
+    pageSize,
+    listLocalSorted
+  );
 
-	const itemsOnPageWithClanRow = useCleanRecord(itemsOnPage, pageSize);
+  const itemsOnPageWithClanRow = useCleanRecord(itemsOnPage, pageSize);
 
-	const rowClickHandler = useCallback(
-		(indexRecord, record) => {
-			if (selectedRowId !== indexRecord && indexRecord !== null) {
-				onRowClick(record);
-				setSelectedRowId(indexRecord);
-			} else if (indexRecord === null) {
-				onUnselectRecord();
-				setSelectedRowId(null);
-			}
-		},
-		[onRowClick, onUnselectRecord, selectedRowId]
-	);
+  const rowClickHandler = useCallback(
+    (indexRecord, record) => {
+      if (selectedRowId !== indexRecord && indexRecord !== null) {
+        onRowClick(record);
+        setSelectedRowId(indexRecord);
+      } else if (indexRecord === null) {
+        onUnselectRecord();
+        setSelectedRowId(null);
+      }
+    },
+    [onRowClick, onUnselectRecord, selectedRowId]
+  );
 
-	/// Handlers
+  const wrapperSetPageHandler = (page) => {
+    setSelectedRowId(null);
+    setPageHandler(page);
+  };
 
-	const wrapperSetPageHandler = (page) => {
-		setSelectedRowId(null);
-		setPageHandler(page);
-	};
+  const wrapperSortHandler = useCallback(
+    (prop) => {
+      setSelectedRowId(null);
+      sortHandler(prop);
+    },
+    [sortHandler]
+  );
 
-	const wrapperSortHandler = (prop) => {
-		setSelectedRowId(null);
-		sortHandler(prop);
-	};
+  return (
+    <div>
+      <TableContainer header={header} rowsBtnLength={rowsBtn.length}>
+        <Title>{title}</Title>
 
-	return (
-		<div>
-			<TableContainer header={header} rowsBtnLength={rowsBtn.length}>
-				<Title>{title}</Title>
+        {isFilter ? (
+          <Header
+            header={header}
+            prop={prop}
+            direction={direction}
+            onOrder={wrapperSortHandler}
+          />
+        ) : null}
 
-				{isFilter ? (
-					<Header
-						header={header}
-						prop={prop}
-						direction={direction}
-						onOrder={wrapperSortHandler}
-					/>
-				) : null}
+        <Filter
+          filterState={filterState}
+          filterPanel={filterPanel}
+          onSetFilter={setFilterHandler}
+          onDeleteFromFilterByField={deleteFieldByFieldFromFilter}
+          onClearFilter={clearFilterHandler}
+        />
 
-				<Filter
-					filterState={filterState}
-					filterPanel={filterPanel}
-					onSetFilter={setFilterHandler}
-					onDeleteFromFilterByField={deleteFieldByFieldFromFilter}
-					onClearFilter={clearFilterHandler}
-				/>
+        <Body
+          list={itemsOnPageWithClanRow}
+          header={header}
+          rowsBtn={rowsBtn}
+          rowCssClass={rowCssClass}
+          selectedRowId={selectedRowId}
+          onRowClick={rowClickHandler}
+        />
+      </TableContainer>
 
-				<Body
-					list={itemsOnPageWithClanRow}
-					header={header}
-					rowsBtn={rowsBtn}
-					rowCssClass={rowCssClass}
-					selectedRowId={selectedRowId}
-					onRowClick={rowClickHandler}
-				/>
-			</TableContainer>
-
-			<BottomBar
-				pageCount={pageCount}
-				pageCurrent={currentPage}
-				setPageHandler={wrapperSetPageHandler}
-				controlPanel={controlPanel}
-			/>
-		</div>
-	);
+      <BottomBar
+        pageCount={pageCount}
+        pageCurrent={currentPage}
+        setPageHandler={wrapperSetPageHandler}
+        controlPanel={controlPanel}
+      />
+    </div>
+  );
 };
 
 export default Table;
