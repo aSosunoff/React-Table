@@ -10,7 +10,7 @@ import BottomBar from "./bottomBar/BottomBar";
 import { usePagination } from "../hooks/usePagination";
 import { useSorting } from "../hooks/useSortable";
 import { useCleanRecord } from "../hooks/useCleanRecord";
-import { useOrder } from "../hooks/useOrder";
+import { usePropDirection } from "../hooks/usePropDirection";
 import Filter from "./filter/Filter";
 import { useFilter } from "../hooks/useFilter";
 import { getStartOrderProp } from "../utils/getStartOrderProp";
@@ -81,10 +81,6 @@ const Table = ({
     }));
   }, [list]);
 
-  const { prop, direction, setOrderHandler } = useOrder(
-    ...getStartOrderProp(header)
-  );
-
   const {
     filteredList,
     filterState,
@@ -94,6 +90,10 @@ const Table = ({
     deleteFieldByFieldFromFilter,
     clearFilterHandler,
   } = useFilter(localList, header);
+
+  const { prop, direction, setPropDirectionHandler } = usePropDirection(
+    ...getStartOrderProp(header)
+  );
 
   const listLocalSorted = useSorting(
     filteredList,
@@ -130,9 +130,9 @@ const Table = ({
   const wrapperSortHandler = useCallback(
     (prop) => {
       setSelectedRowId(null);
-      setOrderHandler(prop);
+      setPropDirectionHandler(prop);
     },
-    [setOrderHandler]
+    [setPropDirectionHandler]
   );
 
   return (
