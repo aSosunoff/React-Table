@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from "react";
 import Table from "../table/components/Table";
+import DateTimeRange from "@asosunoff/react-datetime-range";
 import { v4 } from "uuid";
 
 /* utils */
@@ -12,10 +13,11 @@ const newRecord = (id, text, name, date) => ({
 /*  */
 
 const App = () => {
+  /* TABLE */
   const [list, setList] = useState([
-    newRecord(2, "aa", "bb", new Date(2020, 1)),
-    newRecord(1, "a", "b", new Date(2020, 0)),
-    newRecord(3, "aaa", "bbb", new Date(2020, 2)),
+    newRecord(2, "aa", "bb", new Date(2020, 10, 10).getTime()),
+    newRecord(1, "a", "b", new Date(2020, 10, 1).getTime()),
+    newRecord(3, "aaa", "bbb", new Date(2020, 10, 15).getTime()),
   ]);
 
   const addRecord = useCallback(() => {
@@ -28,6 +30,42 @@ const App = () => {
       setList((prev) => [...prev.filter(({ id }) => id !== record.id)]),
     []
   );
+  /*  */
+
+  /* DATE */
+  // open
+  const [isOpen, setOpen] = useState(false);
+  const openHandler = useCallback(() => setOpen(true), []);
+  const closeHandler = useCallback(() => setOpen(false), []);
+  // target
+  const [targetRange, setTarget] = useState();
+  // range
+  const [
+    callbackFilterHandler,
+    setCallbackFilterHandler,
+  ] = useState(() => () => {});
+
+  const rangeSelectedHandler = useCallback(
+    ({ startDate, endDate }) => {
+      if (startDate && endDate) {
+        callbackFilterHandler(
+          `${startDate.toLocaleDateString()} - ${endDate.toLocaleDateString()}`,
+          {
+            type: "daterange",
+            from: startDate.getTime(),
+            to: endDate.getTime(),
+          }
+        );
+      } else if (startDate) {
+        callbackFilterHandler(startDate.getTime(), {
+          type: "date",
+          title: `${startDate.toLocaleDateString()}`,
+        });
+      }
+    },
+    [callbackFilterHandler]
+  );
+  /*  */
 
   const header = {
     id: {
@@ -92,41 +130,63 @@ const App = () => {
     },
     date: {
       titleHead: "Дата",
-      format: (value) => value && value.toLocaleDateString(),
+      format: (value) => value && new Date(value).toLocaleDateString(),
+      order: {
+        type: "date",
+      },
+      filter: {
+        type: "button",
+        icon: "date_range",
+        handler: (cb, target) => {
+          openHandler();
+          setCallbackFilterHandler(() => cb);
+          setTarget(target);
+        },
+      },
     },
   };
 
   return (
-    <Table
-      title="Таблица"
-      list={list}
-      header={header}
-      pageSize={10}
-      rowsBtn={[
-        {
-          title: "Просмотреть запись",
-          handler: (record) => alert(JSON.stringify(record)),
-          icon: "remove_red_eye",
-        },
-        {
-          title: ({ id }) => `Удалить запись ${id}`,
-          handler: deleteRecord,
-          icon: "delete",
-        },
-      ]}
-      controlPanel={[
-        {
-          title: "Добавить запись",
-          handler: addRecord,
-        },
-      ]}
-      /* onRowClick={(record) => {
+    <>
+      <DateTimeRange
+        locales="ru"
+        isOpen={isOpen}
+        target={targetRange}
+        onRangeSelected={rangeSelectedHandler}
+        onClose={closeHandler}
+      />
+
+      <Table
+        title="Таблица"
+        list={list}
+        header={header}
+        pageSize={10}
+        rowsBtn={[
+          {
+            title: "Просмотреть запись",
+            handler: (record) => alert(JSON.stringify(record)),
+            icon: "remove_red_eye",
+          },
+          {
+            title: ({ id }) => `Удалить запись ${id}`,
+            handler: deleteRecord,
+            icon: "delete",
+          },
+        ]}
+        controlPanel={[
+          {
+            title: "Добавить запись",
+            handler: addRecord,
+          },
+        ]}
+        /* onRowClick={(record) => {
 					console.log("onRowClick", record);
 				}}
 				onUnselectRecord={() => {
 					console.log("onUnselectRecord");
 				}} */
-    ></Table>
+      ></Table>
+    </>
   );
 };
 
