@@ -65,6 +65,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@asosunoff/react-datetime-range": "0.0.3"
+    "@asosunoff/react-datetime-range": "0.0.5"
   }
 }

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import Table from "../table/components/Table";
 import DateTimeRange from "@asosunoff/react-datetime-range";
 import { v4 } from "uuid";
@@ -79,84 +79,74 @@ const App = () => {
   );
   /*  */
 
-  const header = {
-    id: {
-      titleHead: "№",
-      width: "170px",
-      order: {
-        type: "number",
-        direction: "asc",
-      },
-      filter: {
-        type: "list",
-        items: [
-          { id: 1, text: 1 },
-          { id: 2, text: 2 },
-        ],
-      },
-      btns: [
-        {
-          title: "Посмотреть данные",
-          handler: (record) => alert(record.id),
-          icon: "remove_red_eye",
+  const header = useMemo(
+    () => ({
+      id: {
+        titleHead: "№",
+        width: "170px",
+        order: {
+          type: "number",
+          direction: "asc",
         },
-      ],
-    },
-    text: {
-      titleHead: "Текст",
-      order: {
-        type: "string",
-        direction: "desc",
-      },
-      filter: {
-        type: "text",
-        detail: {
-          name: 12,
-          qwe: "qwe",
+        filter: {
+          type: "list",
+          items: [
+            { id: 1, text: 1 },
+            { id: 2, text: 2 },
+          ],
         },
-      },
-      btns: [
-        (record) =>
-          record.id === 3 && {
+        btns: [
+          {
             title: "Посмотреть данные",
-            handler: (record) => alert(record.text),
+            handler: (record) => alert(record.id),
             icon: "remove_red_eye",
           },
-      ],
-    },
-    name: {
-      titleHead: "Наименование",
-      /* filter: {
-        type: "button",
-        icon: "search",
-        hundler: (cbFilter, element) => {
-          setTimeout(() => {
-            cbFilter("bbb", "asd");
-          }, 2000);
-        },
-        detail: {
-          name: 12,
-          qwe: "qwe",
-        },
-      }, */
-    },
-    date: {
-      titleHead: "Дата",
-      format: (value) => value && new Date(value).toLocaleDateString(),
-      order: {
-        type: "date",
+        ],
       },
-      filter: {
-        type: "button",
-        icon: "date_range",
-        handler: (cb, target) => {
-          openHandler();
-          setCallbackFilterHandler(() => cb);
-          setTarget(target);
+      text: {
+        titleHead: "Текст",
+        order: {
+          type: "string",
+          direction: "desc",
+        },
+        filter: {
+          type: "text",
+          detail: {
+            name: 12,
+            qwe: "qwe",
+          },
+        },
+        btns: [
+          (record) =>
+            record.id === 3 && {
+              title: "Посмотреть данные",
+              handler: (record) => alert(record.text),
+              icon: "remove_red_eye",
+            },
+        ],
+      },
+      name: {
+        titleHead: "Наименование",
+      },
+      date: {
+        titleHead: "Дата",
+        format: (value) => value && new Date(value).toLocaleDateString(),
+        order: {
+          type: "date",
+        },
+        filter: {
+          type: "button",
+          icon: "date_range",
+          handler: (cb, target) => {
+            openHandler();
+            setCallbackFilterHandler(() => cb);
+            setTarget(target);
+          },
         },
       },
-    },
-  };
+    }),
+    [openHandler]
+  );
 
   return (
     <>
@@ -191,12 +181,6 @@ const App = () => {
             handler: addRecord,
           },
         ]}
-        /* onRowClick={(record) => {
-					console.log("onRowClick", record);
-				}}
-				onUnselectRecord={() => {
-					console.log("onUnselectRecord");
-				}} */
       ></Table>
     </>
   );
