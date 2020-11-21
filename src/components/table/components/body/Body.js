@@ -4,13 +4,7 @@ import { v4 } from "uuid";
 import styles from "./Body.module.scss";
 import Row from "./row";
 
-const Body = ({
-  rowCssClass,
-  list = [],
-  header,
-  rowsBtn = [],
-  selectedRowId,
-}) => {
+const Body = ({ rowCssClass, list = [], header, rowsBtn = [] }) => {
   const row = useCallback(
     (record) =>
       Object.keys(header).map((key) => {
@@ -53,7 +47,6 @@ const Body = ({
           row={row(record)}
           rowsBtn={rowsBtn}
           indexRecord={indexRecord}
-          isSelected={selectedRowId === indexRecord}
           rowCssClass={rowCssClass}
           record={record}
         />

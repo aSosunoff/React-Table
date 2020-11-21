@@ -1,4 +1,10 @@
-import React, { createContext, useCallback, useContext, useState } from "react";
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 const RecordContext = createContext();
 RecordContext.displayName = "RecordContext";
@@ -6,8 +12,9 @@ RecordContext.displayName = "RecordContext";
 export const useRecordContext = () => useContext(RecordContext);
 
 export const RecordProvider = ({
-  onRowClick = () => {},
-  onUnselectRecord = () => {},
+  list,
+  onRowClick = () => null,
+  onUnselectRecord = () => null,
   children,
 }) => {
   const [selectedRowId, setSelectedRowId] = useState(null);
@@ -16,6 +23,10 @@ export const RecordProvider = ({
     () => setSelectedRowId(null),
     []
   );
+
+  useEffect(() => {
+    selectedRecordClearHandler();
+  }, [list, selectedRecordClearHandler]);
 
   const rowClickHandler = useCallback(
     (indexRecord, record) => {

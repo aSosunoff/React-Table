@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useMemo } from "react";
 import { v4 } from "uuid";
 import Body from "./body/Body";
 import Header from "./header/Header";
@@ -71,15 +71,16 @@ const Table = ({
   /* custom = false, */
   /* onOrderCustom = () => {}, */
 }) => {
-  const { selectedRowId, selectedRecordClearHandler } = useRecordContext();
+  const { selectedRecordClearHandler } = useRecordContext();
 
-  const localList = useMemo(() => {
-    selectedRecordClearHandler();
-    return cloneDeep(list).map((record) => ({
-      uuid: v4(),
-      ...record,
-    }));
-  }, [list, selectedRecordClearHandler]);
+  const localList = useMemo(
+    () =>
+      cloneDeep(list).map((record) => ({
+        uuid: v4(),
+        ...record,
+      })),
+    [list]
+  );
 
   const {
     filteredList,
@@ -149,7 +150,6 @@ const Table = ({
           header={header}
           rowsBtn={rowsBtn}
           rowCssClass={rowCssClass}
-          selectedRowId={selectedRowId}
         />
       </TableContainer>
 
@@ -165,8 +165,9 @@ const Table = ({
 
 export default withContext(
   RecordProvider,
-  ({ onRowClick, onUnselectRecord }) => ({
+  ({ onRowClick, onUnselectRecord, list }) => ({
     onRowClick,
     onUnselectRecord,
+    list,
   })
 )(Table);

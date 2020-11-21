@@ -13,7 +13,6 @@ const Row = ({
   rowsBtn,
   rowCssClass = () => null,
   indexRecord,
-  isSelected,
   record,
 }) => {
   const localRowsBtn = useMemo(
@@ -32,13 +31,15 @@ const Row = ({
     [indexRecord, record, rowClickHandler]
   );
 
+  const { selectedRowId } = useRecordContext();
+
   return (
     <div
       className={cn([
         styles.table__row,
         rowCssClass(record),
         {
-          [styles["selected-row"]]: isSelected,
+          [styles["selected-row"]]: selectedRowId === indexRecord,
         },
       ])}
       onClick={rowHandler}
