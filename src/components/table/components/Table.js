@@ -14,6 +14,8 @@ import { usePropDirection } from "../hooks/usePropDirection";
 import Filter from "./filter/Filter";
 import { useFilter } from "../hooks/useFilter";
 import { getStartOrderProp } from "../utils/getStartOrderProp";
+import { withContext } from "../HOC/withContext";
+import { RecordProvider, useRecordContext } from "../context/recordContext";
 
 const Table = ({
   title, // String
@@ -71,15 +73,19 @@ const Table = ({
   /* custom = false, */
   /* onOrderCustom = () => {}, */
 }) => {
-  const [selectedRowId, setSelectedRowId] = useState(null);
+  const {
+    selectedRowId,
+    selectedRecordClearHandler,
+    setSelectedRowId,
+  } = useRecordContext();
 
   const localList = useMemo(() => {
-    setSelectedRowId(null);
+    selectedRecordClearHandler();
     return cloneDeep(list).map((record) => ({
       uuid: v4(),
       ...record,
     }));
-  }, [list]);
+  }, [list, selectedRecordClearHandler]);
 
   const {
     filteredList,
@@ -116,23 +122,29 @@ const Table = ({
         setSelectedRowId(indexRecord);
       } else if (indexRecord === null) {
         onUnselectRecord();
-        setSelectedRowId(null);
+        selectedRecordClearHandler();
       }
     },
-    [onRowClick, onUnselectRecord, selectedRowId]
+    [
+      selectedRowId,
+      onRowClick,
+      setSelectedRowId,
+      onUnselectRecord,
+      selectedRecordClearHandler,
+    ]
   );
 
   const wrapperSetPageHandler = (page) => {
-    setSelectedRowId(null);
+    selectedRecordClearHandler();
     setPageHandler(page);
   };
 
   const wrapperSortHandler = useCallback(
     (prop) => {
-      setSelectedRowId(null);
+      selectedRecordClearHandler();
       setPropDirectionHandler(prop);
     },
-    [setPropDirectionHandler]
+    [setPropDirectionHandler, selectedRecordClearHandler]
   );
 
   return (
@@ -177,4 +189,4 @@ const Table = ({
   );
 };
 
-export default Table;
+export default withContext(RecordProvider)(Table);
