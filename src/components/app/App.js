@@ -1,4 +1,3 @@
-import { cloneDeep } from "lodash";
 import React, { useCallback, useState } from "react";
 import Table from "../table/components/Table";
 import { v4 } from "uuid";
