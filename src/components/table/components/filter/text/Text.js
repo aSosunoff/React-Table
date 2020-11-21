@@ -1,58 +1,61 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import styles from "./Text.module.scss";
 import cn from "classnames";
 
 const Text = ({
-	clsMain,
-	clsButton,
-	value,
-	onSet = () => {},
-	onClear = () => {},
+  clsMain,
+  clsButton,
+  value,
+  onSet = () => {},
+  onClear = () => {},
 } = {}) => {
-	const [valueLocal, setValueLocal] = useState(value);
+  const [valueLocal, setValueLocal] = useState(value);
 
-	useEffect(() => {
-		setValueLocal(value);
-	}, [value]);
+  const isValue = useMemo(() => Boolean(valueLocal), [valueLocal]);
 
-	const isValue = Boolean(valueLocal);
+  useEffect(() => {
+    setValueLocal(value);
+  }, [value]);
 
-	const enterHandler = ({ key, target }) => {
-		if (key === "Enter") {
-			onSet(target.value);
-		}
-	};
+  const enterHandler = useCallback(
+    ({ key, target }) => {
+      if (key === "Enter") {
+        onSet(target.value);
+      }
+    },
+    [onSet]
+  );
 
-	const changeHandler = ({ target }) => {
-		setValueLocal(target.value);
-	};
+  const changeHandler = useCallback(({ target }) => {
+    setValueLocal(target.value);
+  }, []);
 
-	const clearHandler = () => {
-		setValueLocal("");
-		onClear();
-	};
+  const clearHandler = useCallback(() => {
+    setValueLocal("");
+    onClear();
+  }, [onClear]);
 
-	return (
-		<div
-			className={cn([clsMain, styles.table__cell_input])}
-			style={{
-				"--button-delete": isValue ? 1 : 0,
-			}}
-		>
-			<input
-				type="text"
-				value={valueLocal}
-				onKeyUp={enterHandler}
-				onChange={changeHandler}
-			/>
+  return (
+    <div
+      className={cn([clsMain, styles.table__cell_input])}
+      style={{
+        "--button-delete": isValue ? 1 : 0,
+      }}
+    >
+      <input
+        type="text"
+        value={valueLocal}
+        onKeyUp={enterHandler}
+        onChange={changeHandler}
+      />
 
-			{isValue ? (
-				<i className={cn(["material-icons", clsButton])} onClick={clearHandler}>
-					clear
-				</i>
-			) : null}
-		</div>
-	);
+      {isValue ? (
+        <i className={cn(["material-icons", clsButton])} onClick={clearHandler}>
+          clear
+        </i>
+      ) : null}
+    </div>
+  );
 };
 
 export default Text;
