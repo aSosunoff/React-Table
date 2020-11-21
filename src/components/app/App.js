@@ -2,13 +2,14 @@ import React, { useCallback, useState } from "react";
 import Table from "../table/components/Table";
 import { v4 } from "uuid";
 
-// utils
+/* utils */
 const newRecord = (id, text, name, date) => ({
   id,
   text,
   name,
   date,
 });
+/*  */
 
 const App = () => {
   const [list, setList] = useState([
@@ -43,6 +44,13 @@ const App = () => {
           { id: 2, text: 2 },
         ],
       },
+      btns: [
+        {
+          title: "Посмотреть данные",
+          handler: (record) => alert(record.id),
+          icon: "remove_red_eye",
+        },
+      ],
     },
     text: {
       titleHead: "Текст",
@@ -60,9 +68,9 @@ const App = () => {
       btns: [
         (record) =>
           record.id === 3 && {
-            title: ({ id }) => `Удалить запись ${id}`,
-            handler: deleteRecord,
-            icon: "delete",
+            title: "Посмотреть данные",
+            handler: (record) => alert(record.text),
+            icon: "remove_red_eye",
           },
       ],
     },
@@ -85,35 +93,36 @@ const App = () => {
   };
 
   return (
-    <>
-      <Table
-        title="Таблица"
-        list={list}
-        header={header}
-        pageSize={10}
-        // rowsBtn={[
-        // 	{
-        // 		/* title: "Добавить запись", */
-        // 		title: ({ id }) => id,
-        // 		handler: deleteRecord,
-        // 		icon: "delete",
-        // 		/* disabled: true, */
-        // 	},
-        // ]}
-        controlPanel={[
-          {
-            title: "Добавить запись",
-            handler: addRecord,
-          },
-        ]}
-        /* onRowClick={(record) => {
+    <Table
+      title="Таблица"
+      list={list}
+      header={header}
+      pageSize={10}
+      rowsBtn={[
+        {
+          title: "Просмотреть запись",
+          handler: (record) => alert(JSON.stringify(record)),
+          icon: "remove_red_eye",
+        },
+        {
+          title: ({ id }) => `Удалить запись ${id}`,
+          handler: deleteRecord,
+          icon: "delete",
+        },
+      ]}
+      controlPanel={[
+        {
+          title: "Добавить запись",
+          handler: addRecord,
+        },
+      ]}
+      /* onRowClick={(record) => {
 					console.log("onRowClick", record);
 				}}
 				onUnselectRecord={() => {
 					console.log("onUnselectRecord");
 				}} */
-      ></Table>
-    </>
+    ></Table>
   );
 };
 
