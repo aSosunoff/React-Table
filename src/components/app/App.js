@@ -22,7 +22,19 @@ const App = () => {
 
   const addRecord = useCallback(() => {
     const value = v4();
-    setList((prev) => [...prev, newRecord(value, value, "test", new Date())]);
+    setList((prev) => [
+      ...prev,
+      newRecord(
+        value,
+        value,
+        "test",
+        new Date(
+          new Date().getFullYear(),
+          new Date().getMonth(),
+          new Date().getDate()
+        ).getTime()
+      ),
+    ]);
   }, []);
 
   const deleteRecord = useCallback(
