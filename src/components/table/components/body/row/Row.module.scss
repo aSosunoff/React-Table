@@ -6,18 +6,18 @@
   color: #323c47;
   transition: background-color 0.2s linear;
 
-  &:hover {
-    cursor: pointer;
-    background-color: var(--color-row-hover);
-    color: #fff;
-  }
-
   &:nth-child(odd) {
     background-color: var(--color-odd);
   }
 
   &.selected-row {
     background-color: var(--color-selected-row);
+    color: #fff;
+  }
+
+  &:hover {
+    cursor: pointer;
+    background-color: var(--color-row-hover);
     color: #fff;
   }
 }
