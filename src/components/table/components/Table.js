@@ -57,7 +57,8 @@ const Table = ({
 		}
 	*/
   rowsBtn = [],
-  /* [{ handler: Function(record, elementHTML),
+  /* [{
+      handler: Function(record, elementHTML),
 			icon: String,
 			disabled: Boolean | Function(record) : Boolean,
 			title: String | Function(record) : String,
@@ -72,7 +73,6 @@ const Table = ({
 }) => {
   const [selectedRowId, setSelectedRowId] = useState(null);
 
-  // TODO: НУЖНО ЛИ ВСЁ МЕМОИЗИРОВАТЬ
   const localList = useMemo(() => {
     setSelectedRowId(null);
     return cloneDeep(list).map((record) => ({
