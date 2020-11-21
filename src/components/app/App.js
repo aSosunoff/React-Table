@@ -90,6 +90,10 @@ const App = () => {
         },
       }, */
     },
+    date: {
+      titleHead: "Дата",
+      format: (value) => value && value.toLocaleDateString(),
+    },
   };
 
   return (
