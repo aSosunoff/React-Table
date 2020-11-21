@@ -1,7 +1,6 @@
 import { cloneDeep } from "lodash";
 import React, { useCallback } from "react";
 import { v4 } from "uuid";
-import isEmptyObject from "../../utils/isEmptyObject";
 import styles from "./Body.module.scss";
 import Row from "./row";
 
@@ -11,7 +10,6 @@ const Body = ({
   header,
   rowsBtn = [],
   selectedRowId,
-  onRowClick,
 }) => {
   const row = useCallback(
     (record) =>
@@ -47,12 +45,6 @@ const Body = ({
     [header]
   );
 
-  const rowHandler = useCallback(
-    (indexRecord, record) =>
-      onRowClick(isEmptyObject(record) ? null : indexRecord, record),
-    [onRowClick]
-  );
-
   return (
     <div className={styles.table__body}>
       {list.map(({ uuid, ...record }, indexRecord) => (
@@ -64,7 +56,6 @@ const Body = ({
           isSelected={selectedRowId === indexRecord}
           rowCssClass={rowCssClass}
           record={record}
-          onRowClick={() => rowHandler(indexRecord, record)}
         />
       ))}
     </div>

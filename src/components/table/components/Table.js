@@ -68,16 +68,10 @@ const Table = ({
 	*/
   pageSize,
   controlPanel = [],
-  onRowClick = () => {},
-  onUnselectRecord = () => {},
   /* custom = false, */
   /* onOrderCustom = () => {}, */
 }) => {
-  const {
-    selectedRowId,
-    selectedRecordClearHandler,
-    setSelectedRowId,
-  } = useRecordContext();
+  const { selectedRowId, selectedRecordClearHandler } = useRecordContext();
 
   const localList = useMemo(() => {
     selectedRecordClearHandler();
@@ -114,25 +108,6 @@ const Table = ({
   );
 
   const itemsOnPageWithClanRow = useCleanRecord(itemsOnPage, pageSize);
-
-  const rowClickHandler = useCallback(
-    (indexRecord, record) => {
-      if (selectedRowId !== indexRecord && indexRecord !== null) {
-        onRowClick(record);
-        setSelectedRowId(indexRecord);
-      } else if (indexRecord === null) {
-        onUnselectRecord();
-        selectedRecordClearHandler();
-      }
-    },
-    [
-      selectedRowId,
-      onRowClick,
-      setSelectedRowId,
-      onUnselectRecord,
-      selectedRecordClearHandler,
-    ]
-  );
 
   const wrapperSetPageHandler = (page) => {
     selectedRecordClearHandler();
@@ -175,7 +150,6 @@ const Table = ({
           rowsBtn={rowsBtn}
           rowCssClass={rowCssClass}
           selectedRowId={selectedRowId}
-          onRowClick={rowClickHandler}
         />
       </TableContainer>
 
@@ -189,4 +163,10 @@ const Table = ({
   );
 };
 
-export default withContext(RecordProvider)(Table);
+export default withContext(
+  RecordProvider,
+  ({ onRowClick, onUnselectRecord }) => ({
+    onRowClick,
+    onUnselectRecord,
+  })
+)(Table);
