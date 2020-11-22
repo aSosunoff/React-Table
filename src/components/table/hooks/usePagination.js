@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { chunkFromArray } from "../utils/chunkFromArray";
 
 export const usePagination = (size = 5, list) => {
@@ -6,7 +6,11 @@ export const usePagination = (size = 5, list) => {
 
   const chunkList = useMemo(() => chunkFromArray(list, size), [list, size]);
 
-  const pageCount = useMemo(() => chunkList.length, [chunkList.length]);
+  useEffect(() => {
+    if (!chunkList[currentPage - 1]) {
+      setPageHandler(1);
+    }
+  }, [chunkList, currentPage]);
 
   const itemsOnPage = useMemo(
     () => chunkList[currentPage - 1] || chunkList[0] || [],
@@ -16,7 +20,7 @@ export const usePagination = (size = 5, list) => {
   return {
     itemsOnPage,
     currentPage,
-    pageCount,
+    pageCount: chunkList.length,
     setPageHandler,
   };
 };

@@ -109,10 +109,13 @@ const Table = ({
 
   const itemsOnPageWithClanRow = useCleanRecord(itemsOnPage, pageSize);
 
-  const wrapperSetPageHandler = (page) => {
-    selectedRecordClearHandler();
-    setPageHandler(page);
-  };
+  const wrapperSetPageHandler = useCallback(
+    (page) => {
+      selectedRecordClearHandler();
+      setPageHandler(page);
+    },
+    [selectedRecordClearHandler, setPageHandler]
+  );
 
   const wrapperSortHandler = useCallback(
     (prop) => {
