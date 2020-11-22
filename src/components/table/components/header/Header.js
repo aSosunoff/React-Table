@@ -6,46 +6,38 @@ const Header = ({ header, prop, direction, onOrder }) => {
   const headers = useMemo(
     () =>
       Object.entries(header).map(
-        ([propCell, { titleHead = propCell, order }]) => {
-          const canSortable = Boolean(order);
-
-          return {
-            prop: propCell,
-            order: prop === propCell ? direction : null,
-            titleHead,
-            canSortable,
-            sortable: canSortable ? "" : null,
-            onSortHandler: () => canSortable && onOrder(propCell),
-          };
-        }
+        ([propCell, { titleHead = propCell, order }]) => ({
+          prop: propCell,
+          order: prop === propCell ? direction : null,
+          titleHead,
+          canSortable: Boolean(order),
+        })
       ),
-    [header, prop, direction, onOrder]
+    [header, prop, direction]
   );
 
   return (
     <div className={styles.table__header}>
-      {headers.map(
-        ({ prop, order, titleHead, canSortable, sortable, onSortHandler }) => (
-          <div
-            data-test-id="header-cell"
-            className={styles.table__cell_head}
-            key={prop}
-            data-order={order}
-            data-sortable={sortable}
-            onClick={onSortHandler}
-          >
-            <span data-test-id="header-name">{titleHead}</span>
-            {canSortable ? (
-              <span
-                className={styles["table__sort-arrow"]}
-                data-test-id="header-sortable"
-              >
-                <span className={styles["sort-arrow"]}></span>
-              </span>
-            ) : null}
-          </div>
-        )
-      )}
+      {headers.map(({ prop, order, titleHead, canSortable }) => (
+        <div
+          data-test-id="header-cell"
+          className={styles.table__cell_head}
+          key={prop}
+          data-order={order}
+          data-sortable={canSortable ? "" : null}
+          onClick={() => canSortable && onOrder(prop)}
+        >
+          <span data-test-id="header-name">{titleHead}</span>
+          {canSortable ? (
+            <span
+              className={styles["table__sort-arrow"]}
+              data-test-id="header-sortable"
+            >
+              <span className={styles["sort-arrow"]}></span>
+            </span>
+          ) : null}
+        </div>
+      ))}
     </div>
   );
 };
