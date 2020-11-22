@@ -4,11 +4,12 @@
   align-items: unset !important;
 
   & .table__cell_input {
-    display: inline-block;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
     padding: 5px 15px;
     color: #000;
+    display: flex;
+    align-items: center;
   }
 }
