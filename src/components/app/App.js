@@ -79,6 +79,15 @@ const App = () => {
   );
   /*  */
 
+  const filterList = useMemo(
+    () =>
+      list.map(({ id, text }) => ({
+        id,
+        text,
+      })),
+    [list]
+  );
+
   const header = useMemo(
     () => ({
       id: {
@@ -90,10 +99,7 @@ const App = () => {
         },
         filter: {
           type: "list",
-          items: [
-            { id: 1, text: 1 },
-            { id: 2, text: 2 },
-          ],
+          items: filterList,
         },
         btns: [
           {
@@ -145,7 +151,7 @@ const App = () => {
         },
       },
     }),
-    [openHandler]
+    [filterList, openHandler]
   );
 
   return (
