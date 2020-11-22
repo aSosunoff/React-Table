@@ -1,8 +1,6 @@
 import React, { useCallback, useMemo } from "react";
 import { v4 } from "uuid";
-import Body from "./body/Body";
 import Header from "./header/Header";
-/* import styles from "./Table.module.scss"; */
 import Title from "./title/Title";
 import TableContainer from "./tableContainer";
 import { cloneDeep } from "lodash";
@@ -16,6 +14,7 @@ import { useFilter } from "../hooks/useFilter";
 import { getStartOrderProp } from "../utils/getStartOrderProp";
 import { withContext } from "../HOC/withContext";
 import { RecordProvider, useRecordContext } from "../context/recordContext";
+import Row from "./body/row";
 
 const Table = ({
   title, // String
@@ -145,12 +144,19 @@ const Table = ({
           onClearFilter={clearFilterHandler}
         />
 
-        <Body
-          list={itemsOnPageWithClanRow}
-          header={header}
-          rowsBtn={rowsBtn}
-          rowCssClass={rowCssClass}
-        />
+        <div>
+          {itemsOnPageWithClanRow.map(({ uuid, ...record }, indexRecord) => (
+            <Row
+              key={uuid}
+              /* row={row(record)} */
+              header={header}
+              rowsBtn={rowsBtn}
+              indexRecord={indexRecord}
+              rowCssClass={rowCssClass}
+              record={record}
+            />
+          ))}
+        </div>
       </TableContainer>
 
       <BottomBar

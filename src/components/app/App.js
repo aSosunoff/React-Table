@@ -132,7 +132,7 @@ const App = () => {
         titleHead: "Дата",
         format: (value) => value && new Date(value).toLocaleDateString(),
         order: {
-          type: "date",
+          type: "timestamp",
         },
         filter: {
           type: "button",
