@@ -14,7 +14,7 @@ import { useFilter } from "../hooks/useFilter";
 import { getStartOrderProp } from "../utils/getStartOrderProp";
 import { withContext } from "../HOC/withContext";
 import { RecordProvider, useRecordContext } from "../context/recordContext";
-import Row from "./row";
+import Record from "./record";
 
 const Table = ({
   title, // String
@@ -146,9 +146,8 @@ const Table = ({
 
         <div>
           {itemsOnPageWithClanRow.map(({ uuid, ...record }, indexRecord) => (
-            <Row
+            <Record
               key={uuid}
-              /* row={row(record)} */
               header={header}
               rowsBtn={rowsBtn}
               indexRecord={indexRecord}

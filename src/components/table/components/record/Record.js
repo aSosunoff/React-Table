@@ -4,12 +4,11 @@ import { v4 } from "uuid";
 import cn from "classnames";
 import Btn from "./btn";
 import Cell from "./cell";
-import styles from "./Row.module.scss";
+import styles from "./Record.module.scss";
 import { useRecordContext } from "../../context/recordContext";
 import isEmptyObject from "../../utils/isEmptyObject";
 
 const Row = ({
-  /* row, */
   header,
   rowsBtn,
   rowCssClass = () => null,
