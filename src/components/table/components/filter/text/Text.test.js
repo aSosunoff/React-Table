@@ -14,6 +14,7 @@ describe("Text", () => {
     wrapper.find(`[data-test-id="${dataId}"]`);
 
   const Input = () => getByDataId(wrapper, "input");
+  const ClearButton = () => getByDataId(wrapper, "text-clear-button");
 
   beforeEach(() => {
     const reactMock = getReactMock();
@@ -57,12 +58,14 @@ describe("Text", () => {
     const value = 2;
 
     Input().simulate("change", { target: { value } });
-    const [[page]] = setValueLocal.mock.calls;
-    expect(page).toBe(value);
+    const [[valueLocal]] = setValueLocal.mock.calls;
+    expect(valueLocal).toBe(value);
   });
 
   it("should", () => {
     const setValueLocal = jest.fn();
+    const onClear = jest.fn();
+
     getReactMock().useState.mockImplementation((value) => [
       value,
       setValueLocal,
@@ -70,12 +73,14 @@ describe("Text", () => {
 
     getReactMock().useEffect.mockImplementation(() => null);
 
-    wrapper = mount(<Text />);
+    wrapper = mount(<Text value="1" onClear={onClear} />);
+    wrapper.update();
 
-    const value = 2;
+    ClearButton().simulate("click");
 
-    Input().simulate("change", { target: { value } });
-    const [[page]] = setValueLocal.mock.calls;
-    expect(page).toBe(value);
+    expect(onClear).toHaveBeenCalled();
+
+    const [[result]] = setValueLocal.mock.calls;
+    expect(result).toBe("");
   });
 });

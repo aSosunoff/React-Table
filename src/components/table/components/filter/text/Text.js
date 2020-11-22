@@ -3,7 +3,7 @@ import styles from "./Text.module.scss";
 import cn from "classnames";
 import PropTypes from "prop-types";
 
-const Text = ({ clsMain, clsButton, value, onSet, onClear } = {}) => {
+const Text = ({ clsMain, clsButton, value, onSet, onClear }) => {
   const [valueLocal, setValueLocal] = useState(value);
 
   const isValue = useMemo(() => Boolean(valueLocal), [valueLocal]);
@@ -46,7 +46,11 @@ const Text = ({ clsMain, clsButton, value, onSet, onClear } = {}) => {
       />
 
       {isValue ? (
-        <i className={cn(["material-icons", clsButton])} onClick={clearHandler}>
+        <i
+          className={cn(["material-icons", clsButton])}
+          onClick={clearHandler}
+          data-test-id="text-clear-button"
+        >
           clear
         </i>
       ) : null}
