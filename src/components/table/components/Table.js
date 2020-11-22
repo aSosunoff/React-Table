@@ -14,7 +14,7 @@ import { useFilter } from "../hooks/useFilter";
 import { getStartOrderProp } from "../utils/getStartOrderProp";
 import { withContext } from "../HOC/withContext";
 import { RecordProvider, useRecordContext } from "../context/recordContext";
-import Row from "./body/row";
+import Row from "./row";
 
 const Table = ({
   title, // String
