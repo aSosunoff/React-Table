@@ -62,7 +62,7 @@ describe("Text", () => {
     expect(valueLocal).toBe(value);
   });
 
-  it("should", () => {
+  it("should be call onClear and clear local value", () => {
     const setValueLocal = jest.fn();
     const onClear = jest.fn();
 
