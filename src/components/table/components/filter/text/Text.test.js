@@ -33,6 +33,16 @@ describe("Text", () => {
     expect(wrapper).toHaveLength(1);
   });
 
+  it("should be render hide clear button after beginning", () => {
+    expect(ClearButton()).toHaveLength(0);
+  });
+
+  it("should be render show clear button after beginning", () => {
+    wrapper = mount(<Text value="1" />);
+
+    expect(ClearButton()).toHaveLength(1);
+  });
+
   it("should be call onSet after keyup Enter", () => {
     const onSet = jest.fn();
     const value = 2;
@@ -74,7 +84,6 @@ describe("Text", () => {
     getReactMock().useEffect.mockImplementation(() => null);
 
     wrapper = mount(<Text value="1" onClear={onClear} />);
-    wrapper.update();
 
     ClearButton().simulate("click");
 
