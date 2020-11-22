@@ -2,8 +2,13 @@ import React from "react";
 import { mount } from "enzyme";
 import Text from "./Text";
 
+jest.mock("react");
+
 describe("Text", () => {
   let wrapper;
+
+  const getReactMock = () => require("react");
+  const getRequireActual = () => jest.requireActual("react");
 
   const getByDataId = (wrapper, dataId) =>
     wrapper.find(`[data-test-id="${dataId}"]`);
@@ -11,6 +16,15 @@ describe("Text", () => {
   const Input = () => getByDataId(wrapper, "input");
 
   beforeEach(() => {
+    const reactMock = getReactMock();
+    const reactActual = getRequireActual();
+
+    for (const key in reactMock) {
+      if (reactMock[key].mockImplementation) {
+        reactMock[key].mockImplementation(reactActual[key]);
+      }
+    }
+
     wrapper = mount(<Text />);
   });
 
@@ -18,73 +32,50 @@ describe("Text", () => {
     expect(wrapper).toHaveLength(1);
   });
 
-  it("should", () => {
+  it("should be call onSet after keyup Enter", () => {
     const onSet = jest.fn();
+    const value = 2;
     wrapper.setProps({
       onSet,
     });
-    Input().simulate("keyup", { key: "Enter", target: { value: 2 } });
+    Input().simulate("keyup", { key: "Enter", target: { value } });
     const [[page]] = onSet.mock.calls;
-    expect(page).toBe(2);
+    expect(page).toBe(value);
   });
 
-  /* it("should beginning parameters", () => {
-    expect(FirstPage().text()).toBe("1...");
-    expect(Input().prop("value")).toBe(1);
-    expect(Input().prop("disabled")).toBeTruthy();
-    expect(LastPage().text()).toBe("...1");
+  it("should be set local state", () => {
+    const setValueLocal = jest.fn();
+    getReactMock().useState.mockImplementation((value) => [
+      value,
+      setValueLocal,
+    ]);
+
+    getReactMock().useEffect.mockImplementation(() => null);
+
+    wrapper = mount(<Text />);
+
+    const value = 2;
+
+    Input().simulate("change", { target: { value } });
+    const [[page]] = setValueLocal.mock.calls;
+    expect(page).toBe(value);
   });
 
-  it("should be render with page count above than 1", () => {
-    wrapper.setProps({ pageCount: 2 });
-    expect(Input().prop("disabled")).toBeFalsy();
-    expect(LastPage().text()).toBe("...2");
-  });
+  it("should", () => {
+    const setValueLocal = jest.fn();
+    getReactMock().useState.mockImplementation((value) => [
+      value,
+      setValueLocal,
+    ]);
 
-  it("should be render with page current above than 1", () => {
-    wrapper.setProps({ pageCount: 2, pageCurrent: 2 });
-    wrapper.update();
-    expect(Input().prop("value")).toBe(2);
-  });
+    getReactMock().useEffect.mockImplementation(() => null);
 
-  it("should be toggle page to next", () => {
-    const setPageHandler = jest.fn();
-    wrapper.setProps({ pageCount: 5, setPageHandler });
-    Next().simulate("click");
-    const [[page]] = setPageHandler.mock.calls;
-    expect(page).toBe(2);
-  });
+    wrapper = mount(<Text />);
 
-  it("should be toggle page to prev", () => {
-    const setPageHandler = jest.fn();
-    wrapper.setProps({ pageCurrent: 2, pageCount: 2, setPageHandler });
-    Prev().simulate("click");
-    const [[page]] = setPageHandler.mock.calls;
-    expect(page).toBe(1);
-  });
+    const value = 2;
 
-  it("should be toggle page to last", () => {
-    const setPageHandler = jest.fn();
-    wrapper.setProps({ pageCount: 5, setPageHandler });
-    LastPage().simulate("click");
-    const [[page]] = setPageHandler.mock.calls;
-    expect(page).toBe(5);
+    Input().simulate("change", { target: { value } });
+    const [[page]] = setValueLocal.mock.calls;
+    expect(page).toBe(value);
   });
-
-  it("should be toggle page to first", () => {
-    const setPageHandler = jest.fn();
-    wrapper.setProps({ pageCurrent: 3, pageCount: 5, setPageHandler });
-    FirstPage().simulate("click");
-    const [[page]] = setPageHandler.mock.calls;
-    expect(page).toBe(1);
-  });
-
-  it("should be set page from input", () => {
-    const setPageHandler = jest.fn();
-    const pageNew = 2;
-    wrapper.setProps({ pageCount: 5, setPageHandler });
-    Input().simulate("change", { target: { value: pageNew } });
-    const [[page]] = setPageHandler.mock.calls;
-    expect(page).toBe(pageNew);
-  }); */
 });
