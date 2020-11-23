@@ -8,7 +8,6 @@ describe("Button", () => {
   const getByDataId = (wrapper, dataId) =>
     wrapper.find(`[data-test-id="${dataId}"]`);
 
-  /* const Select = () => wrapper.find("select"); */
   const ClearButton = () => getByDataId(wrapper, "button-clear-button");
   const Title = () => getByDataId(wrapper, "button-title");
   const Icon = () => getByDataId(wrapper, "button-icon");
