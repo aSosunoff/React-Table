@@ -1,27 +1,33 @@
-import React from "react";
+import React, { useCallback, useMemo } from "react";
 import styles from "./List.module.scss";
 import cn from "classnames";
 import PropTypes from "prop-types";
 
 const List = ({ clsMain, clsButton, items, value, onSet, onClear }) => {
-  const isValue = Boolean(value);
+  const isValue = useMemo(() => Boolean(value), [value]);
 
-  const changeHandler = ({ target }) => {
-    const selected = target.options[target.options.selectedIndex];
+  const changeHandler = useCallback(
+    ({ target }) => {
+      const selected = target.options[target.options.selectedIndex];
 
-    if (selected.value === "-1") {
+      if (selected.value === "-1") {
+        onClear();
+      } else {
+        onSet(selected.value, {
+          obj: selected.dataset.obj && JSON.parse(selected.dataset.obj),
+        });
+      }
+    },
+    [onClear, onSet]
+  );
+
+  const clearHandler = useCallback(
+    ({ target }) => {
+      target.previousElementSibling.selectedIndex = 0;
       onClear();
-    } else {
-      onSet(selected.value, {
-        obj: selected.dataset.obj && JSON.parse(selected.dataset.obj),
-      });
-    }
-  };
-
-  const clearHandler = ({ target }) => {
-    target.previousElementSibling.selectedIndex = 0;
-    onClear();
-  };
+    },
+    [onClear]
+  );
 
   return (
     <div
@@ -30,7 +36,10 @@ const List = ({ clsMain, clsButton, items, value, onSet, onClear }) => {
         "--button-delete": isValue ? 1 : 0,
       }}
     >
-      <select value={value} onChange={changeHandler}>
+      <select
+        value={value}
+        onChange={changeHandler}
+      >
         <option value="-1">Выберите</option>
         {items.map((item, inx) => (
           <option key={inx} value={item.id} data-obj={JSON.stringify(item)}>
@@ -40,7 +49,11 @@ const List = ({ clsMain, clsButton, items, value, onSet, onClear }) => {
       </select>
 
       {isValue ? (
-        <i className={cn(["material-icons", clsButton])} onClick={clearHandler}>
+        <i
+          className={cn(["material-icons", clsButton])}
+          onClick={clearHandler}
+          data-test-id="list-clear-button"
+        >
           clear
         </i>
       ) : null}

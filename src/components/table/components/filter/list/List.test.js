@@ -2,30 +2,16 @@ import React from "react";
 import { mount } from "enzyme";
 import List from "./List";
 
-/* jest.mock("react"); */
-
 describe("List", () => {
   let wrapper;
-
-  /* const getReactMock = () => require("react");
-  const getRequireActual = () => jest.requireActual("react"); */
 
   const getByDataId = (wrapper, dataId) =>
     wrapper.find(`[data-test-id="${dataId}"]`);
 
-  /* const Input = () => getByDataId(wrapper, "input");
-  const ClearButton = () => getByDataId(wrapper, "text-clear-button"); */
+  const Select = () => wrapper.find("select");
+  const ClearButton = () => getByDataId(wrapper, "list-clear-button");
 
   beforeEach(() => {
-    /* const reactMock = getReactMock();
-    const reactActual = getRequireActual();
-
-    for (const key in reactMock) {
-      if (reactMock[key].mockImplementation) {
-        reactMock[key].mockImplementation(reactActual[key]);
-      }
-    } */
-
     wrapper = mount(<List />);
   });
 
@@ -33,63 +19,129 @@ describe("List", () => {
     expect(wrapper).toHaveLength(1);
   });
 
-  /* it("should be render hide clear button after beginning", () => {
+  it("should be render hide clear button after beginning", () => {
     expect(ClearButton()).toHaveLength(0);
   });
 
   it("should be render show clear button after beginning", () => {
-    wrapper = mount(<Text value="1" />);
-
+    wrapper.setProps({ value: 1 });
     expect(ClearButton()).toHaveLength(1);
   });
 
-  it("should be call onSet after keyup Enter", () => {
+  it("should be contain items", () => {
+    const items = [
+      {
+        id: 1,
+        text: "test1",
+      },
+      {
+        id: 2,
+        text: "test2",
+      },
+    ];
+
+    wrapper.setProps({
+      items,
+    });
+
+    Select()
+      .children()
+      .forEach((option, index) => {
+        if (index === 0) {
+          expect(option.prop("value")).toBe("-1");
+          expect(option.text()).toBe("Выберите");
+        } else {
+          const { id, text } = items[index - 1];
+
+          expect(option.prop("value")).toBe(id);
+          expect(option.text()).toBe(text);
+        }
+      });
+  });
+
+  it("should be render with selected item", () => {
+    const items = [
+      {
+        id: 1,
+        text: "test1",
+      },
+      {
+        id: 2,
+        text: "test2",
+      },
+    ];
+
+    expect(Select().getDOMNode().options.selectedIndex).toBe(0);
+
+    wrapper.setProps({
+      value: items[1].id,
+      items,
+    });
+
+    expect(Select().getDOMNode().options.selectedIndex).toBe(items[1].id);
+    expect(
+      Select().getDOMNode().options[Select().getDOMNode().options.selectedIndex]
+        .innerHTML
+    ).toBe(items[1].text);
+  });
+
+  it("should be call onClear after selected default value", () => {
+    const onClear = jest.fn();
+
+    wrapper.setProps({
+      onClear,
+    });
+
+    Select().simulate("change", {
+      target: {
+        options: {
+          1: { value: "-1" },
+          selectedIndex: 1,
+        },
+      },
+    });
+
+    expect(onClear).toHaveBeenCalled();
+  });
+
+  it("should be call onSet after change value", () => {
     const onSet = jest.fn();
-    const value = 2;
+    const value = 1;
+
     wrapper.setProps({
       onSet,
     });
-    Input().simulate("keyup", { key: "Enter", target: { value } });
-    const [[page]] = onSet.mock.calls;
-    expect(page).toBe(value);
+
+    Select().simulate("change", {
+      target: {
+        options: {
+          1: { value, dataset: {} },
+          selectedIndex: 1,
+        },
+      },
+    });
+
+    expect(onSet).toHaveBeenCalled();
+    const [[result]] = onSet.mock.calls;
+    expect(result).toBe(value);
   });
 
-  it("should be set local state", () => {
-    const setValueLocal = jest.fn();
-    getReactMock().useState.mockImplementation((value) => [
-      value,
-      setValueLocal,
-    ]);
-
-    getReactMock().useEffect.mockImplementation(() => null);
-
-    wrapper = mount(<Text />);
-
-    const value = 2;
-
-    Input().simulate("change", { target: { value } });
-    const [[valueLocal]] = setValueLocal.mock.calls;
-    expect(valueLocal).toBe(value);
-  });
-
-  it("should be call onClear and clear local value", () => {
-    const setValueLocal = jest.fn();
+  it("should be call onClear and set start index to select", () => {
     const onClear = jest.fn();
 
-    getReactMock().useState.mockImplementation((value) => [
-      value,
-      setValueLocal,
-    ]);
+    wrapper.setProps({ value: 1, onClear });
 
-    getReactMock().useEffect.mockImplementation(() => null);
+    const target = {
+      previousElementSibling: {
+        selectedIndex: 1,
+      },
+    };
 
-    wrapper = mount(<Text value="1" onClear={onClear} />);
-
-    ClearButton().simulate("click");
+    ClearButton().simulate("click", {
+      target,
+    });
 
     expect(onClear).toHaveBeenCalled();
-
-    const [[result]] = setValueLocal.mock.calls;
-    expect(result).toBe("");
-  }); */
+    expect(target.previousElementSibling.selectedIndex).toBe(0);
+  });
 });
