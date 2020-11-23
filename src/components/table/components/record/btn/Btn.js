@@ -49,11 +49,11 @@ const Btn = ({ btn, record, indexRecord }) => {
     return localBtn.title;
   }, [isBtn, localBtn, record]);
 
-  const clickHandler = (event) => {
+  const clickHandler = ({ target }) => {
     if (!canDissabled) {
       localBtn.handler(
         cloneDeep(record),
-        event.target.closest(`.${styles.table__cell_btn}`),
+        target.closest(`.${styles.table__cell_btn}`),
         indexRecord
       );
     }
