@@ -7,14 +7,9 @@ import Cell from "./cell";
 import styles from "./Record.module.scss";
 import { useRecordContext } from "../../context/recordContext";
 import isEmptyObject from "../../utils/isEmptyObject";
+import PropTypes from "prop-types";
 
-const Row = ({
-  header,
-  rowsBtn,
-  rowCssClass = () => null,
-  indexRecord,
-  record,
-}) => {
+const Record = ({ header, rowsBtn, rowCssClass, indexRecord, record }) => {
   const row = useMemo(
     () =>
       Object.keys(header).map((key) => {
@@ -58,14 +53,12 @@ const Row = ({
     [rowsBtn]
   );
 
-  const { rowClickHandler } = useRecordContext();
+  const { rowClickHandler, selectedRowId } = useRecordContext();
 
   const rowHandler = useCallback(
     () => rowClickHandler(isEmptyObject(record) ? null : indexRecord, record),
     [indexRecord, record, rowClickHandler]
   );
-
-  const { selectedRowId } = useRecordContext();
 
   return (
     <div
@@ -89,4 +82,19 @@ const Row = ({
   );
 };
 
-export default Row;
+Record.defaultProps = {
+  rowCssClass: () => null,
+  header: {},
+  rowsBtn: [],
+  record: {},
+};
+
+Record.propTypes = {
+  header: PropTypes.object,
+  rowsBtn: PropTypes.array,
+  rowCssClass: PropTypes.func,
+  indexRecord: PropTypes.number,
+  record: PropTypes.object,
+};
+
+export default Record;

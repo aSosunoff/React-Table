@@ -54,23 +54,17 @@ const Cell = ({
 };
 
 Cell.defaultProps = {
-  /* value, */
   btns: [],
-  /* record,
-  indexRecord,
-  attributes,
-  clickHandler,
-  cssClass, */
 };
 
 Cell.propTypes = {
-  /* value, */
+  value: PropTypes.any,
   btns: PropTypes.array,
-  /* record,
-  indexRecord,
-  attributes,
-  clickHandler,
-  cssClass, */
+  record: PropTypes.object,
+  indexRecord: PropTypes.number,
+  attributes: PropTypes.object,
+  clickHandler: PropTypes.func,
+  cssClass: PropTypes.string,
 };
 
 export default Cell;
