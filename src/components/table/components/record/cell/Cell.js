@@ -2,10 +2,11 @@ import React, { useMemo } from "react";
 import cn from "classnames";
 import Btn from "../btn";
 import styles from "./Cell.module.scss";
+import PropTypes from "prop-types";
 
 const Cell = ({
   value,
-  btns = [],
+  btns,
   record,
   indexRecord,
   attributes,
@@ -24,10 +25,15 @@ const Cell = ({
       className={cn([styles.table__cell, cssClass])}
       style={memoizedWidthCell}
       {...attributes}
+      data-test-id="cell"
     >
       {value ? (
         <>
-          <div className={styles.table__cell_field} onClick={clickHandler}>
+          <div
+            className={styles.table__cell_field}
+            onClick={clickHandler}
+            data-test-id="cell-value"
+          >
             <div className={styles["table__cell_field-nowrap"]}>
               {`${value}`}
             </div>
@@ -45,6 +51,26 @@ const Cell = ({
       ) : null}
     </div>
   );
+};
+
+Cell.defaultProps = {
+  /* value, */
+  btns: [],
+  /* record,
+  indexRecord,
+  attributes,
+  clickHandler,
+  cssClass, */
+};
+
+Cell.propTypes = {
+  /* value, */
+  btns: PropTypes.array,
+  /* record,
+  indexRecord,
+  attributes,
+  clickHandler,
+  cssClass, */
 };
 
 export default Cell;
