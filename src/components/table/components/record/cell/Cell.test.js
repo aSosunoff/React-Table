@@ -2,13 +2,8 @@ import React from "react";
 import { mount } from "enzyme";
 import Cell from "./Cell";
 
-/* jest.mock("react"); */
-
 describe("Cell", () => {
   let wrapper;
-
-  /* const getReactMock = () => require("react");
-  const getRequireActual = () => jest.requireActual("react"); */
 
   const getByDataId = (wrapper, dataId) =>
     wrapper.find(`[data-test-id="${dataId}"]`);
@@ -17,15 +12,6 @@ describe("Cell", () => {
   const ValueTag = () => getByDataId(wrapper, "cell-value");
 
   beforeEach(() => {
-    /* const reactMock = getReactMock();
-    const reactActual = getRequireActual();
-
-    for (const key in reactMock) {
-      if (reactMock[key].mockImplementation) {
-        reactMock[key].mockImplementation(reactActual[key]);
-      }
-    } */
-
     wrapper = mount(<Cell />);
   });
 
