@@ -8,7 +8,7 @@ describe("Table", () => {
   beforeEach(() => {
     wrapper = mount(
       <Table
-        list={[
+        /* list={[
           {
             id: 2,
             text: "aa",
@@ -25,7 +25,7 @@ describe("Table", () => {
           name: {
             titleHead: "имя",
           },
-        }}
+        }} */
       />
     );
   });

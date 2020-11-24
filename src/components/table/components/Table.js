@@ -15,12 +15,13 @@ import { getStartOrderProp } from "../utils/getStartOrderProp";
 import { withContext } from "../HOC/withContext";
 import { RecordProvider, useRecordContext } from "../context/recordContext";
 import Record from "./record";
+import PropTypes from "prop-types";
 
 const Table = ({
   title, // String
   rowCssClass, // Function(record) : String,
-  list = [],
-  header = {},
+  list,
+  header,
   /* NAME_PROPERTY: {
 			titleHead: String,
 			titleCell: Boolean | Function(value, record) : String,
@@ -57,7 +58,7 @@ const Table = ({
 			} OR , Function(record) : Object]
 		}
 	*/
-  rowsBtn = [],
+  rowsBtn,
   /* [{
       handler: Function(record, elementHTML),
 			icon: String,
@@ -66,7 +67,7 @@ const Table = ({
 		} OR , Function(record) : Object]
 	*/
   pageSize,
-  controlPanel = [],
+  controlPanel,
   /* custom = false, */
   /* onOrderCustom = () => {}, */
 }) => {
@@ -169,6 +170,21 @@ const Table = ({
       />
     </div>
   );
+};
+
+Table.defaultProps = {
+  list: [],
+  header: {},
+  rowsBtn: [],
+};
+
+Table.propTypes = {
+  title: PropTypes.any,
+  rowCssClass: PropTypes.func,
+  list: PropTypes.array,
+  header: PropTypes.object,
+  rowsBtn: PropTypes.array,
+  controlPanel: PropTypes.array,
 };
 
 export default withContext(
