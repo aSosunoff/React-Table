@@ -8,9 +8,8 @@
 
 ### Install component
 
-```
-npm i @asosunoff/react-table
-```
+[npm i @asosunoff/react-table](https://www.npmjs.com/package/@asosunoff/react-table)
+
 
 ### Launch project:
 
