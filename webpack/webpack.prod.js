@@ -24,7 +24,7 @@ module.exports = {
   },
 
   output: {
-    publicPath: isDeploy ? publicUrl : "",
+    publicPath: isDeploy ? `${publicUrl}/` : "",
     filename: filename("js"),
     path: path.resolve(__dirname, "../build"),
   },
