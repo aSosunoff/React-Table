@@ -1,6 +1,6 @@
 {
   "name": "@asosunoff/react-table",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "React-Table component",
   "homepage": "https://asosunoff.github.io/React-Table/",
   "author": {
@@ -80,7 +80,7 @@
     "predeploy": "cross-env GP_DEPLOY=true NODE_ENV=production webpack --config ./webpack/webpack.prod.js --mode production",
     "deploy": "gh-pages -d build",
     "prepublish": "npm prune",
-    "run_all": "npm run dist && git add . && git commit -m \"run dist\" && git push && npm run deploy && npm publish"
+    "run_all": "npm run dist && npm run deploy && npm publish && git add . && git commit -m \"run dist\" && git push"
   },
   "keywords": [
     "react",

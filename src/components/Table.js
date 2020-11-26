@@ -2,6 +2,7 @@ import React, { useCallback, useMemo } from "react";
 import { v4 } from "uuid";
 import PropTypes from "prop-types";
 import { cloneDeep } from "lodash";
+import "material-icons/iconfont/material-icons.scss";
 import Header from "./header/Header";
 import Title from "./title/Title";
 import TableContainer from "./tableContainer";
@@ -16,6 +17,8 @@ import { getStartOrderProp } from "../utils/getStartOrderProp";
 import { withContext } from "../HOC/withContext";
 import { RecordProvider, useRecordContext } from "../context/recordContext";
 import Record from "./record";
+/* import "./variable.scss"; */
+import variable from "./variable.module.scss";
 
 const Table = ({
   title, // String
@@ -127,7 +130,7 @@ const Table = ({
   );
 
   return (
-    <div>
+    <div className={variable.table}>
       <TableContainer header={header} rowsBtnLength={rowsBtn.length}>
         <Title>{title}</Title>
 
