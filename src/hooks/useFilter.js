@@ -45,16 +45,6 @@ export const useFilter = (list, header) => {
     [header]
   );
 
-  const mergeFilter = useCallback(
-    (obj) => {
-      setFilterState({
-        ...filterState,
-        ...obj,
-      });
-    },
-    [filterState]
-  );
-
   const deleteFieldByFieldFromFilter = useCallback(
     (field) => {
       const { [field]: deleteFilterName, ...newFilterState } = filterState;
@@ -67,18 +57,20 @@ export const useFilter = (list, header) => {
     (field, value, additionalProperties) => {
       if (value || value === 0 || value === "0") {
         const { detail } = filterPanel[field];
-        mergeFilter({
+
+        setFilterState((prev) => ({
+          ...prev,
           [field]: {
             ...additionalProperties,
             value,
             detail,
           },
-        });
+        }));
       } else {
         deleteFieldByFieldFromFilter(field);
       }
     },
-    [deleteFieldByFieldFromFilter, filterPanel, mergeFilter]
+    [deleteFieldByFieldFromFilter, filterPanel]
   );
 
   const clearFilterHandler = useCallback(
