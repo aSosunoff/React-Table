@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback, useEffect, useMemo } from "react";
 import { v4 } from "uuid";
 import PropTypes from "prop-types";
 import { cloneDeep } from "lodash";
@@ -6,12 +6,12 @@ import Header from "./header/Header";
 import Title from "./title/Title";
 import TableContainer from "./tableContainer";
 import BottomBar from "./bottomBar/BottomBar";
-import { usePagination } from "../hooks/usePagination";
-import { useSorting } from "../hooks/useSortable";
+import { usePaginationWithCustom } from "../hooks/usePaginationWithCustom";
+import { useSortableWithCustom } from "../hooks/useSortableWithCustom";
 import { useCleanRecord } from "../hooks/useCleanRecord";
 import { usePropDirection } from "../hooks/usePropDirection";
 import Filter from "./filter/Filter";
-import { useFilter } from "../hooks/useFilter";
+import { useFilterWithCustom } from "../hooks/useFilterWithCustom";
 import { getStartOrderProp } from "../utils/getStartOrderProp";
 import { withContext } from "../HOC/withContext";
 import { RecordProvider, useRecordContext } from "../context/recordContext";
@@ -68,8 +68,12 @@ const Table = ({
 	*/
   pageSize,
   controlPanel,
-  /* custom = false, */
-  /* onOrderCustom = () => {}, */
+  custom,
+  onFilterHandler,
+  onOrderHandler,
+  onPageHandler,
+  pageCount,
+  currentPage,
 }) => {
   const { selectedRecordClearHandler } = useRecordContext();
 
@@ -88,34 +92,63 @@ const Table = ({
     filterPanel,
     isFilter,
     setFilterHandler,
-    deleteFieldByFieldFromFilter,
     clearFilterHandler,
-  } = useFilter(localList, header);
+  } = useFilterWithCustom(localList, header, custom);
 
   const { prop, direction, setPropDirectionHandler } = usePropDirection(
     ...getStartOrderProp(header)
   );
 
-  const listLocalSorted = useSorting(
+  const listLocalSorted = useSortableWithCustom(
     filteredList,
     prop,
     direction,
-    header[prop]?.order.type
+    header[prop]?.order.type,
+    custom
   );
 
-  const { itemsOnPage, currentPage, pageCount, setPageHandler } = usePagination(
-    pageSize,
-    listLocalSorted
+  const pagination = usePaginationWithCustom(pageSize, listLocalSorted, custom);
+
+  const getPageCount = useMemo(
+    () => (custom ? pageCount : pagination.pageCount),
+    [custom, pageCount, pagination.pageCount]
   );
 
-  const itemsOnPageWithClanRow = useCleanRecord(itemsOnPage, pageSize);
+  const getPageCurrent = useMemo(
+    () => (custom ? currentPage : pagination.currentPage),
+    [custom, currentPage, pagination.currentPage]
+  );
+
+  useEffect(() => custom && onPageHandler(pagination.currentPage), [
+    custom,
+    pagination.currentPage,
+    onPageHandler,
+  ]);
+
+  useEffect(() => custom && onOrderHandler(prop, direction), [
+    custom,
+    prop,
+    direction,
+    onOrderHandler,
+  ]);
+
+  useEffect(() => custom && onFilterHandler(filterState), [
+    custom,
+    filterState,
+    onFilterHandler,
+  ]);
+
+  const itemsOnPageWithClanRow = useCleanRecord(
+    pagination.itemsOnPage,
+    pageSize
+  );
 
   const wrapperSetPageHandler = useCallback(
     (page) => {
       selectedRecordClearHandler();
-      setPageHandler(page);
+      pagination.setPageHandler(page);
     },
-    [selectedRecordClearHandler, setPageHandler]
+    [selectedRecordClearHandler, pagination.setPageHandler]
   );
 
   const wrapperSortHandler = useCallback(
@@ -143,7 +176,6 @@ const Table = ({
             filterState={filterState}
             filterPanel={filterPanel}
             onSetFilter={setFilterHandler}
-            onDeleteFromFilterByField={deleteFieldByFieldFromFilter}
             onClearFilter={clearFilterHandler}
           />
         ) : null}
@@ -163,8 +195,8 @@ const Table = ({
       </TableContainer>
 
       <BottomBar
-        pageCount={pageCount}
-        pageCurrent={currentPage}
+        pageCount={getPageCount}
+        pageCurrent={getPageCurrent}
         setPageHandler={wrapperSetPageHandler}
         controlPanel={controlPanel}
       />
@@ -185,6 +217,37 @@ Table.propTypes = {
   header: PropTypes.instanceOf(Object),
   rowsBtn: PropTypes.instanceOf(Array),
   controlPanel: PropTypes.instanceOf(Array),
+  custom: PropTypes.bool,
+  onFilterHandler: (props, propName) => {
+    if (
+      props.custom &&
+      (!props[propName] || typeof props[propName] !== "function")
+    ) {
+      return new Error(
+        `Если установлено свойство custom, то необходимо определить метод ${propName}`
+      );
+    }
+  },
+  onOrderHandler: (props, propName) => {
+    if (
+      props.custom &&
+      (!props[propName] || typeof props[propName] !== "function")
+    ) {
+      return new Error(
+        `Если установлено свойство custom, то необходимо определить метод ${propName}`
+      );
+    }
+  },
+  onPageHandler: (props, propName) => {
+    if (
+      props.custom &&
+      (!props[propName] || typeof props[propName] !== "function")
+    ) {
+      return new Error(
+        `Если установлено свойство custom, то необходимо определить метод ${propName}`
+      );
+    }
+  },
 };
 
 export default withContext(

@@ -10,7 +10,7 @@ export const usePagination = (size = 5, list) => {
     if (!chunkList[currentPage - 1]) {
       setPageHandler(1);
     }
-  }, [chunkList, currentPage]);
+  }, [chunkList]);
 
   const itemsOnPage = useMemo(
     () => chunkList[currentPage - 1] || chunkList[0] || [],

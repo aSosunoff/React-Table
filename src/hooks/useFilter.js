@@ -45,14 +45,6 @@ export const useFilter = (list, header) => {
     [header]
   );
 
-  const deleteFieldByFieldFromFilter = useCallback(
-    (field) => {
-      const { [field]: deleteFilterName, ...newFilterState } = filterState;
-      setFilterState(newFilterState);
-    },
-    [filterState]
-  );
-
   const setFilterHandler = useCallback(
     (field, value, additionalProperties) => {
       if (value || value === 0 || value === "0") {
@@ -67,10 +59,12 @@ export const useFilter = (list, header) => {
           },
         }));
       } else {
-        deleteFieldByFieldFromFilter(field);
+        setFilterState(({ [field]: deleteFilterName, ...prev }) => ({
+          ...prev,
+        }));
       }
     },
-    [deleteFieldByFieldFromFilter, filterPanel]
+    [filterPanel]
   );
 
   const clearFilterHandler = useCallback(
@@ -84,7 +78,6 @@ export const useFilter = (list, header) => {
     filterPanel,
     isFilter,
     setFilterHandler,
-    deleteFieldByFieldFromFilter,
     clearFilterHandler,
   };
 };
