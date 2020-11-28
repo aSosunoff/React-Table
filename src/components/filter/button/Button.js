@@ -3,15 +3,7 @@ import cn from "classnames";
 import PropTypes from "prop-types";
 import styles from "./Button.module.scss";
 
-const Button = ({
-  clsMain,
-  clsButton,
-  icon,
-  value,
-  handler,
-  onSet,
-  onClear,
-}) => {
+const Button = ({ clsMain, clsButton, icon, value, handler, onSet }) => {
   const isValue = useMemo(() => Boolean(value?.value), [value]);
 
   const title = useMemo(() => value?.title || value?.value || "", [value]);
@@ -47,7 +39,7 @@ const Button = ({
       {isValue ? (
         <i
           className={cn(["material-icons", clsButton])}
-          onClick={onClear}
+          onClick={() => onSet()}
           data-test-id="button-clear-button"
         >
           clear
@@ -60,7 +52,6 @@ const Button = ({
 Button.defaultProps = {
   handler: () => null,
   onSet: () => null,
-  onClear: () => null,
 };
 
 Button.propTypes = {
@@ -73,7 +64,6 @@ Button.propTypes = {
   }),
   handler: PropTypes.func,
   onSet: PropTypes.func,
-  onClear: PropTypes.func,
 };
 
 export default Button;

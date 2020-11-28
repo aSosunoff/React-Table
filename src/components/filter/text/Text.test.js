@@ -74,7 +74,7 @@ describe("Text", () => {
 
   it("should be call onClear and clear local value", () => {
     const setValueLocal = jest.fn();
-    const onClear = jest.fn();
+    const onSet = jest.fn();
 
     getReactMock().useState.mockImplementation((value) => [
       value,
@@ -83,11 +83,11 @@ describe("Text", () => {
 
     getReactMock().useEffect.mockImplementation(() => null);
 
-    wrapper = mount(<Text value="1" onClear={onClear} />);
+    wrapper = mount(<Text value="1" onSet={onSet} />);
 
     ClearButton().simulate("click");
 
-    expect(onClear).toHaveBeenCalled();
+    expect(onSet).toHaveBeenCalled();
 
     const [[result]] = setValueLocal.mock.calls;
     expect(result).toBe("");

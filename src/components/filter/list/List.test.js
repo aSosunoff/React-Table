@@ -86,10 +86,10 @@ describe("List", () => {
   });
 
   it("should be call onClear after selected default value", () => {
-    const onClear = jest.fn();
+    const onSet = jest.fn();
 
     wrapper.setProps({
-      onClear,
+      onSet,
     });
 
     Select().simulate("change", {
@@ -101,7 +101,7 @@ describe("List", () => {
       },
     });
 
-    expect(onClear).toHaveBeenCalled();
+    expect(onSet).toHaveBeenCalled();
   });
 
   it("should be call onSet after change value", () => {
@@ -126,10 +126,10 @@ describe("List", () => {
     expect(result).toBe(value);
   });
 
-  it("should be call onClear and set start index to select", () => {
-    const onClear = jest.fn();
+  it("should be call onSet and set start index to select", () => {
+    const onSet = jest.fn();
 
-    wrapper.setProps({ value: 1, onClear });
+    wrapper.setProps({ value: 1, onSet });
 
     const target = {
       previousElementSibling: {
@@ -141,7 +141,7 @@ describe("List", () => {
       target,
     });
 
-    expect(onClear).toHaveBeenCalled();
+    expect(onSet).toHaveBeenCalled();
     expect(target.previousElementSibling.selectedIndex).toBe(0);
   });
 });

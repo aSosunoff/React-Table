@@ -2,7 +2,7 @@ import React from "react";
 import { mount } from "enzyme";
 import Filter from "./Filter";
 
-describe("Text", () => {
+describe("Filter", () => {
   let wrapper;
 
   const getByDataId = (wrapper, dataId) =>
@@ -56,28 +56,6 @@ describe("Text", () => {
     expect(resultFieldName).toBe(fieldName);
     expect(resultArgs).toEqual(args);
   });
-
-  it("should be call onClear by Text component", () => {
-    const onDeleteFromFilterByField = jest.fn();
-    const args = [1, 2, 3];
-    const fieldName = "id";
-
-    wrapper.setProps({
-      filterPanel: {
-        [fieldName]: {
-          type: "text",
-        },
-      },
-      onDeleteFromFilterByField,
-    });
-
-    wrapper.find("Text").prop("onClear")(...args);
-    const [
-      [resultFieldName, ...resultArgs],
-    ] = onDeleteFromFilterByField.mock.calls;
-    expect(resultFieldName).toBe(fieldName);
-    expect(resultArgs).toEqual(args);
-  });
   /*  */
 
   /* List component */
@@ -112,28 +90,6 @@ describe("Text", () => {
     expect(resultFieldName).toBe(fieldName);
     expect(resultArgs).toEqual(args);
   });
-
-  it("should be call onClear by List component", () => {
-    const onDeleteFromFilterByField = jest.fn();
-    const args = [1, 2, 3];
-    const fieldName = "id";
-
-    wrapper.setProps({
-      filterPanel: {
-        [fieldName]: {
-          type: "list",
-        },
-      },
-      onDeleteFromFilterByField,
-    });
-
-    wrapper.find("List").prop("onClear")(...args);
-    const [
-      [resultFieldName, ...resultArgs],
-    ] = onDeleteFromFilterByField.mock.calls;
-    expect(resultFieldName).toBe(fieldName);
-    expect(resultArgs).toEqual(args);
-  });
   /*  */
 
   /* Button component */
@@ -165,28 +121,6 @@ describe("Text", () => {
 
     wrapper.find("Button").prop("onSet")(...args);
     const [[resultFieldName, ...resultArgs]] = onSetFilter.mock.calls;
-    expect(resultFieldName).toBe(fieldName);
-    expect(resultArgs).toEqual(args);
-  });
-
-  it("should be call onClear by Button component", () => {
-    const onDeleteFromFilterByField = jest.fn();
-    const args = [1, 2, 3];
-    const fieldName = "id";
-
-    wrapper.setProps({
-      filterPanel: {
-        [fieldName]: {
-          type: "button",
-        },
-      },
-      onDeleteFromFilterByField,
-    });
-
-    wrapper.find("Button").prop("onClear")(...args);
-    const [
-      [resultFieldName, ...resultArgs],
-    ] = onDeleteFromFilterByField.mock.calls;
     expect(resultFieldName).toBe(fieldName);
     expect(resultArgs).toEqual(args);
   });

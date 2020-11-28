@@ -6,13 +6,7 @@ import Text from "./text/Text";
 import List from "./list/List";
 import Button from "./button/Button";
 
-const Filter = ({
-  filterState,
-  filterPanel,
-  onSetFilter,
-  onDeleteFromFilterByField,
-  onClearFilter,
-}) =>
+const Filter = ({ filterState, filterPanel, onSetFilter, onClearFilter }) =>
   filterPanel ? (
     <div className={styles.table__filter} data-test-id="filter-container">
       {Object.entries(filterPanel).map(
@@ -26,7 +20,6 @@ const Filter = ({
                   clsButton={styles.table__cell_button}
                   value={filterState[field]?.value ?? ""}
                   onSet={onSetFilter.bind(this, field)}
-                  onClear={onDeleteFromFilterByField.bind(this, field)}
                 />
               );
             case "list":
@@ -38,7 +31,6 @@ const Filter = ({
                   value={filterState[field]?.value ?? -1}
                   items={items}
                   onSet={onSetFilter.bind(this, field)}
-                  onClear={onDeleteFromFilterByField.bind(this, field)}
                 />
               );
             case "button":
@@ -51,7 +43,6 @@ const Filter = ({
                   value={filterState[field]}
                   handler={handler}
                   onSet={onSetFilter.bind(this, field)}
-                  onClear={onDeleteFromFilterByField.bind(this, field)}
                 />
               );
             default:
@@ -83,7 +74,6 @@ Filter.defaultProps = {
   filterState: {},
   filterPanel: null,
   onSetFilter: () => null,
-  onDeleteFromFilterByField: () => null,
   onClearFilter: () => null,
 };
 
@@ -91,7 +81,6 @@ Filter.propTypes = {
   filterState: PropTypes.instanceOf(Object),
   filterPanel: PropTypes.instanceOf(Object),
   onSetFilter: PropTypes.func,
-  onDeleteFromFilterByField: PropTypes.func,
   onClearFilter: PropTypes.func,
 };
 

@@ -3,7 +3,7 @@ import cn from "classnames";
 import PropTypes from "prop-types";
 import styles from "./Text.module.scss";
 
-const Text = ({ clsMain, clsButton, value, onSet, onClear }) => {
+const Text = ({ clsMain, clsButton, value, onSet }) => {
   const [valueLocal, setValueLocal] = useState(value);
 
   const isValue = useMemo(() => Boolean(valueLocal), [valueLocal]);
@@ -21,14 +21,17 @@ const Text = ({ clsMain, clsButton, value, onSet, onClear }) => {
     [onSet]
   );
 
-  const changeHandler = useCallback(({ target }) => {
-    setValueLocal(target.value);
-  }, []);
+  const changeHandler = useCallback(
+    ({ target }) => {
+      setValueLocal(target.value);
+    },
+    [setValueLocal]
+  );
 
   const clearHandler = useCallback(() => {
     setValueLocal("");
-    onClear();
-  }, [onClear]);
+    onSet();
+  }, [setValueLocal, onSet]);
 
   return (
     <div
@@ -60,7 +63,6 @@ const Text = ({ clsMain, clsButton, value, onSet, onClear }) => {
 
 Text.defaultProps = {
   onSet: () => null,
-  onClear: () => null,
 };
 
 Text.propTypes = {
@@ -68,7 +70,6 @@ Text.propTypes = {
   clsButton: PropTypes.string,
   value: PropTypes.string,
   onSet: PropTypes.func,
-  onClear: PropTypes.func,
 };
 
 export default Text;

@@ -3,7 +3,7 @@ import cn from "classnames";
 import PropTypes from "prop-types";
 import styles from "./List.module.scss";
 
-const List = ({ clsMain, clsButton, items, value, onSet, onClear }) => {
+const List = ({ clsMain, clsButton, items, value, onSet }) => {
   const isValue = useMemo(() => Boolean(value), [value]);
 
   const changeHandler = useCallback(
@@ -11,22 +11,22 @@ const List = ({ clsMain, clsButton, items, value, onSet, onClear }) => {
       const selected = target.options[target.options.selectedIndex];
 
       if (selected.value === "-1") {
-        onClear();
+        onSet();
       } else {
         onSet(selected.value, {
           obj: selected.dataset.obj && JSON.parse(selected.dataset.obj),
         });
       }
     },
-    [onClear, onSet]
+    [onSet]
   );
 
   const clearHandler = useCallback(
     ({ target }) => {
       target.previousElementSibling.selectedIndex = 0;
-      onClear();
+      onSet();
     },
-    [onClear]
+    [onSet]
   );
 
   return (
@@ -61,7 +61,6 @@ const List = ({ clsMain, clsButton, items, value, onSet, onClear }) => {
 List.defaultProps = {
   items: [],
   onSet: () => null,
-  onClear: () => null,
 };
 
 List.propTypes = {
@@ -70,7 +69,6 @@ List.propTypes = {
   items: PropTypes.instanceOf(Array),
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   onSet: PropTypes.func,
-  onClear: PropTypes.func,
 };
 
 export default List;
