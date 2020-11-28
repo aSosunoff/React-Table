@@ -30,6 +30,43 @@ describe("Cell", () => {
     expect(ValueTag().text()).toBe(value);
   });
 
+  it("should be contains value as component", () => {
+    const value = <div className="component_test">test</div>;
+
+    wrapper.setProps({
+      value,
+    });
+
+    expect(ValueTag().find(".component_test")).toHaveLength(1);
+  });
+
+  it("should be contains value as object", () => {
+    const value = {
+      some_field: "some_value",
+    };
+
+    wrapper.setProps({
+      value,
+    });
+
+    expect(ValueTag().text()).toBe("[object Object]");
+  });
+
+  it("should be contains value as object with override toString method", () => {
+    const value = {
+      some_field: "some_value",
+      toString() {
+        return this.some_field;
+      },
+    };
+
+    wrapper.setProps({
+      value,
+    });
+
+    expect(ValueTag().text()).toBe(value.some_field);
+  });
+
   it("should be call clickHandler after click to value", () => {
     const clickHandler = jest.fn();
 

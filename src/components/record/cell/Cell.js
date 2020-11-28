@@ -20,6 +20,11 @@ const Cell = ({
     [btns.length]
   );
 
+  const valueComponent = useMemo(
+    () => (React.isValidElement(value) ? value : `${value}`),
+    [value]
+  );
+
   return (
     <div
       className={cn([styles.table__cell, cssClass])}
@@ -35,7 +40,7 @@ const Cell = ({
             data-test-id="cell-value"
           >
             <div className={styles["table__cell_field-nowrap"]}>
-              {`${value}`}
+              {valueComponent}
             </div>
           </div>
 
