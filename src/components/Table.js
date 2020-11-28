@@ -131,22 +131,22 @@ const Table = ({
       <TableContainer header={header} rowsBtnLength={rowsBtn.length}>
         <Title>{title}</Title>
 
+        <Header
+          header={header}
+          prop={prop}
+          direction={direction}
+          onOrder={wrapperSortHandler}
+        />
+
         {isFilter ? (
-          <Header
-            header={header}
-            prop={prop}
-            direction={direction}
-            onOrder={wrapperSortHandler}
+          <Filter
+            filterState={filterState}
+            filterPanel={filterPanel}
+            onSetFilter={setFilterHandler}
+            onDeleteFromFilterByField={deleteFieldByFieldFromFilter}
+            onClearFilter={clearFilterHandler}
           />
         ) : null}
-
-        <Filter
-          filterState={filterState}
-          filterPanel={filterPanel}
-          onSetFilter={setFilterHandler}
-          onDeleteFromFilterByField={deleteFieldByFieldFromFilter}
-          onClearFilter={clearFilterHandler}
-        />
 
         <div>
           {itemsOnPageWithClanRow.map(({ uuid, ...record }, indexRecord) => (
