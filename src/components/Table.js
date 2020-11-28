@@ -29,7 +29,6 @@ const Table = ({
 			order: Object, // { type: 'string|number|date', direction: 'asc|desc'} | true
 			width: Number,
 			format: Function(value, record) : String,
-			formatHTML: Function(value, record) : String,
 			filter: {
 				{
 					type: 'list',
