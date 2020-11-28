@@ -15,6 +15,7 @@ module.exports = {
 
   entry: {
     index: ["./index.js"],
+    "index.min": ["./index.js"],
   },
 
   output: {
@@ -29,9 +30,12 @@ module.exports = {
   },
 
   optimization: {
-    minimizer: [new TerserPlugin(), new OptimizeCssAssetsPlugin({})].filter(
-      Boolean
-    ),
+    minimizer: [
+      new TerserPlugin({
+        include: /\.min\.js/,
+      }),
+      new OptimizeCssAssetsPlugin({}),
+    ].filter(Boolean),
   },
 
   module: {
