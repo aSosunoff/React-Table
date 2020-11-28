@@ -134,6 +134,7 @@ const App = () => {
       },
       name: {
         titleHead: "Наименование",
+        format: (value) => <a href="/">{value}</a>,
       },
       date: {
         titleHead: "Дата",
