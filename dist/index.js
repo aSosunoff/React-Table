@@ -11,7 +11,7 @@
 return /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 976:
+/***/ 177:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -595,7 +595,7 @@ var usePagination = function usePagination() {
     if (!chunkList[currentPage - 1]) {
       setPageHandler(1);
     }
-  }, [chunkList, currentPage]);
+  }, [chunkList]);
   var itemsOnPage = (0,external_react_.useMemo)(function () {
     return chunkList[currentPage - 1] || chunkList[0] || [];
   }, [currentPage, chunkList]);
@@ -605,6 +605,20 @@ var usePagination = function usePagination() {
     pageCount: chunkList.length,
     setPageHandler: setPageHandler
   };
+};
+;// CONCATENATED MODULE: ./hooks/usePaginationWithCustom.js
+function usePaginationWithCustom_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function usePaginationWithCustom_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { usePaginationWithCustom_ownKeys(Object(source), true).forEach(function (key) { usePaginationWithCustom_defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { usePaginationWithCustom_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function usePaginationWithCustom_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+var usePaginationWithCustom = function usePaginationWithCustom(size, list, custom) {
+  var paging = usePagination(size, list);
+  return usePaginationWithCustom_objectSpread(usePaginationWithCustom_objectSpread({}, paging), {}, {
+    itemsOnPage: custom ? list : paging.itemsOnPage
+  });
 };
 ;// CONCATENATED MODULE: ./utils/sorting.js
 var getDateTimeStamp = function getDateTimeStamp(val) {
@@ -654,6 +668,12 @@ var useSorting = function useSorting(list, prop, direction, sortingType) {
       return sorting(sortingType, direction, a[prop], b[prop]);
     });
   }, [list, prop, direction, sortingType]);
+};
+;// CONCATENATED MODULE: ./hooks/useSortableWithCustom.js
+
+var useSortableWithCustom = function useSortableWithCustom(list, prop, direction, sortingType, custom) {
+  var sortableList = useSorting(list, prop, direction, sortingType);
+  return custom ? list : sortableList;
 };
 ;// CONCATENATED MODULE: ./hooks/useCleanRecord.js
 function useCleanRecord_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
@@ -787,8 +807,7 @@ var Text = function Text(_ref) {
   var clsMain = _ref.clsMain,
       clsButton = _ref.clsButton,
       value = _ref.value,
-      onSet = _ref.onSet,
-      onClear = _ref.onClear;
+      onSet = _ref.onSet;
 
   var _useState = (0,external_react_.useState)(value),
       _useState2 = Text_slicedToArray(_useState, 2),
@@ -812,11 +831,11 @@ var Text = function Text(_ref) {
   var changeHandler = (0,external_react_.useCallback)(function (_ref3) {
     var target = _ref3.target;
     setValueLocal(target.value);
-  }, []);
+  }, [setValueLocal]);
   var clearHandler = (0,external_react_.useCallback)(function () {
     setValueLocal("");
-    onClear();
-  }, [onClear]);
+    onSet();
+  }, [setValueLocal, onSet]);
   return /*#__PURE__*/external_react_default().createElement("div", {
     className: classnames_default()([clsMain, text_Text_module.table__cell_input]),
     style: {
@@ -838,17 +857,13 @@ var Text = function Text(_ref) {
 Text.defaultProps = {
   onSet: function onSet() {
     return null;
-  },
-  onClear: function onClear() {
-    return null;
   }
 };
 Text.propTypes = {
   clsMain: (prop_types_default()).string,
   clsButton: (prop_types_default()).string,
   value: (prop_types_default()).string,
-  onSet: (prop_types_default()).func,
-  onClear: (prop_types_default()).func
+  onSet: (prop_types_default()).func
 };
 /* harmony default export */ const text_Text = (Text);
 // EXTERNAL MODULE: ../node_modules/css-loader/dist/cjs.js!../node_modules/sass-loader/dist/cjs.js!./components/filter/list/List.module.scss
@@ -878,8 +893,7 @@ var List = function List(_ref) {
       clsButton = _ref.clsButton,
       items = _ref.items,
       value = _ref.value,
-      onSet = _ref.onSet,
-      onClear = _ref.onClear;
+      onSet = _ref.onSet;
   var isValue = (0,external_react_.useMemo)(function () {
     return Boolean(value);
   }, [value]);
@@ -888,18 +902,18 @@ var List = function List(_ref) {
     var selected = target.options[target.options.selectedIndex];
 
     if (selected.value === "-1") {
-      onClear();
+      onSet();
     } else {
       onSet(selected.value, {
         obj: selected.dataset.obj && JSON.parse(selected.dataset.obj)
       });
     }
-  }, [onClear, onSet]);
+  }, [onSet]);
   var clearHandler = (0,external_react_.useCallback)(function (_ref3) {
     var target = _ref3.target;
     target.previousElementSibling.selectedIndex = 0;
-    onClear();
-  }, [onClear]);
+    onSet();
+  }, [onSet]);
   return /*#__PURE__*/external_react_default().createElement("div", {
     className: classnames_default()([clsMain, list_List_module.table__cell_select]),
     style: {
@@ -927,9 +941,6 @@ List.defaultProps = {
   items: [],
   onSet: function onSet() {
     return null;
-  },
-  onClear: function onClear() {
-    return null;
   }
 };
 List.propTypes = {
@@ -937,8 +948,7 @@ List.propTypes = {
   clsButton: (prop_types_default()).string,
   items: prop_types_default().instanceOf(Array),
   value: prop_types_default().oneOfType([(prop_types_default()).string, (prop_types_default()).number]),
-  onSet: (prop_types_default()).func,
-  onClear: (prop_types_default()).func
+  onSet: (prop_types_default()).func
 };
 /* harmony default export */ const list_List = (List);
 // EXTERNAL MODULE: ../node_modules/css-loader/dist/cjs.js!../node_modules/sass-loader/dist/cjs.js!./components/filter/button/Button.module.scss
@@ -969,8 +979,7 @@ var Button = function Button(_ref) {
       icon = _ref.icon,
       value = _ref.value,
       handler = _ref.handler,
-      onSet = _ref.onSet,
-      onClear = _ref.onClear;
+      onSet = _ref.onSet;
   var isValue = (0,external_react_.useMemo)(function () {
     return Boolean(value === null || value === void 0 ? void 0 : value.value);
   }, [value]);
@@ -997,7 +1006,9 @@ var Button = function Button(_ref) {
     "data-test-id": "button-icon"
   }, icon), isValue ? /*#__PURE__*/external_react_default().createElement("i", {
     className: classnames_default()(["material-icons", clsButton]),
-    onClick: onClear,
+    onClick: function onClick() {
+      return onSet();
+    },
     "data-test-id": "button-clear-button"
   }, "clear") : null);
 };
@@ -1007,9 +1018,6 @@ Button.defaultProps = {
     return null;
   },
   onSet: function onSet() {
-    return null;
-  },
-  onClear: function onClear() {
     return null;
   }
 };
@@ -1022,8 +1030,7 @@ Button.propTypes = {
     title: (prop_types_default()).string
   }),
   handler: (prop_types_default()).func,
-  onSet: (prop_types_default()).func,
-  onClear: (prop_types_default()).func
+  onSet: (prop_types_default()).func
 };
 /* harmony default export */ const button_Button = (Button);
 ;// CONCATENATED MODULE: ./components/filter/Filter.js
@@ -1053,7 +1060,6 @@ var Filter = function Filter(_ref) {
   var filterState = _ref.filterState,
       filterPanel = _ref.filterPanel,
       onSetFilter = _ref.onSetFilter,
-      onDeleteFromFilterByField = _ref.onDeleteFromFilterByField,
       onClearFilter = _ref.onClearFilter;
   return filterPanel ? /*#__PURE__*/external_react_default().createElement("div", {
     className: filter_Filter_module.table__filter,
@@ -1076,8 +1082,7 @@ var Filter = function Filter(_ref) {
           clsMain: filter_Filter_module.table__cell_filter,
           clsButton: filter_Filter_module.table__cell_button,
           value: (_filterState$field$va = (_filterState$field = filterState[field]) === null || _filterState$field === void 0 ? void 0 : _filterState$field.value) !== null && _filterState$field$va !== void 0 ? _filterState$field$va : "",
-          onSet: onSetFilter.bind(_this, field),
-          onClear: onDeleteFromFilterByField.bind(_this, field)
+          onSet: onSetFilter.bind(_this, field)
         });
 
       case "list":
@@ -1087,8 +1092,7 @@ var Filter = function Filter(_ref) {
           clsButton: filter_Filter_module.table__cell_button,
           value: (_filterState$field$va2 = (_filterState$field2 = filterState[field]) === null || _filterState$field2 === void 0 ? void 0 : _filterState$field2.value) !== null && _filterState$field$va2 !== void 0 ? _filterState$field$va2 : -1,
           items: items,
-          onSet: onSetFilter.bind(_this, field),
-          onClear: onDeleteFromFilterByField.bind(_this, field)
+          onSet: onSetFilter.bind(_this, field)
         });
 
       case "button":
@@ -1099,8 +1103,7 @@ var Filter = function Filter(_ref) {
           icon: icon,
           value: filterState[field],
           handler: handler,
-          onSet: onSetFilter.bind(_this, field),
-          onClear: onDeleteFromFilterByField.bind(_this, field)
+          onSet: onSetFilter.bind(_this, field)
         });
 
       default:
@@ -1125,9 +1128,6 @@ Filter.defaultProps = {
   onSetFilter: function onSetFilter() {
     return null;
   },
-  onDeleteFromFilterByField: function onDeleteFromFilterByField() {
-    return null;
-  },
   onClearFilter: function onClearFilter() {
     return null;
   }
@@ -1136,7 +1136,6 @@ Filter.propTypes = {
   filterState: prop_types_default().instanceOf(Object),
   filterPanel: prop_types_default().instanceOf(Object),
   onSetFilter: (prop_types_default()).func,
-  onDeleteFromFilterByField: (prop_types_default()).func,
   onClearFilter: (prop_types_default()).func
 };
 /* harmony default export */ const filter_Filter = (Filter);
@@ -1222,26 +1221,24 @@ var useFilter = function useFilter(list, header) {
       return filter;
     }));
   }, [header]);
-  var mergeFilter = (0,external_react_.useCallback)(function (obj) {
-    setFilterState(useFilter_objectSpread(useFilter_objectSpread({}, filterState), obj));
-  }, [filterState]);
-  var deleteFieldByFieldFromFilter = (0,external_react_.useCallback)(function (field) {
-    var deleteFilterName = filterState[field],
-        newFilterState = useFilter_objectWithoutProperties(filterState, [field].map(_toPropertyKey));
-
-    setFilterState(newFilterState);
-  }, [filterState]);
   var setFilterHandler = (0,external_react_.useCallback)(function (field, value, additionalProperties) {
     if (value || value === 0 || value === "0") {
       var detail = filterPanel[field].detail;
-      mergeFilter(useFilter_defineProperty({}, field, useFilter_objectSpread(useFilter_objectSpread({}, additionalProperties), {}, {
-        value: value,
-        detail: detail
-      })));
+      setFilterState(function (prev) {
+        return useFilter_objectSpread(useFilter_objectSpread({}, prev), {}, useFilter_defineProperty({}, field, useFilter_objectSpread(useFilter_objectSpread({}, additionalProperties), {}, {
+          value: value,
+          detail: detail
+        })));
+      });
     } else {
-      deleteFieldByFieldFromFilter(field);
+      setFilterState(function (_ref7) {
+        var deleteFilterName = _ref7[field],
+            prev = useFilter_objectWithoutProperties(_ref7, [field].map(_toPropertyKey));
+
+        return useFilter_objectSpread({}, prev);
+      });
     }
-  }, [deleteFieldByFieldFromFilter, filterPanel, mergeFilter]);
+  }, [filterPanel]);
   var clearFilterHandler = (0,external_react_.useCallback)(function () {
     return setFilterState(ititStateFilter);
   }, []);
@@ -1251,9 +1248,22 @@ var useFilter = function useFilter(list, header) {
     filterPanel: filterPanel,
     isFilter: isFilter,
     setFilterHandler: setFilterHandler,
-    deleteFieldByFieldFromFilter: deleteFieldByFieldFromFilter,
     clearFilterHandler: clearFilterHandler
   };
+};
+;// CONCATENATED MODULE: ./hooks/useFilterWithCustom.js
+function useFilterWithCustom_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function useFilterWithCustom_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { useFilterWithCustom_ownKeys(Object(source), true).forEach(function (key) { useFilterWithCustom_defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { useFilterWithCustom_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function useFilterWithCustom_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+var useFilterWithCustom = function useFilterWithCustom(list, header, custom) {
+  var filter = useFilter(list, header);
+  return useFilterWithCustom_objectSpread(useFilterWithCustom_objectSpread({}, filter), {}, {
+    filteredList: custom ? list : filter.filteredList
+  });
 };
 ;// CONCATENATED MODULE: ./utils/getStartOrderProp.js
 function getStartOrderProp_slicedToArray(arr, i) { return getStartOrderProp_arrayWithHoles(arr) || getStartOrderProp_iterableToArrayLimit(arr, i) || getStartOrderProp_unsupportedIterableToArray(arr, i) || getStartOrderProp_nonIterableRest(); }
@@ -1771,7 +1781,13 @@ var Table = function Table(_ref) {
       header = _ref.header,
       rowsBtn = _ref.rowsBtn,
       pageSize = _ref.pageSize,
-      controlPanel = _ref.controlPanel;
+      controlPanel = _ref.controlPanel,
+      custom = _ref.custom,
+      onFilterHandler = _ref.onFilterHandler,
+      onOrderHandler = _ref.onOrderHandler,
+      onPageHandler = _ref.onPageHandler,
+      pageCount = _ref.pageCount,
+      currentPage = _ref.currentPage;
 
   var _useRecordContext = useRecordContext(),
       selectedRecordClearHandler = _useRecordContext.selectedRecordClearHandler;
@@ -1784,33 +1800,41 @@ var Table = function Table(_ref) {
     });
   }, [list]);
 
-  var _useFilter = useFilter(localList, header),
-      filteredList = _useFilter.filteredList,
-      filterState = _useFilter.filterState,
-      filterPanel = _useFilter.filterPanel,
-      isFilter = _useFilter.isFilter,
-      setFilterHandler = _useFilter.setFilterHandler,
-      deleteFieldByFieldFromFilter = _useFilter.deleteFieldByFieldFromFilter,
-      clearFilterHandler = _useFilter.clearFilterHandler;
+  var _useFilterWithCustom = useFilterWithCustom(localList, header, custom),
+      filteredList = _useFilterWithCustom.filteredList,
+      filterState = _useFilterWithCustom.filterState,
+      filterPanel = _useFilterWithCustom.filterPanel,
+      isFilter = _useFilterWithCustom.isFilter,
+      setFilterHandler = _useFilterWithCustom.setFilterHandler,
+      clearFilterHandler = _useFilterWithCustom.clearFilterHandler;
 
   var _usePropDirection = usePropDirection.apply(void 0, Table_toConsumableArray(getStartOrderProp(header))),
       prop = _usePropDirection.prop,
       direction = _usePropDirection.direction,
       setPropDirectionHandler = _usePropDirection.setPropDirectionHandler;
 
-  var listLocalSorted = useSorting(filteredList, prop, direction, (_header$prop = header[prop]) === null || _header$prop === void 0 ? void 0 : _header$prop.order.type);
-
-  var _usePagination = usePagination(pageSize, listLocalSorted),
-      itemsOnPage = _usePagination.itemsOnPage,
-      currentPage = _usePagination.currentPage,
-      pageCount = _usePagination.pageCount,
-      setPageHandler = _usePagination.setPageHandler;
-
-  var itemsOnPageWithClanRow = useCleanRecord(itemsOnPage, pageSize);
+  var listLocalSorted = useSortableWithCustom(filteredList, prop, direction, (_header$prop = header[prop]) === null || _header$prop === void 0 ? void 0 : _header$prop.order.type, custom);
+  var pagination = usePaginationWithCustom(pageSize, listLocalSorted, custom);
+  var getPageCount = (0,external_react_.useMemo)(function () {
+    return custom ? pageCount : pagination.pageCount;
+  }, [custom, pageCount, pagination.pageCount]);
+  var getPageCurrent = (0,external_react_.useMemo)(function () {
+    return custom ? currentPage : pagination.currentPage;
+  }, [custom, currentPage, pagination.currentPage]);
+  (0,external_react_.useEffect)(function () {
+    return custom && onPageHandler(pagination.currentPage);
+  }, [custom, pagination.currentPage, onPageHandler]);
+  (0,external_react_.useEffect)(function () {
+    return custom && onOrderHandler(prop, direction);
+  }, [custom, prop, direction, onOrderHandler]);
+  (0,external_react_.useEffect)(function () {
+    return custom && onFilterHandler(filterState);
+  }, [custom, filterState, onFilterHandler]);
+  var itemsOnPageWithClanRow = useCleanRecord(pagination.itemsOnPage, pageSize);
   var wrapperSetPageHandler = (0,external_react_.useCallback)(function (page) {
     selectedRecordClearHandler();
-    setPageHandler(page);
-  }, [selectedRecordClearHandler, setPageHandler]);
+    pagination.setPageHandler(page);
+  }, [selectedRecordClearHandler, pagination.setPageHandler]);
   var wrapperSortHandler = (0,external_react_.useCallback)(function (prop) {
     selectedRecordClearHandler();
     setPropDirectionHandler(prop);
@@ -1829,7 +1853,6 @@ var Table = function Table(_ref) {
     filterState: filterState,
     filterPanel: filterPanel,
     onSetFilter: setFilterHandler,
-    onDeleteFromFilterByField: deleteFieldByFieldFromFilter,
     onClearFilter: clearFilterHandler
   }) : null, /*#__PURE__*/external_react_default().createElement("div", null, itemsOnPageWithClanRow.map(function (_ref2, indexRecord) {
     var uuid = _ref2.uuid,
@@ -1844,8 +1867,8 @@ var Table = function Table(_ref) {
       record: record
     });
   }))), /*#__PURE__*/external_react_default().createElement(bottomBar_BottomBar, {
-    pageCount: pageCount,
-    pageCurrent: currentPage,
+    pageCount: getPageCount,
+    pageCurrent: getPageCurrent,
     setPageHandler: wrapperSetPageHandler,
     controlPanel: controlPanel
   }));
@@ -1862,7 +1885,23 @@ Table.propTypes = {
   list: prop_types_default().instanceOf(Array),
   header: prop_types_default().instanceOf(Object),
   rowsBtn: prop_types_default().instanceOf(Array),
-  controlPanel: prop_types_default().instanceOf(Array)
+  controlPanel: prop_types_default().instanceOf(Array),
+  custom: (prop_types_default()).bool,
+  onFilterHandler: function onFilterHandler(props, propName) {
+    if (props.custom && (!props[propName] || typeof props[propName] !== "function")) {
+      return new Error("\u0415\u0441\u043B\u0438 \u0443\u0441\u0442\u0430\u043D\u043E\u0432\u043B\u0435\u043D\u043E \u0441\u0432\u043E\u0439\u0441\u0442\u0432\u043E custom, \u0442\u043E \u043D\u0435\u043E\u0431\u0445\u043E\u0434\u0438\u043C\u043E \u043E\u043F\u0440\u0435\u0434\u0435\u043B\u0438\u0442\u044C \u043C\u0435\u0442\u043E\u0434 ".concat(propName));
+    }
+  },
+  onOrderHandler: function onOrderHandler(props, propName) {
+    if (props.custom && (!props[propName] || typeof props[propName] !== "function")) {
+      return new Error("\u0415\u0441\u043B\u0438 \u0443\u0441\u0442\u0430\u043D\u043E\u0432\u043B\u0435\u043D\u043E \u0441\u0432\u043E\u0439\u0441\u0442\u0432\u043E custom, \u0442\u043E \u043D\u0435\u043E\u0431\u0445\u043E\u0434\u0438\u043C\u043E \u043E\u043F\u0440\u0435\u0434\u0435\u043B\u0438\u0442\u044C \u043C\u0435\u0442\u043E\u0434 ".concat(propName));
+    }
+  },
+  onPageHandler: function onPageHandler(props, propName) {
+    if (props.custom && (!props[propName] || typeof props[propName] !== "function")) {
+      return new Error("\u0415\u0441\u043B\u0438 \u0443\u0441\u0442\u0430\u043D\u043E\u0432\u043B\u0435\u043D\u043E \u0441\u0432\u043E\u0439\u0441\u0442\u0432\u043E custom, \u0442\u043E \u043D\u0435\u043E\u0431\u0445\u043E\u0434\u0438\u043C\u043E \u043E\u043F\u0440\u0435\u0434\u0435\u043B\u0438\u0442\u044C \u043C\u0435\u0442\u043E\u0434 ".concat(propName));
+    }
+  }
 };
 /* harmony default export */ const components_Table = (withContext(RecordProvider, function (_ref3) {
   var onRowClick = _ref3.onRowClick,
@@ -20083,7 +20122,7 @@ module.exports = __WEBPACK_EXTERNAL_MODULE__297__;
 /******/ 	// module exports must be returned from runtime so entry inlining is disabled
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(976);
+/******/ 	return __webpack_require__(177);
 /******/ })()
 ;
 });
