@@ -21,7 +21,7 @@
     "react-dom": "^16.14.0"
   },
   "devDependencies": {
-    "@asosunoff/react-datetime-range": "0.0.5",
+    "@asosunoff/react-datetime-range": "0.0.6",
     "@babel/core": "^7.12.3",
     "@babel/preset-env": "^7.12.1",
     "@babel/preset-react": "^7.12.5",
