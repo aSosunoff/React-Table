@@ -1820,18 +1820,18 @@ var Table = function Table(_ref) {
   }, /*#__PURE__*/external_react_default().createElement(tableContainer_TableContainer, {
     header: header,
     rowsBtnLength: rowsBtn.length
-  }, /*#__PURE__*/external_react_default().createElement(title_Title, null, title), isFilter ? /*#__PURE__*/external_react_default().createElement(header_Header, {
+  }, /*#__PURE__*/external_react_default().createElement(title_Title, null, title), /*#__PURE__*/external_react_default().createElement(header_Header, {
     header: header,
     prop: prop,
     direction: direction,
     onOrder: wrapperSortHandler
-  }) : null, /*#__PURE__*/external_react_default().createElement(filter_Filter, {
+  }), isFilter ? /*#__PURE__*/external_react_default().createElement(filter_Filter, {
     filterState: filterState,
     filterPanel: filterPanel,
     onSetFilter: setFilterHandler,
     onDeleteFromFilterByField: deleteFieldByFieldFromFilter,
     onClearFilter: clearFilterHandler
-  }), /*#__PURE__*/external_react_default().createElement("div", null, itemsOnPageWithClanRow.map(function (_ref2, indexRecord) {
+  }) : null, /*#__PURE__*/external_react_default().createElement("div", null, itemsOnPageWithClanRow.map(function (_ref2, indexRecord) {
     var uuid = _ref2.uuid,
         record = Table_objectWithoutProperties(_ref2, ["uuid"]);
 
