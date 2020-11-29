@@ -5,7 +5,11 @@ module.exports = {
     "jest/globals": true,
     node: true,
   },
-  extends: ["plugin:react/recommended", "airbnb"],
+  extends: [
+    "plugin:react/recommended",
+    "airbnb",
+    "plugin:react-hooks/recommended",
+  ],
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
