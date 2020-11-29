@@ -1,9 +1,9 @@
 .table__cell {
   grid: auto-flow / var(--width-cell);
   display: grid;
-  height: 30px;
+  min-height: 30px;
   font-size: 12px;
-  line-height: 13px;
+  line-height: 8px;
 
   & .table__cell_field {
     display: flex;
