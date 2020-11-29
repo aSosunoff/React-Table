@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo, useState } from "react";
 import DateTimeRange from "@asosunoff/react-datetime-range";
 import { v4 } from "uuid";
-import Table from "../../src";
+import Table from "../../../src";
 import "material-icons/iconfont/material-icons.scss";
 
 /* utils */

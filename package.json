@@ -72,7 +72,8 @@
     "webpack-dev-server": "^3.11.0"
   },
   "scripts": {
-    "start": "cross-env NODE_ENV=development webpack-dev-server --config ./webpack/webpack.dev.js --mode development --open",
+    "ex1": "cross-env NODE_ENV=development EXAMPLE_PATH=example_1 webpack-dev-server --config ./webpack/webpack.dev.js --mode development --open",
+    "ex2": "cross-env NODE_ENV=development EXAMPLE_PATH=example_2 webpack-dev-server --config ./webpack/webpack.dev.js --mode development --open",
     "dist": "webpack --config ./webpack/webpack.dist.js --mode production",
     "build": "cross-env NODE_ENV=production webpack --config ./webpack/webpack.prod.js --mode production",
     "lint": "eslint src",

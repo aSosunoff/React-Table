@@ -5,11 +5,12 @@ const HTMLWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const fileName = (ext) => `[name].${ext}`;
+const examplePath = process.env.EXAMPLE_PATH;
 
 module.exports = {
   mode: "development",
 
-  context: path.resolve(__dirname, "../demo"),
+  context: path.resolve(__dirname, `../demo/${examplePath}`),
 
   devtool: "eval-source-map",
 

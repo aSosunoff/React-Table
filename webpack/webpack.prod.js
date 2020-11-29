@@ -15,7 +15,7 @@ const publicUrl = process.env.PUBLIC_URL;
 module.exports = {
   mode: "production",
 
-  context: path.resolve(__dirname, "../demo"),
+  context: path.resolve(__dirname, "../demo/example_1"),
 
   devtool: "source-map",
 
