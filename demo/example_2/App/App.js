@@ -40,7 +40,7 @@ const App = () => {
       pageSize={10}
       custom
       onFilterHandler={(filter) => console.log(filter)}
-      onOrderHandler={(...order) => console.log(order)}
+      onOrderHandler={(prop, direction) => console.log(prop, direction)}
       onPageHandler={(page) => console.log(page)}
       pageCount={1}
       currentPage={1}
