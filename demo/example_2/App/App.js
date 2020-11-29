@@ -25,19 +25,20 @@ const App = () => {
       header={{
         avatar: {
           width: "100px",
-          format: () => (
-            <img
-              alt="avatar"
-              style={{
-                maxWidth: "70px",
-              }}
-              src="https://avatars2.githubusercontent.com/u/15358461?v=4"
-            />
-          ),
+          format: (value, record) =>
+            record.id && (
+              <img
+                alt="avatar"
+                style={{
+                  maxWidth: "70px",
+                }}
+                src="https://avatars2.githubusercontent.com/u/15358461?v=4"
+              />
+            ),
         },
         id: {},
       }}
-      pageSize={10}
+      pageSize={5}
       custom
       onFilterHandler={(filter) => console.log(filter)}
       onOrderHandler={(prop, direction) => console.log(prop, direction)}
