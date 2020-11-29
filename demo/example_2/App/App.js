@@ -36,14 +36,21 @@ const App = () => {
               />
             ),
         },
-        id: {},
+        id: {
+          filter: {
+            type: "text",
+          },
+          order: {
+            type: "number",
+          },
+        },
       }}
       pageSize={5}
       custom
       onFilterHandler={(filter) => console.log(filter)}
       onOrderHandler={(prop, direction) => console.log(prop, direction)}
       onPageHandler={(page) => console.log(page)}
-      pageCount={1}
+      pageCount={2}
       currentPage={1}
     />
   );
