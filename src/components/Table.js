@@ -148,7 +148,7 @@ const Table = ({
       selectedRecordClearHandler();
       pagination.setPageHandler(page);
     },
-    [selectedRecordClearHandler, pagination.setPageHandler]
+    [selectedRecordClearHandler, pagination]
   );
 
   const wrapperSortHandler = useCallback(
