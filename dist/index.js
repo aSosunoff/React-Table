@@ -11,7 +11,7 @@
 return /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 177:
+/***/ 976:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -556,125 +556,6 @@ var BottomBar = function BottomBar(_ref) {
 };
 
 /* harmony default export */ const bottomBar_BottomBar = (BottomBar);
-;// CONCATENATED MODULE: ./utils/chunkFromArray.js
-var chunkFromArray = function chunkFromArray(arr) {
-  var size = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-  var a = arr || [];
-  return Array(Math.ceil(a.length / size)).fill([]).map(function (_, inx) {
-    return a.slice(inx * size, inx * size + size);
-  });
-};
-;// CONCATENATED MODULE: ./hooks/usePagination.js
-function usePagination_slicedToArray(arr, i) { return usePagination_arrayWithHoles(arr) || usePagination_iterableToArrayLimit(arr, i) || usePagination_unsupportedIterableToArray(arr, i) || usePagination_nonIterableRest(); }
-
-function usePagination_nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function usePagination_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return usePagination_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return usePagination_arrayLikeToArray(o, minLen); }
-
-function usePagination_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function usePagination_iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function usePagination_arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-
-
-var usePagination = function usePagination() {
-  var size = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 5;
-  var list = arguments.length > 1 ? arguments[1] : undefined;
-
-  var _useState = (0,external_react_.useState)(1),
-      _useState2 = usePagination_slicedToArray(_useState, 2),
-      currentPage = _useState2[0],
-      setPageHandler = _useState2[1];
-
-  var chunkList = (0,external_react_.useMemo)(function () {
-    return chunkFromArray(list, size);
-  }, [list, size]);
-  (0,external_react_.useEffect)(function () {
-    if (!chunkList[currentPage - 1]) {
-      setPageHandler(1);
-    }
-  }, [chunkList]);
-  var itemsOnPage = (0,external_react_.useMemo)(function () {
-    return chunkList[currentPage - 1] || chunkList[0] || [];
-  }, [currentPage, chunkList]);
-  return {
-    itemsOnPage: itemsOnPage,
-    currentPage: currentPage,
-    pageCount: chunkList.length,
-    setPageHandler: setPageHandler
-  };
-};
-;// CONCATENATED MODULE: ./hooks/usePaginationWithCustom.js
-function usePaginationWithCustom_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function usePaginationWithCustom_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { usePaginationWithCustom_ownKeys(Object(source), true).forEach(function (key) { usePaginationWithCustom_defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { usePaginationWithCustom_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function usePaginationWithCustom_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-
-var usePaginationWithCustom = function usePaginationWithCustom(size, list, custom) {
-  var paging = usePagination(size, list);
-  return usePaginationWithCustom_objectSpread(usePaginationWithCustom_objectSpread({}, paging), {}, {
-    itemsOnPage: custom ? list : paging.itemsOnPage
-  });
-};
-;// CONCATENATED MODULE: ./utils/sorting.js
-var getDateTimeStamp = function getDateTimeStamp(val) {
-  if (Date.parse(val)) {
-    return Date.parse(val);
-  }
-
-  if (val instanceof Date) {
-    return val.getTime();
-  }
-
-  return -1;
-};
-
-var getDirection = function getDirection(directionString) {
-  return directionString === "asc" || !directionString ? 1 : -1;
-};
-
-var sortStrategy = {
-  number: function number(direction, a, b) {
-    return direction * (a - b);
-  },
-  string: function string(direction, a, b) {
-    return direction * new Intl.Collator().compare(a, b);
-  },
-  date: function date(direction, a, b) {
-    return direction * (getDateTimeStamp(a) - getDateTimeStamp(b));
-  },
-  timestamp: function timestamp(direction, a, b) {
-    return direction * (a - b);
-  }
-};
-/* harmony default export */ const sorting = (function (type, direction, a, b) {
-  if (type in sortStrategy) {
-    return sortStrategy[type](getDirection(direction), a, b);
-  }
-
-  return null;
-});
-;// CONCATENATED MODULE: ./hooks/useSortable.js
-
-
-
-var useSorting = function useSorting(list, prop, direction, sortingType) {
-  return (0,external_react_.useMemo)(function () {
-    return (0,lodash.cloneDeep)(list).sort(function (a, b) {
-      return sorting(sortingType, direction, a[prop], b[prop]);
-    });
-  }, [list, prop, direction, sortingType]);
-};
-;// CONCATENATED MODULE: ./hooks/useSortableWithCustom.js
-
-var useSortableWithCustom = function useSortableWithCustom(list, prop, direction, sortingType, custom) {
-  var sortableList = useSorting(list, prop, direction, sortingType);
-  return custom ? list : sortableList;
-};
 ;// CONCATENATED MODULE: ./hooks/useCleanRecord.js
 function useCleanRecord_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
@@ -1139,132 +1020,6 @@ Filter.propTypes = {
   onClearFilter: (prop_types_default()).func
 };
 /* harmony default export */ const filter_Filter = (Filter);
-;// CONCATENATED MODULE: ./hooks/useFilter.js
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function useFilter_objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = useFilter_objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-
-function useFilter_objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
-
-function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
-
-function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-
-function useFilter_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function useFilter_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { useFilter_ownKeys(Object(source), true).forEach(function (key) { useFilter_defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { useFilter_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function useFilter_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function useFilter_slicedToArray(arr, i) { return useFilter_arrayWithHoles(arr) || useFilter_iterableToArrayLimit(arr, i) || useFilter_unsupportedIterableToArray(arr, i) || useFilter_nonIterableRest(); }
-
-function useFilter_nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function useFilter_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return useFilter_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return useFilter_arrayLikeToArray(o, minLen); }
-
-function useFilter_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function useFilter_iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function useFilter_arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-
-
-var ititStateFilter = {};
-var useFilter = function useFilter(list, header) {
-  var _useState = (0,external_react_.useState)(ititStateFilter),
-      _useState2 = useFilter_slicedToArray(_useState, 2),
-      filterState = _useState2[0],
-      setFilterState = _useState2[1];
-
-  var filteredList = (0,external_react_.useMemo)(function () {
-    return (0,lodash.cloneDeep)(list).filter(function (item) {
-      return Object.entries(filterState).reduce(function (res, _ref) {
-        var _ref2 = useFilter_slicedToArray(_ref, 2),
-            prop = _ref2[0],
-            _ref2$ = _ref2[1],
-            value = _ref2$.value,
-            type = _ref2$.type,
-            from = _ref2$.from,
-            to = _ref2$.to;
-
-        switch (type) {
-          case "daterange":
-            return res && item[prop] >= from && item[prop] <= to;
-
-          case "date":
-            return res && item[prop] === value;
-
-          default:
-            return res && !!String(item[prop]).match(new RegExp("^".concat(value), "i"));
-        }
-      }, true);
-    });
-  }, [list, filterState]);
-  var filterPanel = (0,external_react_.useMemo)(function () {
-    return Object.fromEntries(Object.entries(header).map(function (_ref3) {
-      var _ref4 = useFilter_slicedToArray(_ref3, 2),
-          field = _ref4[0],
-          _ref4$1$filter = _ref4[1].filter,
-          filter = _ref4$1$filter === void 0 ? false : _ref4$1$filter;
-
-      return [field, filter];
-    }));
-  }, [header]);
-  var isFilter = (0,external_react_.useMemo)(function () {
-    return Boolean(Object.entries(header).find(function (_ref5) {
-      var _ref6 = useFilter_slicedToArray(_ref5, 2),
-          _ref6$ = _ref6[1];
-
-      _ref6$ = _ref6$ === void 0 ? {} : _ref6$;
-      var filter = _ref6$.filter;
-      return filter;
-    }));
-  }, [header]);
-  var setFilterHandler = (0,external_react_.useCallback)(function (field, value, additionalProperties) {
-    if (value || value === 0 || value === "0") {
-      var detail = filterPanel[field].detail;
-      setFilterState(function (prev) {
-        return useFilter_objectSpread(useFilter_objectSpread({}, prev), {}, useFilter_defineProperty({}, field, useFilter_objectSpread(useFilter_objectSpread({}, additionalProperties), {}, {
-          value: value,
-          detail: detail
-        })));
-      });
-    } else {
-      setFilterState(function (_ref7) {
-        var deleteFilterName = _ref7[field],
-            prev = useFilter_objectWithoutProperties(_ref7, [field].map(_toPropertyKey));
-
-        return useFilter_objectSpread({}, prev);
-      });
-    }
-  }, [filterPanel]);
-  var clearFilterHandler = (0,external_react_.useCallback)(function () {
-    return setFilterState(ititStateFilter);
-  }, []);
-  return {
-    filteredList: filteredList,
-    filterState: filterState,
-    filterPanel: filterPanel,
-    isFilter: isFilter,
-    setFilterHandler: setFilterHandler,
-    clearFilterHandler: clearFilterHandler
-  };
-};
-;// CONCATENATED MODULE: ./hooks/useFilterWithCustom.js
-function useFilterWithCustom_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function useFilterWithCustom_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { useFilterWithCustom_ownKeys(Object(source), true).forEach(function (key) { useFilterWithCustom_defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { useFilterWithCustom_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function useFilterWithCustom_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-
-var useFilterWithCustom = function useFilterWithCustom(list, header, custom) {
-  var filter = useFilter(list, header);
-  return useFilterWithCustom_objectSpread(useFilterWithCustom_objectSpread({}, filter), {}, {
-    filteredList: custom ? list : filter.filteredList
-  });
-};
 ;// CONCATENATED MODULE: ./utils/getStartOrderProp.js
 function getStartOrderProp_slicedToArray(arr, i) { return getStartOrderProp_arrayWithHoles(arr) || getStartOrderProp_iterableToArrayLimit(arr, i) || getStartOrderProp_unsupportedIterableToArray(arr, i) || getStartOrderProp_nonIterableRest(); }
 
@@ -1395,7 +1150,7 @@ var Btn_this = undefined;
 
 function Btn_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-function Btn_typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { Btn_typeof = function _typeof(obj) { return typeof obj; }; } else { Btn_typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return Btn_typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 
 
@@ -1416,10 +1171,10 @@ var Btn = function Btn(_ref) {
       return false;
     }
 
-    return Btn_typeof(localBtn) === "object" && localBtn !== null ? Boolean(Object.keys(localBtn).length) : Boolean(localBtn);
+    return _typeof(localBtn) === "object" && localBtn !== null ? Boolean(Object.keys(localBtn).length) : Boolean(localBtn);
   }, [localBtn, record]);
   var canDissabled = (0,external_react_.useMemo)(function () {
-    if (Btn_typeof(localBtn) !== "object" || localBtn === null) {
+    if (_typeof(localBtn) !== "object" || localBtn === null) {
       return true;
     }
 
@@ -1582,10 +1337,6 @@ function Record_objectWithoutProperties(source, excluded) { if (source == null) 
 
 function Record_objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 
-function Record_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function Record_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { Record_ownKeys(Object(source), true).forEach(function (key) { Record_defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { Record_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
 function Record_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
@@ -1603,9 +1354,11 @@ var Record = function Record(_ref) {
   var header = _ref.header,
       rowsBtn = _ref.rowsBtn,
       rowCssClass = _ref.rowCssClass,
+      recordAttributes = _ref.recordAttributes,
+      recordStyles = _ref.recordStyles,
       indexRecord = _ref.indexRecord,
       record = _ref.record;
-  var row = (0,external_react_.useMemo)(function () {
+  var cells = (0,external_react_.useMemo)(function () {
     return Object.keys(header).map(function (key) {
       var btns = (0,lodash.cloneDeep)(header[key].btns || []);
 
@@ -1628,13 +1381,13 @@ var Record = function Record(_ref) {
       var attributes = {};
 
       if (titleCell === true) {
-        attributes = Record_objectSpread(Record_objectSpread({}, attributes), {}, {
+        attributes = {
           title: record[key]
-        });
+        };
       } else if (typeof titleCell === "function") {
-        attributes = Record_objectSpread(Record_objectSpread({}, attributes), {}, {
+        attributes = {
           title: titleCell(record[key], record)
-        });
+        };
       }
 
       return {
@@ -1670,10 +1423,11 @@ var Record = function Record(_ref) {
   var rowHandler = (0,external_react_.useCallback)(function () {
     return rowClickHandler(isEmptyObject(record) ? null : indexRecord, record);
   }, [indexRecord, record, rowClickHandler]);
-  return /*#__PURE__*/external_react_default().createElement("div", {
+  return /*#__PURE__*/external_react_default().createElement("div", Record_extends({}, recordAttributes, {
     className: classnames_default()([record_Record_module.table__row, rowCssClass(record), Record_defineProperty({}, record_Record_module["selected-row"], selectedRowId === indexRecord)]),
-    onClick: rowHandler
-  }, row.map(function (_ref3) {
+    onClick: rowHandler,
+    style: recordStyles
+  }), cells.map(function (_ref3) {
     var key = _ref3.key,
         cell = Record_objectWithoutProperties(_ref3, ["key"]);
 
@@ -1701,11 +1455,15 @@ Record.defaultProps = {
   },
   header: {},
   rowsBtn: [],
-  record: {}
+  record: {},
+  recordAttributes: {},
+  recordStyles: {}
 };
 Record.propTypes = {
   header: prop_types_default().instanceOf(Object),
   rowsBtn: prop_types_default().instanceOf(Array),
+  recordAttributes: prop_types_default().oneOfType([(prop_types_default()).func, (prop_types_default()).object]),
+  recordStyles: prop_types_default().oneOfType([(prop_types_default()).func, (prop_types_default()).object]),
   rowCssClass: (prop_types_default()).func,
   indexRecord: (prop_types_default()).number,
   record: prop_types_default().instanceOf(Object)
@@ -1729,6 +1487,217 @@ var variable_module_update = injectStylesIntoStyleTag_default()(variable_module/
 
 
 /* harmony default export */ const components_variable_module = (variable_module/* default.locals */.Z.locals || {});
+;// CONCATENATED MODULE: ./utils/chunkFromArray.js
+var chunkFromArray = function chunkFromArray(arr) {
+  var size = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+  var a = arr || [];
+  return Array(Math.ceil(a.length / size)).fill([]).map(function (_, inx) {
+    return a.slice(inx * size, inx * size + size);
+  });
+};
+;// CONCATENATED MODULE: ./hooks/usePagination.js
+function usePagination_slicedToArray(arr, i) { return usePagination_arrayWithHoles(arr) || usePagination_iterableToArrayLimit(arr, i) || usePagination_unsupportedIterableToArray(arr, i) || usePagination_nonIterableRest(); }
+
+function usePagination_nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function usePagination_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return usePagination_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return usePagination_arrayLikeToArray(o, minLen); }
+
+function usePagination_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function usePagination_iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function usePagination_arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+var usePagination = function usePagination() {
+  var size = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 5;
+  var list = arguments.length > 1 ? arguments[1] : undefined;
+
+  var _useState = (0,external_react_.useState)(1),
+      _useState2 = usePagination_slicedToArray(_useState, 2),
+      currentPage = _useState2[0],
+      setPageHandler = _useState2[1];
+
+  var chunkList = (0,external_react_.useMemo)(function () {
+    return chunkFromArray(list, size);
+  }, [list, size]);
+  (0,external_react_.useEffect)(function () {
+    if (!chunkList[currentPage - 1]) {
+      setPageHandler(1);
+    }
+  }, [chunkList, currentPage]);
+  var itemsOnPage = (0,external_react_.useMemo)(function () {
+    return chunkList[currentPage - 1] || chunkList[0] || [];
+  }, [currentPage, chunkList]);
+  return {
+    itemsOnPage: itemsOnPage,
+    currentPage: currentPage,
+    pageCount: chunkList.length,
+    setPageHandler: setPageHandler
+  };
+};
+;// CONCATENATED MODULE: ./utils/sorting.js
+var getDateTimeStamp = function getDateTimeStamp(val) {
+  if (Date.parse(val)) {
+    return Date.parse(val);
+  }
+
+  if (val instanceof Date) {
+    return val.getTime();
+  }
+
+  return -1;
+};
+
+var getDirection = function getDirection(directionString) {
+  return directionString === "asc" || !directionString ? 1 : -1;
+};
+
+var sortStrategy = {
+  number: function number(direction, a, b) {
+    return direction * (a - b);
+  },
+  string: function string(direction, a, b) {
+    return direction * new Intl.Collator().compare(a, b);
+  },
+  date: function date(direction, a, b) {
+    return direction * (getDateTimeStamp(a) - getDateTimeStamp(b));
+  },
+  timestamp: function timestamp(direction, a, b) {
+    return direction * (a - b);
+  }
+};
+/* harmony default export */ const sorting = (function (type, direction, a, b) {
+  if (type in sortStrategy) {
+    return sortStrategy[type](getDirection(direction), a, b);
+  }
+
+  return null;
+});
+;// CONCATENATED MODULE: ./hooks/useSortable.js
+
+
+
+var useSorting = function useSorting(list, prop, direction, sortingType) {
+  return (0,external_react_.useMemo)(function () {
+    return (0,lodash.cloneDeep)(list).sort(function (a, b) {
+      return sorting(sortingType, direction, a[prop], b[prop]);
+    });
+  }, [list, prop, direction, sortingType]);
+};
+;// CONCATENATED MODULE: ./hooks/useFilter.js
+function useFilter_typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { useFilter_typeof = function _typeof(obj) { return typeof obj; }; } else { useFilter_typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return useFilter_typeof(obj); }
+
+function useFilter_objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = useFilter_objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function useFilter_objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return useFilter_typeof(key) === "symbol" ? key : String(key); }
+
+function _toPrimitive(input, hint) { if (useFilter_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (useFilter_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+
+function useFilter_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function useFilter_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { useFilter_ownKeys(Object(source), true).forEach(function (key) { useFilter_defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { useFilter_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function useFilter_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function useFilter_slicedToArray(arr, i) { return useFilter_arrayWithHoles(arr) || useFilter_iterableToArrayLimit(arr, i) || useFilter_unsupportedIterableToArray(arr, i) || useFilter_nonIterableRest(); }
+
+function useFilter_nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function useFilter_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return useFilter_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return useFilter_arrayLikeToArray(o, minLen); }
+
+function useFilter_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function useFilter_iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function useFilter_arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+var ititStateFilter = {};
+var useFilter = function useFilter(list, header) {
+  var _useState = (0,external_react_.useState)(ititStateFilter),
+      _useState2 = useFilter_slicedToArray(_useState, 2),
+      filterState = _useState2[0],
+      setFilterState = _useState2[1];
+
+  var filteredList = (0,external_react_.useMemo)(function () {
+    return (0,lodash.cloneDeep)(list).filter(function (item) {
+      return Object.entries(filterState).reduce(function (res, _ref) {
+        var _ref2 = useFilter_slicedToArray(_ref, 2),
+            prop = _ref2[0],
+            _ref2$ = _ref2[1],
+            value = _ref2$.value,
+            type = _ref2$.type,
+            from = _ref2$.from,
+            to = _ref2$.to;
+
+        switch (type) {
+          case "daterange":
+            return res && item[prop] >= from && item[prop] <= to;
+
+          case "date":
+            return res && item[prop] === value;
+
+          default:
+            return res && !!String(item[prop]).match(new RegExp("^".concat(value), "i"));
+        }
+      }, true);
+    });
+  }, [list, filterState]);
+  var filterPanel = (0,external_react_.useMemo)(function () {
+    return Object.fromEntries(Object.entries(header).map(function (_ref3) {
+      var _ref4 = useFilter_slicedToArray(_ref3, 2),
+          field = _ref4[0],
+          _ref4$1$filter = _ref4[1].filter,
+          filter = _ref4$1$filter === void 0 ? false : _ref4$1$filter;
+
+      return [field, filter];
+    }));
+  }, [header]);
+  var isFilter = (0,external_react_.useMemo)(function () {
+    return Boolean(Object.entries(header).find(function (_ref5) {
+      var _ref6 = useFilter_slicedToArray(_ref5, 2),
+          _ref6$ = _ref6[1];
+
+      _ref6$ = _ref6$ === void 0 ? {} : _ref6$;
+      var filter = _ref6$.filter;
+      return filter;
+    }));
+  }, [header]);
+  var setFilterHandler = (0,external_react_.useCallback)(function (field, value, additionalProperties) {
+    if (value || value === 0 || value === "0") {
+      var detail = filterPanel[field].detail;
+      setFilterState(function (prev) {
+        return useFilter_objectSpread(useFilter_objectSpread({}, prev), {}, useFilter_defineProperty({}, field, useFilter_objectSpread(useFilter_objectSpread({}, additionalProperties), {}, {
+          value: value,
+          detail: detail
+        })));
+      });
+    } else {
+      setFilterState(function (_ref7) {
+        var deleteFilterName = _ref7[field],
+            prev = useFilter_objectWithoutProperties(_ref7, [field].map(_toPropertyKey));
+
+        return useFilter_objectSpread({}, prev);
+      });
+    }
+  }, [filterPanel]);
+  var clearFilterHandler = (0,external_react_.useCallback)(function () {
+    return setFilterState(ititStateFilter);
+  }, []);
+  return {
+    filteredList: filteredList,
+    filterState: filterState,
+    filterPanel: filterPanel,
+    isFilter: isFilter,
+    setFilterHandler: setFilterHandler,
+    clearFilterHandler: clearFilterHandler
+  };
+};
 ;// CONCATENATED MODULE: ./components/Table.js
 function Table_objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = Table_objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
 
@@ -1777,6 +1746,8 @@ var Table = function Table(_ref) {
 
   var title = _ref.title,
       rowCssClass = _ref.rowCssClass,
+      recordAttributes = _ref.recordAttributes,
+      recordStyles = _ref.recordStyles,
       list = _ref.list,
       header = _ref.header,
       rowsBtn = _ref.rowsBtn,
@@ -1800,41 +1771,61 @@ var Table = function Table(_ref) {
     });
   }, [list]);
 
-  var _useFilterWithCustom = useFilterWithCustom(localList, header, custom),
-      filteredList = _useFilterWithCustom.filteredList,
-      filterState = _useFilterWithCustom.filterState,
-      filterPanel = _useFilterWithCustom.filterPanel,
-      isFilter = _useFilterWithCustom.isFilter,
-      setFilterHandler = _useFilterWithCustom.setFilterHandler,
-      clearFilterHandler = _useFilterWithCustom.clearFilterHandler;
+  var _useFilter = useFilter(localList, header),
+      filteredList = _useFilter.filteredList,
+      filterState = _useFilter.filterState,
+      filterPanel = _useFilter.filterPanel,
+      isFilter = _useFilter.isFilter,
+      setFilterHandler = _useFilter.setFilterHandler,
+      clearFilterHandler = _useFilter.clearFilterHandler;
 
   var _usePropDirection = usePropDirection.apply(void 0, Table_toConsumableArray(getStartOrderProp(header))),
       prop = _usePropDirection.prop,
       direction = _usePropDirection.direction,
       setPropDirectionHandler = _usePropDirection.setPropDirectionHandler;
 
-  var listLocalSorted = useSortableWithCustom(filteredList, prop, direction, (_header$prop = header[prop]) === null || _header$prop === void 0 ? void 0 : _header$prop.order.type, custom);
-  var pagination = usePaginationWithCustom(pageSize, listLocalSorted, custom);
+  var listLocalSorted = useSorting(filteredList, prop, direction, (_header$prop = header[prop]) === null || _header$prop === void 0 ? void 0 : _header$prop.order.type);
+  var pagination = usePagination(pageSize, listLocalSorted);
   var getPageCount = (0,external_react_.useMemo)(function () {
     return custom ? pageCount : pagination.pageCount;
   }, [custom, pageCount, pagination.pageCount]);
   var getPageCurrent = (0,external_react_.useMemo)(function () {
     return custom ? currentPage : pagination.currentPage;
   }, [custom, currentPage, pagination.currentPage]);
+  var itemsOnPageWithClanRow = useCleanRecord(custom ? localList : pagination.itemsOnPage, pageSize);
+  var didUpdateOrderHandler = (0,external_react_.useRef)(false);
   (0,external_react_.useEffect)(function () {
-    return custom && onPageHandler(pagination.currentPage);
-  }, [custom, pagination.currentPage, onPageHandler]);
-  (0,external_react_.useEffect)(function () {
-    return custom && onOrderHandler(prop, direction);
+    if (!custom) {
+      return;
+    }
+
+    if (didUpdateOrderHandler.current) {
+      onOrderHandler(prop, direction);
+    } else {
+      didUpdateOrderHandler.current = true;
+    }
   }, [custom, prop, direction, onOrderHandler]);
+  var didUpdateFilterHandler = (0,external_react_.useRef)(false);
   (0,external_react_.useEffect)(function () {
-    return custom && onFilterHandler(filterState);
+    if (!custom) {
+      return;
+    }
+
+    if (didUpdateFilterHandler.current) {
+      onFilterHandler(filterState);
+    } else {
+      didUpdateFilterHandler.current = true;
+    }
   }, [custom, filterState, onFilterHandler]);
-  var itemsOnPageWithClanRow = useCleanRecord(pagination.itemsOnPage, pageSize);
   var wrapperSetPageHandler = (0,external_react_.useCallback)(function (page) {
     selectedRecordClearHandler();
-    pagination.setPageHandler(page);
-  }, [selectedRecordClearHandler, pagination.setPageHandler]);
+
+    if (custom) {
+      onPageHandler(page);
+    } else {
+      pagination.setPageHandler(page);
+    }
+  }, [selectedRecordClearHandler, custom, onPageHandler, pagination]);
   var wrapperSortHandler = (0,external_react_.useCallback)(function (prop) {
     selectedRecordClearHandler();
     setPropDirectionHandler(prop);
@@ -1864,6 +1855,8 @@ var Table = function Table(_ref) {
       rowsBtn: rowsBtn,
       indexRecord: indexRecord,
       rowCssClass: rowCssClass,
+      recordAttributes: recordAttributes,
+      recordStyles: recordStyles,
       record: record
     });
   }))), /*#__PURE__*/external_react_default().createElement(bottomBar_BottomBar, {
@@ -2243,7 +2236,7 @@ ___CSS_LOADER_EXPORT___.locals = {
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "._1QGhCCh1MiBMiJhAoLtTaG{padding:0px 15px;height:30px;font-size:12px;line-height:12px;display:flex;align-items:center;justify-content:center;transition:box-shadow, background-color 0.2s linear}._1QGhCCh1MiBMiJhAoLtTaG:not(._2qZRcoDxNT76JjQeSWxOd1):hover{box-shadow:var(--box-shadow);color:#fff;background-color:var(--color-title)}._1QGhCCh1MiBMiJhAoLtTaG._2qZRcoDxNT76JjQeSWxOd1{color:var(--color-disabled)}\n", "",{"version":3,"sources":["webpack://./components/record/btn/Btn.module.scss"],"names":[],"mappings":"AAAA,yBACE,gBAAiB,CACjB,WAAY,CACZ,cAAe,CACf,gBAAiB,CACjB,YAAa,CACb,kBAAmB,CACnB,sBAAuB,CACvB,mDAAoD,CARtD,6DAWI,4BAA6B,CAC7B,UAAW,CACX,mCAAoC,CAbxC,iDAiBI,2BAA4B","sourcesContent":[".table__cell_btn {\n  padding: 0px 15px;\n  height: 30px;\n  font-size: 12px;\n  line-height: 12px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  transition: box-shadow, background-color 0.2s linear;\n\n  &:not(.disabled):hover {\n    box-shadow: var(--box-shadow);\n    color: #fff;\n    background-color: var(--color-title);\n  }\n\n  &.disabled {\n    color: var(--color-disabled);\n  }\n}\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "._1QGhCCh1MiBMiJhAoLtTaG{padding:0px 15px;min-height:30px;font-size:12px;line-height:12px;display:flex;align-items:center;justify-content:center;transition:box-shadow, background-color 0.2s linear}._1QGhCCh1MiBMiJhAoLtTaG:not(._2qZRcoDxNT76JjQeSWxOd1):hover{box-shadow:var(--box-shadow);color:#fff;background-color:var(--color-title)}._1QGhCCh1MiBMiJhAoLtTaG._2qZRcoDxNT76JjQeSWxOd1{color:var(--color-disabled)}\n", "",{"version":3,"sources":["webpack://./components/record/btn/Btn.module.scss"],"names":[],"mappings":"AAAA,yBACE,gBAAiB,CACjB,eAAgB,CAChB,cAAe,CACf,gBAAiB,CACjB,YAAa,CACb,kBAAmB,CACnB,sBAAuB,CACvB,mDAAoD,CARtD,6DAWI,4BAA6B,CAC7B,UAAW,CACX,mCAAoC,CAbxC,iDAiBI,2BAA4B","sourcesContent":[".table__cell_btn {\n  padding: 0px 15px;\n  min-height: 30px;\n  font-size: 12px;\n  line-height: 12px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  transition: box-shadow, background-color 0.2s linear;\n\n  &:not(.disabled):hover {\n    box-shadow: var(--box-shadow);\n    color: #fff;\n    background-color: var(--color-title);\n  }\n\n  &.disabled {\n    color: var(--color-disabled);\n  }\n}\n"],"sourceRoot":""}]);
 // Exports
 ___CSS_LOADER_EXPORT___.locals = {
 	"table__cell_btn": "_1QGhCCh1MiBMiJhAoLtTaG",
@@ -2270,7 +2263,7 @@ ___CSS_LOADER_EXPORT___.locals = {
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "._2LA7Gtd8pUMEVEuSO0P4Fw{grid:auto-flow/var(--width-cell);display:grid;height:30px;font-size:12px;line-height:13px}._2LA7Gtd8pUMEVEuSO0P4Fw ._3f9gjBENj2ZTBqPKjYN3PG{display:flex;padding:0px 15px;align-items:center;min-width:0;flex:1}._2LA7Gtd8pUMEVEuSO0P4Fw ._3f9gjBENj2ZTBqPKjYN3PG ._3WPn-yW9GQu4c2ustpGX0B{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}\n", "",{"version":3,"sources":["webpack://./components/record/cell/Cell.module.scss"],"names":[],"mappings":"AAAA,yBACE,gCAAmC,CACnC,YAAa,CACb,WAAY,CACZ,cAAe,CACf,gBAAiB,CALnB,kDAQI,YAAa,CACb,gBAAiB,CACjB,kBAAmB,CACnB,WAAY,CACZ,MAAO,CAZX,2EAeM,eAAgB,CAChB,sBAAuB,CACvB,kBAAmB","sourcesContent":[".table__cell {\n  grid: auto-flow / var(--width-cell);\n  display: grid;\n  height: 30px;\n  font-size: 12px;\n  line-height: 13px;\n\n  & .table__cell_field {\n    display: flex;\n    padding: 0px 15px;\n    align-items: center;\n    min-width: 0;\n    flex: 1;\n\n    & .table__cell_field-nowrap {\n      overflow: hidden;\n      text-overflow: ellipsis;\n      white-space: nowrap;\n    }\n  }\n}\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "._2LA7Gtd8pUMEVEuSO0P4Fw{grid:auto-flow/var(--width-cell);display:grid;min-height:30px;font-size:12px;line-height:8px}._2LA7Gtd8pUMEVEuSO0P4Fw ._3f9gjBENj2ZTBqPKjYN3PG{display:flex;padding:0px 15px;align-items:center;min-width:0;flex:1}._2LA7Gtd8pUMEVEuSO0P4Fw ._3f9gjBENj2ZTBqPKjYN3PG ._3WPn-yW9GQu4c2ustpGX0B{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}\n", "",{"version":3,"sources":["webpack://./components/record/cell/Cell.module.scss"],"names":[],"mappings":"AAAA,yBACE,gCAAmC,CACnC,YAAa,CACb,eAAgB,CAChB,cAAe,CACf,eAAgB,CALlB,kDAQI,YAAa,CACb,gBAAiB,CACjB,kBAAmB,CACnB,WAAY,CACZ,MAAO,CAZX,2EAeM,eAAgB,CAChB,sBAAuB,CACvB,kBAAmB","sourcesContent":[".table__cell {\n  grid: auto-flow / var(--width-cell);\n  display: grid;\n  min-height: 30px;\n  font-size: 12px;\n  line-height: 8px;\n\n  & .table__cell_field {\n    display: flex;\n    padding: 0px 15px;\n    align-items: center;\n    min-width: 0;\n    flex: 1;\n\n    & .table__cell_field-nowrap {\n      overflow: hidden;\n      text-overflow: ellipsis;\n      white-space: nowrap;\n    }\n  }\n}\n"],"sourceRoot":""}]);
 // Exports
 ___CSS_LOADER_EXPORT___.locals = {
 	"table__cell": "_2LA7Gtd8pUMEVEuSO0P4Fw",
@@ -20122,7 +20115,7 @@ module.exports = __WEBPACK_EXTERNAL_MODULE__297__;
 /******/ 	// module exports must be returned from runtime so entry inlining is disabled
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(177);
+/******/ 	return __webpack_require__(976);
 /******/ })()
 ;
 });
