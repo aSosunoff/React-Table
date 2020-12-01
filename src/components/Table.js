@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from "react";
+import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import { v4 } from "uuid";
 import PropTypes from "prop-types";
 import { cloneDeep } from "lodash";
@@ -6,21 +6,23 @@ import Header from "./header/Header";
 import Title from "./title/Title";
 import TableContainer from "./tableContainer";
 import BottomBar from "./bottomBar/BottomBar";
-import { usePaginationWithCustom } from "../hooks/usePaginationWithCustom";
-import { useSortableWithCustom } from "../hooks/useSortableWithCustom";
 import { useCleanRecord } from "../hooks/useCleanRecord";
 import { usePropDirection } from "../hooks/usePropDirection";
 import Filter from "./filter/Filter";
-import { useFilterWithCustom } from "../hooks/useFilterWithCustom";
 import { getStartOrderProp } from "../utils/getStartOrderProp";
 import { withContext } from "../HOC/withContext";
 import { RecordProvider, useRecordContext } from "../context/recordContext";
 import Record from "./record";
 import variable from "./variable.module.scss";
+import { usePagination } from "../hooks/usePagination";
+import { useSorting } from "../hooks/useSortable";
+import { useFilter } from "../hooks/useFilter";
 
 const Table = ({
   title, // String
   rowCssClass, // Function(record) : String,
+  recordAttributes, // Object | Function(record) : Object,
+  recordStyles, // Object | Function(record) : Object,
   list,
   header,
   /* NAME_PROPERTY: {
@@ -93,21 +95,20 @@ const Table = ({
     isFilter,
     setFilterHandler,
     clearFilterHandler,
-  } = useFilterWithCustom(localList, header, custom);
+  } = useFilter(localList, header);
 
   const { prop, direction, setPropDirectionHandler } = usePropDirection(
     ...getStartOrderProp(header)
   );
 
-  const listLocalSorted = useSortableWithCustom(
+  const listLocalSorted = useSorting(
     filteredList,
     prop,
     direction,
-    header[prop]?.order.type,
-    custom
+    header[prop]?.order.type
   );
 
-  const pagination = usePaginationWithCustom(pageSize, listLocalSorted, custom);
+  const pagination = usePagination(pageSize, listLocalSorted);
 
   const getPageCount = useMemo(
     () => (custom ? pageCount : pagination.pageCount),
@@ -119,36 +120,49 @@ const Table = ({
     [custom, currentPage, pagination.currentPage]
   );
 
-  useEffect(() => custom && onPageHandler(pagination.currentPage), [
-    custom,
-    pagination.currentPage,
-    onPageHandler,
-  ]);
-
-  useEffect(() => custom && onOrderHandler(prop, direction), [
-    custom,
-    prop,
-    direction,
-    onOrderHandler,
-  ]);
-
-  useEffect(() => custom && onFilterHandler(filterState), [
-    custom,
-    filterState,
-    onFilterHandler,
-  ]);
-
   const itemsOnPageWithClanRow = useCleanRecord(
-    pagination.itemsOnPage,
+    custom ? localList : pagination.itemsOnPage,
     pageSize
   );
+
+  const didUpdateOrderHandler = useRef(false);
+
+  useEffect(() => {
+    if (!custom) {
+      return;
+    }
+
+    if (didUpdateOrderHandler.current) {
+      onOrderHandler(prop, direction);
+    } else {
+      didUpdateOrderHandler.current = true;
+    }
+  }, [custom, prop, direction, onOrderHandler]);
+
+  const didUpdateFilterHandler = useRef(false);
+
+  useEffect(() => {
+    if (!custom) {
+      return;
+    }
+
+    if (didUpdateFilterHandler.current) {
+      onFilterHandler(filterState);
+    } else {
+      didUpdateFilterHandler.current = true;
+    }
+  }, [custom, filterState, onFilterHandler]);
 
   const wrapperSetPageHandler = useCallback(
     (page) => {
       selectedRecordClearHandler();
-      pagination.setPageHandler(page);
+      if (custom) {
+        onPageHandler(page);
+      } else {
+        pagination.setPageHandler(page);
+      }
     },
-    [selectedRecordClearHandler, pagination]
+    [selectedRecordClearHandler, custom, onPageHandler, pagination]
   );
 
   const wrapperSortHandler = useCallback(
@@ -188,6 +202,8 @@ const Table = ({
               rowsBtn={rowsBtn}
               indexRecord={indexRecord}
               rowCssClass={rowCssClass}
+              recordAttributes={recordAttributes}
+              recordStyles={recordStyles}
               record={record}
             />
           ))}

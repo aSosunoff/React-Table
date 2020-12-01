@@ -9,8 +9,16 @@ import styles from "./Record.module.scss";
 import { useRecordContext } from "../../context/recordContext";
 import isEmptyObject from "../../utils/isEmptyObject";
 
-const Record = ({ header, rowsBtn, rowCssClass, indexRecord, record }) => {
-  const row = useMemo(
+const Record = ({
+  header,
+  rowsBtn,
+  rowCssClass,
+  recordAttributes,
+  recordStyles,
+  indexRecord,
+  record,
+}) => {
+  const cells = useMemo(
     () =>
       Object.keys(header).map((key) => {
         const btns = cloneDeep(header[key].btns || []);
@@ -24,9 +32,9 @@ const Record = ({ header, rowsBtn, rowCssClass, indexRecord, record }) => {
         let attributes = {};
 
         if (titleCell === true) {
-          attributes = { ...attributes, title: record[key] };
+          attributes = { title: record[key] };
         } else if (typeof titleCell === "function") {
-          attributes = { ...attributes, title: titleCell(record[key], record) };
+          attributes = { title: titleCell(record[key], record) };
         }
 
         return {
@@ -62,6 +70,7 @@ const Record = ({ header, rowsBtn, rowCssClass, indexRecord, record }) => {
 
   return (
     <div
+      {...recordAttributes}
       className={cn([
         styles.table__row,
         rowCssClass(record),
@@ -70,8 +79,9 @@ const Record = ({ header, rowsBtn, rowCssClass, indexRecord, record }) => {
         },
       ])}
       onClick={rowHandler}
+      style={recordStyles}
     >
-      {row.map(({ key, ...cell }) => (
+      {cells.map(({ key, ...cell }) => (
         <Cell key={key} {...cell} record={record} indexRecord={indexRecord} />
       ))}
 
@@ -87,11 +97,15 @@ Record.defaultProps = {
   header: {},
   rowsBtn: [],
   record: {},
+  recordAttributes: {},
+  recordStyles: {},
 };
 
 Record.propTypes = {
   header: PropTypes.instanceOf(Object),
   rowsBtn: PropTypes.instanceOf(Array),
+  recordAttributes: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
+  recordStyles: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
   rowCssClass: PropTypes.func,
   indexRecord: PropTypes.number,
   record: PropTypes.instanceOf(Object),
