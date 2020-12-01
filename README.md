@@ -1,6 +1,6 @@
 # React-Table component React
 
-![RangePicker](./Table.gif)
+![Table](./Table.gif)
 
 ## Demo:
 
