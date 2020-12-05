@@ -1803,8 +1803,9 @@ var Table = function Table(_ref) {
       onOrderHandler(prop, direction);
     } else {
       didUpdateOrderHandler.current = true;
-    }
-  }, [custom, prop, direction, onOrderHandler]);
+    } // eslint-disable-next-line react-hooks/exhaustive-deps
+
+  }, [custom, prop, direction]);
   var didUpdateFilterHandler = (0,external_react_.useRef)(false);
   (0,external_react_.useEffect)(function () {
     if (!custom) {
@@ -1815,8 +1816,9 @@ var Table = function Table(_ref) {
       onFilterHandler(filterState);
     } else {
       didUpdateFilterHandler.current = true;
-    }
-  }, [custom, filterState, onFilterHandler]);
+    } // eslint-disable-next-line react-hooks/exhaustive-deps
+
+  }, [custom, filterState]);
   var wrapperSetPageHandler = (0,external_react_.useCallback)(function (page) {
     selectedRecordClearHandler();
 

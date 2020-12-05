@@ -137,7 +137,8 @@ const Table = ({
     } else {
       didUpdateOrderHandler.current = true;
     }
-  }, [custom, prop, direction, onOrderHandler]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [custom, prop, direction]);
 
   const didUpdateFilterHandler = useRef(false);
 
@@ -151,7 +152,8 @@ const Table = ({
     } else {
       didUpdateFilterHandler.current = true;
     }
-  }, [custom, filterState, onFilterHandler]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [custom, filterState]);
 
   const wrapperSetPageHandler = useCallback(
     (page) => {
