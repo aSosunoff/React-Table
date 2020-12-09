@@ -15,14 +15,16 @@
     }
 
     & input {
-      background-color: #fff;
-      box-shadow: var(--box-shadow);
-      margin: 0 0 0 5px;
-      width: 50px;
-      text-align: center;
-      font-size: 10px;
-      outline: none;
-      border: none;
+      background-color: #fff !important;
+      box-shadow: var(--box-shadow) !important;
+      margin: 0 0 0 5px !important;
+      width: 50px !important;
+      text-align: center !important;
+      font-size: 10px !important;
+      outline: none !important;
+      border: none !important;
+      box-sizing: border-box !important;
+      height: auto !important;
 
       &.disable {
         color: var(--color-disabled);
