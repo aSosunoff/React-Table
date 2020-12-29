@@ -10,6 +10,9 @@
 
 [npm i @asosunoff/react-table](https://www.npmjs.com/package/@asosunoff/react-table)
 
+### environment
+
+> node 14.15.3
 
 ### Launch project:
 
